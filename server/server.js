@@ -74,10 +74,10 @@ server.connection(config.server);
  * Adding routes
  * TODO: limit these to *Controller files
  */
-var normalizedPath = path.join(__dirname, "controllers");
+var normalizedPath = path.join(__dirname, "routes");
 fs.readdirSync(normalizedPath).forEach(function(file) {
   server.route(
-    require("./controllers/" + file)
+    require("./routes/" + file)
   );
 });
 
