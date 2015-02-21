@@ -12,6 +12,7 @@ var userSchema = new Schema({
   firstName:  String,
   middleName:  String,
   lastName:  String,
+  password : String,
   gender:  { type: String, enum: gender },
   email:  String,
   picture: String,

@@ -34,59 +34,62 @@ module.exports = [
         }
     }
 },
-// {
-//     method: 'POST',
-//     path: '/Users/add',
-//     config: {
-//         handler: function(req, res)
-//         {
+{
+    method: 'POST',
+    path: '/users/add',
+    config: {
+        handler: function(req, reply)
+        {
 
-//          console.log(req.body);
-//          var driver;
+         console.log(req.body);
+         var user;
 
-//          driver = new UsersModel({
-//             firstName:req.body.firstname,
-//             lastName:req.body.lastname,
-//         });
+         user = new UserModel({
+            firstName:req.body.firstname,
+            lastName:req.body.lastname
+        });
 
-//          driver.save(function (err) {
-//             if (!err) {
-//               return console.log("created");
-//           } else {
-//               //TODO: return page with errors
-//               return console.log(err);
-//           }
-//       });
-//           //TODO: return to list page, if saved
-//           res.redirect('/Users/', 301);
-//           //return res.send(driver);  
-//       }
-//     }
-// },
-// {
-//     method: 'GET',
-//     path: '/Users/{id}',
-//     config: {
-//         handler: function(req, res)
-//         {
-//             return UsersModel.findById(req.params.id, function (err, driver_data) {
-//                 if (!err) {
-//                   res.render('driver_edit', {
-//                     title: 'Driver data',
-//                     driver:driver_data
-//                 });
-//               } else {
-//                   return console.log(err);
-//               }
-//           });
+         user.save(function (err) {
+            if (!err) {
+              return console.log("created");
+          } else {
+              //TODO: return page with errors
+              return console.log(err);
+          }
+      });
+          //TODO: return to list page, if saved
+          reply.redirect('/users/', 301);
+          // return reply.send(user);  
+      }
+    }
+},
+{
+    method: 'GET',
+    path: '/users/{id}',
+    config: {
+        handler: function(req, reply)
+        {
+            return UserModel.findById(req.params.id, function (err, user_data) {
+                if (!err) {
 
-//             res.render('driver_edit', {
-//                 title: 'Driver data'
-//             });
+                    console.log( 'IDDDD',req.params.id );
+                    console.log( user_data );
+                  reply('user_edit', {
+                    title: 'user data',
+                    user: user_data
+                });
+              } else {
+                  return console.log(err);
+              }
+          });
 
-//         }
-//     }
-// },
+            reply('user_edit', {
+                title: 'user data'
+            });
+
+        }
+    }
+},
 
 
 // },
