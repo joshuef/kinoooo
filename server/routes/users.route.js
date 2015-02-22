@@ -25,7 +25,7 @@ module.exports = [
                     title: 'Users'
                     }   );
 
-                    console.log( users );
+                    // console.log( users );
                   
                   
                 } else {
@@ -39,29 +39,32 @@ module.exports = [
     method: 'POST',
     path: userRoot + '/add',
     config: {
-        handler: function(req, reply)
-        {
+        handler: function(request, reply)
+        {   
+            var payload = request.payload;
 
-         console.log(req.body);
-         var user;
+             console.log( 'REQQ???', request );
+             var user;
 
-         user = new UserModel({
-            firstName:req.body.firstname,
-            lastName:req.body.lastname
-        });
+             user = new UserModel({
+                firstName: payload.firstName,
+                lastName: payload.lastName,
+                password: payload.password,
+                userType: payload.userType
+            });
 
-         user.save(function (err) {
-            if (!err) {
-              return console.log("created");
-          } else {
-              //TODO: return page with errors
-              return console.log(err);
+             user.save(function (err) {
+                if (!err) {
+                  return console.log("created");
+              } else {
+                  //TODO: return page with errors
+                  return console.log(err);
+              }
+          });
+              //TODO: return to list page, if saved
+              // reply.redirect('/users/', 301);
+              return reply(user);  
           }
-      });
-          //TODO: return to list page, if saved
-          reply.redirect('/users/', 301);
-          // return reply.send(user);  
-      }
     }
 },
 {
