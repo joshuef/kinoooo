@@ -21,6 +21,8 @@ var fs = require('fs');
 var path = require('path');
 var Tv = require('tv');
 
+var HapiAuthCookie = require('hapi-auth-cookie');
+
 /**
  * Config
   */
@@ -70,6 +72,34 @@ var goodConfig = {
  */
 server.connection(config.server);
 
+// server.register( HapiAuthCookie, function (err) {  
+//     if (err) {
+//         throw err;
+//     }
+
+//     // Set our strategy
+//     // server.auth.strategy('session', 'cookie', {
+//     //     password: 'whoopdiiidoooo', // cookie secret
+//     //     cookie: 'session', // Cookie name
+//     //     redirectTo: false, // Let's handle our own redirections
+//     //     isSecure: false, // required for non-https applications
+//     //     ttl: 24* 60 * 60 * 1000 // Set session to 1 day
+//     // });
+
+//     // Print some information about the incoming request for debugging purposes
+//     // server.ext('onRequest', function (request, next) {
+//     //     console.log(request.path, request.query);
+//     //     next();
+//     // });
+
+//     // server.route(Routes.endpoints);
+
+//     // Start the server
+//     // server.start(function() {
+//     //     console.log("The server has started on port: " + server.info.port);
+//     // });
+// });
+
 /**
  * Adding routes
  * TODO: limit these to *Controller files
@@ -90,6 +120,8 @@ server.register(Tv, function (err) {
         server.start();
     }
 });
+
+
 
 server.register({register: require('lout')}, function(err) {if(err) {console.log(err); }});
 server.register({

@@ -3,6 +3,9 @@
 var React = require('react/addons');
 var ReactTransitionGroup = React.addons.TransitionGroup;
 var Router = require('react-router');
+
+var LoginForm = require('./utils/login.util');
+
 // var Route = Router.Route;
 var Link = Router.Link;
 var RouteHandler = Router.RouteHandler;
@@ -27,7 +30,7 @@ var App = React.createClass({
 		          <li><Link to="/">Home</Link></li>
 		          <li><Link to="/users">Users</Link></li>
 		        </ul>
-		        Logged in as Jane
+		        <LoginForm/>
 	      	</header>
 	        <RouteHandler />
 	        <div id="js-page" > </div>	

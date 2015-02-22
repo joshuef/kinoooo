@@ -1,11 +1,14 @@
 'use strict';
 // var authController = require("../controllers/auth");
-var passport = require("hapi-passport");
+
 // var Mongoose = require('mongoose');
-var UserModel = require( "../models/user.model");
+var User = require( "../models/user.model");
+
+
+
+var Joi  = require('joi');
 
 var userRoot = '/api/users';
-
 // // module.exports = null;
 module.exports = [
 {
@@ -14,8 +17,9 @@ module.exports = [
     config: {
         handler: function(req, reply)
         {
+                console.log( "WHAT USERS?" );
             // reply('booom')
-            return UserModel.find(function (err, users) 
+            return User.find(function (err, users) 
             {
                 if (!err) 
                 {
@@ -39,6 +43,13 @@ module.exports = [
     method: 'POST',
     path: userRoot + '/add',
     config: {
+        validate: {
+            // payload:
+            // {
+            //     firstName: Joi.string().max(40).min(2).alphanum()
+            //     // firstName: Joi.int()
+            // }
+        },
         handler: function(request, reply)
         {   
             var payload = request.payload;
@@ -46,7 +57,7 @@ module.exports = [
              console.log( 'REQQ???', request );
              var user;
 
-             user = new UserModel({
+             user = new User({
                 firstName: payload.firstName,
                 lastName: payload.lastName,
                 password: payload.password,
@@ -67,50 +78,31 @@ module.exports = [
           }
     }
 },
-{
-    method: 'GET',
-    path: userRoot + '/{id}',
-    config: {
-        handler: function(req, reply)
-        {
-            return UserModel.findById(req.params.id, function (err, user_data) {
-                if (!err) {
-
-                    console.log( 'IDDDD',req.params.id );
-                    console.log( user_data );
-                  reply('user_edit', {
-                    title: 'user data',
-                    user: user_data
-                });
-              } else {
-                  return console.log(err);
-              }
-          });
-
-            reply('user_edit', {
-                title: 'user data'
-            });
-
-        }
-    }
-},
-
-
-// },
 // {
-//     method: 'POST',
-//     path: '/api/auth',
-//     config: authController.signIn
-// },
-// {
-//     method: ['PUT', 'POST', 'GET', 'DELETE' ],
-//     path: '/api/signout',
-//     config: authController.signOut
-// },
-// {
-//     method: 'POST',
-//     path: '/api/signup',
-//     config: authController.createUser
+//     method: 'GET',
+//     path: userRoot + '/{id}',
+//     config: {
+//         handler: function(req, reply)
+//         {
+//             return User.findById(req.params.id, function (err, user_data) {
+//                 if (!err) {
+
+//                     console.log( 'IDDDD',req.params.id );
+//                     console.log( user_data );
+//                   reply('user_edit', {
+//                     title: 'user data',
+//                     user: user_data
+//                 });
+//               } else {
+//                   return console.log(err);
+//               }
+//           });
+
+//             reply('user_edit', {
+//                 title: 'user data'
+//             });
+
+//         }
+//     }
+// }
 ];
-
-// 

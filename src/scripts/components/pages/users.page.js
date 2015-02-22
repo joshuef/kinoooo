@@ -62,6 +62,10 @@ var UserForm = React.createClass({
             <form className='user-form'>
                 <h2>Add User</h2>
                 <TextField
+                hintText="l@l.com"
+                floatingLabelText="email"
+                valueLink={this.linkState('email')} /> 
+                <TextField
                 hintText="john"
                 floatingLabelText="firstName"
                 valueLink={this.linkState('firstName')} /> 
@@ -86,6 +90,7 @@ var UserForm = React.createClass({
     getInitialState: function ( )
     {
         return { 
+            email : '',
             firstName : '',
             lastName : '',
             userType : '',
