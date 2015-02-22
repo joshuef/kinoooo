@@ -6,13 +6,16 @@ var Router = require('react-router');
 // var Route = Router.Route;
 var Link = Router.Link;
 var RouteHandler = Router.RouteHandler;
+var injectTapEventPlugin = require("react-tap-event-plugin");
+injectTapEventPlugin();
+
+
 // CSS
 // require('styles/normalize.css');
 // require('styles/main.css');
 
 var imageURL = require('../../images/yeoman.png');
-var mui = require('material-ui');
-var RaisedButton = mui.RaisedButton;
+
 
 var App = React.createClass({
 	render: function() {

@@ -83,10 +83,10 @@ module.exports = function (grunt) {
         delay: 500
       },
       dev: {
-        path: 'http://localhost:<%= connect.options.port %>/webpack-dev-server/'
+        path: 'http://dev.londonplay.com/webpack-dev-server/'
       },
       dist: {
-        path: 'http://localhost:<%= connect.options.port %>/'
+        path: 'http://dev.londonplay.com/'
       }
     },
 

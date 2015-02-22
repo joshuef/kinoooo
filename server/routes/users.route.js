@@ -20,7 +20,7 @@ module.exports = [
                 if (!err) 
                 {
                     // console.log( reply );
-                    reply('user_list', {
+                    reply( {
                     users: users,
                     title: 'Users'
                     }   );
