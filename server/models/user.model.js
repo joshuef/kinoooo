@@ -32,8 +32,13 @@ var userSchema = new Schema({
   id: false
 });
 
+//add auth methods etc
+// userSchema.plugin(passportLocalMongoose);
 
-
+userSchema.plugin(passportLocalMongoose, {
+    usernameField : 'email',
+    usernameUnique : true
+});
 
 // userSchema.pre('save', function( next )
 // { 

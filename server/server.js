@@ -21,7 +21,7 @@ var fs = require('fs');
 var path = require('path');
 var Tv = require('tv');
 
-var HapiAuthCookie = require('hapi-auth-cookie');
+// var HapiAuthCookie = require('hapi-auth-cookie');
 
 /**
  * Config
@@ -72,6 +72,8 @@ var goodConfig = {
  */
 server.connection(config.server);
 
+
+// var LocalStrategy = require('passport-local').Strategy;
 // server.register( HapiAuthCookie, function (err) {  
 //     if (err) {
 //         throw err;
@@ -111,6 +113,12 @@ fs.readdirSync(normalizedPath).forEach(function(file) {
   );
 });
 
+
+var passport = require("./config/passport");
+
+
+
+
 /**
  * Adding plugins
  */
@@ -121,6 +129,7 @@ server.register(Tv, function (err) {
     }
 });
 
+// server.register({register: passport }, function(err) {if(err) {console.log(err); }});
 
 
 server.register({register: require('lout')}, function(err) {if(err) {console.log(err); }});

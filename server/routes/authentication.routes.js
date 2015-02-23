@@ -2,28 +2,40 @@
 // var authController = require("../controllers/auth");
 // var Mongoose = require('mongoose');
 var User = require( "../models/user.model");
+
+// console.log( User );
 // var userRoot = '/api/';
 var Joi  = require('joi');
-var passport = require("hapi-passport");
-var passportConfig = require("../config/passport");
+// var passport = require('hapi-passport');
+var passport = require("../config/passport");
 // var Mongoose = require('mongoose');
 
-var LocalStrategy = require('passport-local').Strategy;
+// var LocalStrategy = require('passport-local').Strategy;
 // var authenticator = require('../lib/authenticator');
 // var User = require('mongoose').model('User');
 
 
 // var FacebookStrategy = require("passport-facebook"),
-var localLogin = require("hapi-passport")(new LocalStrategy());
+// var localLogin = require("hapi-passport")(new LocalStrategy());
 
+// console.log( localLogin );
 
+// // use static authenticate method of model in LocalStrategy
+// passport.use(new LocalStrategy(User.authenticate()));
 
-// use static authenticate method of model in LocalStrategy
-passport.use(new LocalStrategy(User.authenticate()));
+// // use static serialize and deserialize of model for passport session support
+// passport.serializeUser(User.serializeUser());
+// passport.deserializeUser(User.deserializeUser());
 
-// use static serialize and deserialize of model for passport session support
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+// console.log( passport );
+// passport.use(User.createStrategy());
+// passport
+
+// passport.serializeUser(User.serializeUser());
+// passport.deserializeUser(User.deserializeUser());
+
+// passport.use(new LocalStrategy(User.authenticate()));
+
 
 // // module.exports = null;
 module.exports = [
@@ -31,13 +43,18 @@ module.exports = [
     method: 'POST',
     path: '/api/login',
     config: {
-         validate: {
-            payload: {
-                email: Joi.string().email().required(),
-                password: Joi.string().required()
-            }
-        },
-        handler: localLogin({})
+        //  validate: {
+        //     payload: {
+        //         email: Joi.string().email().required(),
+        //         password: Joi.string().required()
+        //     }
+        // },
+        handler: passport.authenticate('local')
+        // handler: function( request, reply )
+        // {
+        //     return passport.authenticate('local');
+        //     // console.log( 'THISTHING?' );
+        // }
     }
 },
 {
