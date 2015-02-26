@@ -114,7 +114,7 @@ fs.readdirSync(normalizedPath).forEach(function(file) {
 });
 
 
-var passport = require("./config/passport");
+// var passport = require("./config/passport");
 
 
 
@@ -130,6 +130,16 @@ server.register(Tv, function (err) {
 });
 
 // server.register({register: passport }, function(err) {if(err) {console.log(err); }});
+
+// server.register(require('hapi-auth-cookie'), function (err) {
+
+//     server.auth.strategy('session', 'cookie', {
+//         password: 'blablablabbalbla',
+//         cookie: 'sid-example',
+//         redirectTo: '/login',
+//         isSecure: false
+//     });
+// });
 
 
 server.register({register: require('lout')}, function(err) {if(err) {console.log(err); }});

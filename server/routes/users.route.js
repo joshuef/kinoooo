@@ -4,11 +4,11 @@
 // var Mongoose = require('mongoose');
 var User = require( "../models/user.model");
 
-
-
 var Joi  = require('joi');
 
 var userRoot = '/api/users';
+
+
 // // module.exports = null;
 module.exports = [
 {
@@ -50,32 +50,50 @@ module.exports = [
             //     // firstName: Joi.int()
             // }
         },
+        // handler: admit.create
         handler: function(request, reply)
         {   
             var payload = request.payload;
 
-             console.log( 'REQQ???', request );
-             var user;
 
-             user = new User({
+            var newUser = new User({
+                email: payload.email,
                 firstName: payload.firstName,
                 lastName: payload.lastName,
                 password: payload.password,
                 userType: payload.userType
             });
 
-             user.save(function (err) {
-                if (!err) {
-                  return console.log("created");
-              } else {
-                  //TODO: return page with errors
-                  return console.log(err);
-              }
-          });
-              //TODO: return to list page, if saved
-              // reply.redirect('/users/', 301);
-              return reply(user);  
-          }
+        //     User.register(newUser, request.payload.password, function(err, user) {
+        //     // Return error if present
+        //         if (err) {
+        //             console.log( 'Probs exists' );
+        //             reply(err); 
+        //             return;
+        //         }
+        //         else
+        //         {
+        //             reply(user );
+                    
+        //         }
+        //     });
+
+
+
+            newUser.save(function (err) {
+                    if (!err) {
+                      return console.log("created");
+                  } else {
+                      //TODO: return page with errors
+                      return console.log(err);
+                  }
+            });
+        
+            // TODO: return to list page, if saved
+            // reply.redirect('/users/', 301);
+            return reply(newUser);  
+
+        }
     }
 },
 // {
