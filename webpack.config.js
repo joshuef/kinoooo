@@ -30,8 +30,9 @@ module.exports = {
   resolve: {
     extensions: ['', '.js'],
     alias: {
-      'styles': './src/styles',
-      'components': './src/scripts/components/'
+      'styles':  __dirname + '/src/styles',
+      // 'material':  __dirname + '/node_modules/material-ui/src/less',
+      'components': __dirname + '/src/scripts/components/'
     }
   },
   module: {
@@ -44,7 +45,11 @@ module.exports = {
       test: /\.js$/,
       exclude: /node_modules/,
       loader: 'react-hot!jsx-loader?harmony'
-    }, {
+    },{
+        test: /\.less$/,
+        loader: "style-loader!css-loader!less-loader"
+      },
+     {
       test: /\.scss/,
       loader: 'style-loader!css-loader!sass-loader?outputStyle=expanded'
     }, {

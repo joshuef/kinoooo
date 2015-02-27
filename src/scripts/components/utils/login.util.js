@@ -9,8 +9,12 @@ var request = require('superagent');
 var _ = require('lodash');
 var Passport = require( 'hapi-passport' );
 
+// require("!style!css!sass!./fi le.scss");
+
+
 // CSS
-// require('styles/normalize.css');
+// require('material/scaffolding.less');
+require('styles/material.less');
 // require('styles/main.css');
 var page = document.getElementById( 'js-page' );
 
@@ -28,6 +32,7 @@ var LoginForm = React.createClass({
             
                 <TextField
                 hintText="???"
+                type="password"
                 floatingLabelText="Password" 
                 valueLink={this.linkState('password')} /> 
                 <RaisedButton label="Submit" onClick={this.tryLogin}/>

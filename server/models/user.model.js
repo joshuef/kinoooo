@@ -3,8 +3,6 @@ var mongoose = Database.Mongoose;
 var Schema = mongoose.Schema;
 var _ = require('lodash');
 
-// var bcrypt = require('bcrypt');
-// var passportLocalMongoose = require('passport-local-mongoose');
 var SALT_WORK_FACTOR = 10;
 
 
