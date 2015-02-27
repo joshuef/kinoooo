@@ -64,21 +64,6 @@ module.exports = [
                 userType: payload.userType
             });
 
-        //     User.register(newUser, request.payload.password, function(err, user) {
-        //     // Return error if present
-        //         if (err) {
-        //             console.log( 'Probs exists' );
-        //             reply(err); 
-        //             return;
-        //         }
-        //         else
-        //         {
-        //             reply(user );
-                    
-        //         }
-        //     });
-
-
 
             newUser.save(function (err) {
                     if (!err) {
@@ -96,31 +81,31 @@ module.exports = [
         }
     }
 },
-// {
-//     method: 'GET',
-//     path: userRoot + '/{id}',
-//     config: {
-//         handler: function(req, reply)
-//         {
-//             return User.findById(req.params.id, function (err, user_data) {
-//                 if (!err) {
+{
+    method: 'GET',
+    path: userRoot + '/{id}',
+    config: {
+        handler: function(req, reply)
+        {
+            return User.findById(req.params.id, function (err, user_data) {
+                if (!err) {
 
-//                     console.log( 'IDDDD',req.params.id );
-//                     console.log( user_data );
-//                   reply('user_edit', {
-//                     title: 'user data',
-//                     user: user_data
-//                 });
-//               } else {
-//                   return console.log(err);
-//               }
-//           });
+                    // console.log( 'IDDDD',req.params.id );
+                    // console.log( user_data );
+                  reply('user_edit', {
+                    title: 'user data',
+                    user: user_data
+                });
+              } else {
+                  return console.log(err);
+              }
+          });
 
-//             reply('user_edit', {
-//                 title: 'user data'
-//             });
+            reply('user_edit', {
+                title: 'user data'
+            });
 
-//         }
-//     }
-// }
+        }
+    }
+}
 ];

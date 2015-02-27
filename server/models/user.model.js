@@ -26,7 +26,7 @@ var userSchema = new Schema({
   salt : String,
   userType : String,
   gender:  { type: String, enum: gender },
-  email:  String,
+  email:  { type: String, required: true, index: { unique: true } },
   picture: String,
   service: { type: String, enum: services },
   serviceUserId: { type: String, index: true },
@@ -41,14 +41,6 @@ var userSchema = new Schema({
   id: false
 });
 
-//add auth methods etc
-// userSchema.plugin(passportLocalMongoose);
-
-// userSchema.plugin(passportLocalMongoose, { 
-//     usernameField: 'email',
-//     usernameUnique: true,
-//      hashField: 'password',
-//      usernameLowerCase: true });  
 
 
 userSchema.pre('save', function( next )
@@ -84,7 +76,5 @@ userSchema.virtual('fullName').get(function() {
   return this.firstName + ' ' + this.lastName;
 });
 
-//create the model and add it to the exports
-// var User = exports.User = mongoose.model('User', userSchema);
 
 module.exports = mongoose.model('User', userSchema);

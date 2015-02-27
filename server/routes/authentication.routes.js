@@ -37,62 +37,26 @@ module.exports = [
 
                 console.log( 'email', email, password );
                 // console.log( User.authenticate( email ) );
-                // var x = User.find( { firstName: email }, function( err, model, passerror )
-                // {
-                //     console.log( 'tell me a', err, model, passerror );
-                // });
-
-                // console.log( 'X IS?', x );
-
-                // reply( 'bla ');
-
-                var tryUser = new User({ username: email });
-
-                tryUser.comparePassword( password, function( error, user, passError)
+                User.findOne( { email: email }, function( err, user, passerror )
                 {
-                    console.log( 'OHMYTHISGUY' );
-                    console.log( error, user, passError );
-                    // if( error )
-                    // {
-                    //     console.log( 'ERROORRRR' );
-                    // }
-                    // else
-                    // {
-                    //     console.log( 'BOOOOM. IN' );
+                    if( err )
+                    {
+                        throw err;
+                    } 
 
-                    //     reply( 'youre in baby')
-                    // }
-                } );
+                    console.log( 'tell me a', err, user, passerror );
+                    user.comparePassword( password, function( error, isMatch )
+                    {
+                        if( err )
+                        {
+                            throw err;
+                        } 
 
+                        reply( user );
+                    
+                    } );
+                });
 
-                // console.log( x );
-
-        //     if (request.auth.isAuthenticated) 
-        //     {
-        //             return reply.redirect('/');
-        //         }
-
-        //         var message = '';
-        //         var account = null;
-
-        //         if (request.method === 'post') {
-
-        //             if (!request.payload.username ||
-        //                 !request.payload.password) {
-
-        //                 message = 'Missing username or password';
-        //             }
-        //             else {
-        //                 account = users[request.payload.username];
-        //                 if (!account ||
-        //                     account.password !== request.payload.password) {
-
-        //                     message = 'Invalid username or password';
-        //                 }
-        //             }
-        //         }
-        //     request.auth.session.set(account);
-        //     return reply.redirect('/');
         }
     }
 },
