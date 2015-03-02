@@ -4,6 +4,7 @@ var mountFolder = function (connect, dir) {
   return connect.static(require('path').resolve(dir));
 };
 
+
 var webpackDistConfig = require('./webpack.dist.config.js'),
     webpackDevConfig = require('./webpack.config.js');
 
@@ -59,7 +60,7 @@ module.exports = function (grunt) {
         }
       }
     },
-  
+
 
     connect: {
       options: {
