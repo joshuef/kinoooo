@@ -2,6 +2,7 @@
 // var authController = require("../controllers/auth");
 // var Mongoose = require('mongoose');
 var User = require( "../models/user.model");
+var Cookies = require( "cookies" );
 
 // console.log( User );
 // var userRoot = '/api/';
@@ -14,10 +15,10 @@ module.exports = [
     method: 'POST',
     path: '/api/login',
     config: {
-        //  auth: {
-        //     mode: 'try',
-        //     strategy: 'session'
-        // },
+         auth: {
+            mode: 'try',
+            strategy: 'session'
+        },
         // plugins: {
         //     'hapi-auth-cookie': {
         //         redirectTo: false
@@ -25,67 +26,108 @@ module.exports = [
         // },
         validate: {
             payload: {
-                email: Joi.string().email().required(),
+                // email: Joi.string().email().required(),
+                email: Joi.string().required(),
                 password: Joi.string().required()
             }
         },
         // handler: passport.authenticate('local')
         handler: function( request, reply )
         {
-                var email = request.payload.email;
-                var password = request.payload.password;
+            var email = request.payload.email;
+            var password = request.payload.password;
 
-                console.log( 'email', email, password );
-                // console.log( User.authenticate( email ) );
-                User.findOne( { email: email }, function( err, user, passerror )
+            //first see if we're already authenticated
+            if (request.auth.isAuthenticated) 
+            {
+                console.log( 'ALREADY DONE IT' );
+                return reply('DONE THAT FOO');
+            }
+
+              var cookies = new Cookies( req, res, keys )
+
+cookies
+      // set a regular cookie
+      .set( "unsigned", "foo", { httpOnly: false } )
+
+      // set a signed cookie
+      .set( "signed", "bar", { signed: true } )
+
+      // mimic a signed cookie, but with a bogus signature
+      .set( "tampered", "baz" )
+      .set( "tampered.sig", "bogus" )
+      ;
+                        // reply( user );
+
+
+            console.log( 'email', email, password );
+            // console.log( User.authenticate( email ) );
+            User.findOne( { email: email }, function( err, user )
+            {
+
+
+                if( err )
                 {
-                    if( err )
-                    {
-                        throw err;
-                    } 
+                    console.log( 'tell me a', err, user );
+                    throw err;
+                } 
 
-                    console.log( 'tell me a', err, user, passerror );
+
+                if( user )
+                {
                     user.comparePassword( password, function( error, isMatch )
                     {
                         if( err )
                         {
                             throw err;
                         } 
+                        console.log( 'THISISHAPPENING' );
+
+                        request.auth.session.set(user);
 
                         reply( user );
+                        // .state('account', user );
+                        return;
                     
                     } );
-                });
+                    
+                }
+                else
+                {
+                    reply( 'neiiin ');
+                }
+            });
 
         }
     }
 },
-// {
-//     method: 'GET',
-//     path: '/api/logout',
-//         // auth: 'session',
-//     config: {
-//         validate: {
-//             // payload:
-//             // {
-//             //     firstName: Joi.string().max(40).min(2).alphanum()
-//             //     // firstName: Joi.int()
-//             // }
-//         },
+{
+    method: 'GET',
+    path: '/api/logout',
+    config: {
+        auth: { strategy: 'session'},
+        validate: {
+            // payload:
+            // {
+            //     firstName: Joi.string().max(40).min(2).alphanum()
+            //     // firstName: Joi.int()
+            // }
+        },
 
-//         // auth: 'session',
-//         handler: function (request, reply) 
-//         {
-//             console.log( 'logoooot' );
-//                 request.auth.session.clear();
-//             return reply.redirect('/');
+        // auth: 'session',
+        handler: function (request, reply) 
+        {
+            console.log( 'logoooot' );
+                request.auth.session.clear();
+            reply('OOooT').state( 'account', null );
+            return;
 
-//             // request.auth.session.clear();
-//             // reply().redirect('/');
-//         }
+            // request.auth.session.clear();
+            // reply().redirect('/');
+        }
     
-//     }
-// },
+    }
+},
 // {
 //     method: 'GET',
 //     path: userRoot + '/{id}',

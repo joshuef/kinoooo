@@ -43,7 +43,12 @@ module.exports = [
     method: 'POST',
     path: userRoot + '/add',
     config: {
+        auth : 
+        {
+            strategy: 'session'
+        },
         validate: {
+
             // payload:
             // {
             //     firstName: Joi.string().max(40).min(2).alphanum()

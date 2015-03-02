@@ -53,28 +53,17 @@ var LoginForm = React.createClass({
            .post('/api/login')
             .send( this.state )
             .end( this.success );
-        var email = this.state.email;
+        // var email = this.state.email;
 
-        // passport.use(new DigestStrategy({ qop: 'auth' },
-        //     function(email, done) {
-        //         User.findOne({ email: email }, function (err, user) 
-        //         {
-        //           if (err) { return done(err); }
-        //           if (!user) { return done(null, false); }
-        //           return done(null, user, user.password);
-        //         });
-        //     },
-        //     function(params, done) {
-        //         // validate nonces as necessary
-        //         done(null, true)
-        //       }
-        //     ));
 
     },
 
     success : function( response )
     {
-        console.log( 'YOU LOGGED INNN!' );
+        console.log( 'SUCCESS THING', response.body );
+        // response = JSON.parse( response );
+        // console.log( 'THIS GUY', JSON.parse( response ) );
+        // console.log( 'YOU LOGGED INNN!' );
         // console.log(  'YESS', response.text  );
         // this.setState({userText: response.text});
         // this.refs.showUsers.getDOMNode();
