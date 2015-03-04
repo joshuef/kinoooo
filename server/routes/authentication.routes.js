@@ -2,7 +2,7 @@
 // var authController = require("../controllers/auth");
 // var Mongoose = require('mongoose');
 var User = require( "../models/user.model");
-var Cookies = require( "cookies" );
+var _ = require( 'lodash' );
 
 // console.log( User );
 // var userRoot = '/api/';
@@ -12,63 +12,42 @@ var Joi  = require('joi');
 // // module.exports = null;
 module.exports = [
 {
-    method: 'POST',
+    method: ['POST'],
     path: '/api/login',
     config: {
          auth: {
             mode: 'try',
             strategy: 'session'
         },
-        // plugins: {
-        //     'hapi-auth-cookie': {
-        //         redirectTo: false
-        //     }
-        // },
+
         validate: {
-            payload: {
-                // email: Joi.string().email().required(),
-                email: Joi.string().required(),
-                password: Joi.string().required()
-            }
+            // payload: {
+            //     // email: Joi.string().email().required(),
+            //     email: Joi.string().required(),
+            //     password: Joi.string().required()
+            // }
         },
         // handler: passport.authenticate('local')
         handler: function( request, reply )
         {
+            console.log( 'THISISHAPPENING' );
             var email = request.payload.email;
             var password = request.payload.password;
 
             //first see if we're already authenticated
             if (request.auth.isAuthenticated) 
             {
-                console.log( 'ALREADY DONE IT' );
-                return reply('DONE THAT FOO');
+                var user = _.omit( request.auth.credentials, [ 'password', 'userType'] );
+                return;
             }
 
-              var cookies = new Cookies( req, res, keys )
 
-cookies
-      // set a regular cookie
-      .set( "unsigned", "foo", { httpOnly: false } )
-
-      // set a signed cookie
-      .set( "signed", "bar", { signed: true } )
-
-      // mimic a signed cookie, but with a bogus signature
-      .set( "tampered", "baz" )
-      .set( "tampered.sig", "bogus" )
-      ;
-                        // reply( user );
-
-
-            console.log( 'email', email, password );
-            // console.log( User.authenticate( email ) );
             User.findOne( { email: email }, function( err, user )
             {
 
 
                 if( err )
                 {
-                    console.log( 'tell me a', err, user );
                     throw err;
                 } 
 
@@ -81,12 +60,12 @@ cookies
                         {
                             throw err;
                         } 
-                        console.log( 'THISISHAPPENING' );
 
                         request.auth.session.set(user);
+                        // request.auth.session.set('user', user );
 
-                        reply( user );
-                        // .state('account', user );
+                        var replyUser = _.omit( user, 'password', 'userType' ) ;
+                        reply( replyUser );                       // .state('account', user );
                         return;
                     
                     } );
@@ -103,9 +82,43 @@ cookies
 },
 {
     method: 'GET',
+    path: '/api/deets',
+    config: {
+        auth: { 
+            mode: 'try',
+            strategy: 'session'
+        },
+        validate: {
+            // payload:
+            // {
+            //     firstName: Joi.string().max(40).min(2).alphanum()
+            //     // firstName: Joi.int()
+            // }
+        },
+
+        handler: function (request, reply) 
+        {
+             //first see if we're already authenticated
+            if (request.auth.isAuthenticated) 
+            {
+                var user = _.omit( request.auth.credentials, [ 'password', 'userType'] );
+                console.log( 'ALREADY DONE IT' );
+                reply( user );
+                return;
+            }
+            else
+            {
+                return;
+            }
+        }
+    
+    }
+},
+{
+    method: 'GET',
     path: '/api/logout',
     config: {
-        auth: { strategy: 'session'},
+        // auth: { strategy: 'session'},
         validate: {
             // payload:
             // {
@@ -118,8 +131,13 @@ cookies
         handler: function (request, reply) 
         {
             console.log( 'logoooot' );
-                request.auth.session.clear();
+
+            // console.log( request.auth.credentials );
+            request.auth.session.clear();
+            
             reply('OOooT').state( 'account', null );
+            
+            // reply()
             return;
 
             // request.auth.session.clear();

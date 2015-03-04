@@ -5,6 +5,7 @@ var React = require('react/addons');
 var mui = require('material-ui');
 var RaisedButton = mui.RaisedButton;
 var TextField = mui.TextField;
+var FlatButton = mui.FlatButton;
 var request = require('superagent');
 var _ = require('lodash');
 var Passport = require( 'hapi-passport' );
@@ -22,53 +23,92 @@ var LoginForm = React.createClass({
     mixins: [React.addons.LinkedStateMixin],
     render: function() {
 
-        return (
-            <form className='user-form'>
-                <h2>Login</h2>
-                <TextField
-                hintText="email@bla.com"
-                floatingLabelText="email"
-                valueLink={this.linkState('email')} /> 
-            
-                <TextField
-                hintText="???"
-                type="password"
-                floatingLabelText="Password" 
-                valueLink={this.linkState('password')} /> 
-                <RaisedButton label="Submit" onClick={this.tryLogin}/>
+        if( this.state.loggedIn )
+        {
+            return(
+                <div>
+                    <span>Logged in as: </span>
+                    <FlatButton label={ this.linkState('firstName') } primary={true} />
+                    <FlatButton label="Logout" secondary={true} onClick={ this.logout }/>
+                </div>
+                );
+        }
+        else
+        {
+            return (
+                <form className='user-form'>
+                    <h2>Login</h2>
+                    <TextField
+                    hintText="email@bla.com"
+                    floatingLabelText="email"
+                    valueLink={this.linkState('email')} /> 
+                
+                    <TextField
+                    hintText="???"
+                    type="password"
+                    floatingLabelText="Password" 
+                    valueLink={this.linkState('password')} /> 
+                    <RaisedButton label="Submit" onClick={this.tryLogin}/>
 
 
-            </form>
-        );
+                </form>
+            );
+
+        }
     },
+    defaultState : { email : '', password: '', loggedIn : false },
     getInitialState: function ( )
     {
-        return { email : '', password: '' };
+        var user = this.defaultState;
+        var self = this;
+
+        request.get('/api/deets')
+            .end( function( reply )
+            {
+                if( reply.body && reply.body.firstName  )
+                {
+                    user = reply.body;
+                    user.loggedIn = true;
+                    self.setState( user );
+                }
+
+
+                // console.log( user );
+            })
+
+        return user;
     },
     tryLogin : function ( )
     {
-        console.log( 'loggiiinnnnnng inn???' );
-
          request
            .post('/api/login')
-            .send( this.state )
-            .end( this.success );
+            .send( _.omit( this.state, 'loggedIn' ) )
+            .end( this.loginSuccess );
         // var email = this.state.email;
 
 
     },
 
-    success : function( response )
+    loginSuccess : function( response )
     {
-        console.log( 'SUCCESS THING', response.body );
-        // response = JSON.parse( response );
-        // console.log( 'THIS GUY', JSON.parse( response ) );
-        // console.log( 'YOU LOGGED INNN!' );
-        // console.log(  'YESS', response.text  );
-        // this.setState({userText: response.text});
-        // this.refs.showUsers.getDOMNode();
-                // console.log( 'ANDSO?', res );
-        // var users
+        if( response.body && response.body.firstName )
+        {
+            var user = response.body;
+            user.loggedIn = true;
+        }
+        this.setState( response.body );
+
+    },
+
+    logout: function( response )
+    {
+        var self = this;
+        request
+           .get('/api/logout')
+            .end( function( reply )
+                {
+                    self.setState( self.defaultState );
+                });
     }
 
 

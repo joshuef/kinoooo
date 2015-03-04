@@ -3,7 +3,7 @@
 
 // var Mongoose = require('mongoose');
 var User = require( "../models/user.model");
-
+var _ = require( 'lodash' );
 var Joi  = require('joi');
 
 var userRoot = '/api/users';
@@ -15,8 +15,14 @@ module.exports = [
     method: 'GET',
     path: userRoot,
     config: {
-        handler: function(req, reply)
+         auth: {
+            strategy: 'session'
+        },
+        handler: function(request, reply)
         {
+            if( request.auth.credentials.userType !== 'admin' )
+                return;
+
                 console.log( "WHAT USERS?" );
             // reply('booom')
             return User.find(function (err, users) 
@@ -58,6 +64,10 @@ module.exports = [
         // handler: admit.create
         handler: function(request, reply)
         {   
+            if( request.auth.credentials.userType !== 'admin' )
+                return;
+
+
             var payload = request.payload;
 
 
