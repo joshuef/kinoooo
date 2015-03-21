@@ -29,6 +29,8 @@ var App = React.createClass({
 		        <ul>
 		          <li><Link to="/">Home</Link></li>
 		          <li><Link to="/users">Users</Link></li>
+		          <li><Link to="/places">Places</Link></li>
+		          <li><Link to="/things">Things</Link></li>
 		        </ul>
 		        <LoginForm/>
 	      	</header>
