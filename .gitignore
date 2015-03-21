@@ -33,3 +33,6 @@ dist
 /src/scripts/main.js
 /server/config/*config.json
 !/server/config/test_config.json
+
+
+awesome_log
