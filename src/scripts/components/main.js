@@ -1,7 +1,7 @@
 var App = require('./App');
 var Users = require('./pages/users.page');
 var Places = require('./pages/places.page');
-// var Things = require('./pages/things.page');
+var Things = require('./pages/things.page');
 var Home = require('./pages/home.page');
 var React = require('react');
 var Router = require('react-router');
@@ -19,7 +19,7 @@ var Routes = (
         <DefaultRoute handler={Home}/>
         <Route name="users" handler={Users}/>
         <Route name="places" handler={Places}/>
-        // <Route name="things" handler={Things}/>
+        <Route name="things" handler={Things}/>
     </Route>
 );
 

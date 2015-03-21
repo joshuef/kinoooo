@@ -5,6 +5,7 @@ var React = require('react/addons');
 var mui = require('material-ui');
 var RaisedButton = mui.RaisedButton;
 var TextField = mui.TextField;
+var DatePicker = mui.DatePicker;
 var request = require('superagent');
 var _ = require('lodash');
 
