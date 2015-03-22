@@ -2,18 +2,19 @@
 var React = require('react/addons');
 // var Route = Router.Route;
 // var Link = Router.Link;
-var mui = require('material-ui');
+var mui             = require('material-ui');
 var RaisedButton = mui.RaisedButton;
-var TextField = mui.TextField;
-var request = require('superagent');
+var TextField    = mui.TextField;
+var request         = require('superagent');
 var _ = require('lodash');
+var GoogleMapsLoader = require('google-maps');      // only for common js environments
+// var Geosuggest = require('geosuggest');
 
 
 // CSS
 // require('styles/normalize.css');
 // require('styles/main.css');
 var page = document.getElementById( 'js-page' );
-
 
 
 var PlaceForm = React.createClass({
@@ -27,48 +28,65 @@ var PlaceForm = React.createClass({
                 <TextField
                 hintText="The Globe Theatre"
                 floatingLabelText="place name"
-                valueLink={this.linkState('name')} /> 
+                valueLink={this.linkState('name')} />    
                 <TextField
-                hintText="address1"
-                floatingLabelText="address1"
-                valueLink={this.linkState('address1')} /> 
-                <TextField
-                hintText="address2"
-                floatingLabelText="address2" 
-                valueLink={this.linkState('address2')} /> 
-               <TextField
-                hintText="city"
-                floatingLabelText="city" 
-                valueLink={this.linkState('city')} /> 
-                <TextField
-                hintText="postcode"
-                floatingLabelText="postcode" 
-                valueLink={this.linkState('postcode')} /> 
+                id="js-venue-search" /> 
+                
                 <RaisedButton label="Add Place" onClick={this.addPlace}/>
 
 
             </form>
         );
     },
+    componentDidMount : function( )
+    {
+        var self = this;
+
+        var autocompleteOpts = {
+          types: ['establishment']
+        };
+
+        var autoInput =  document.getElementById('js-venue-search');
+
+        GoogleMapsLoader.LIBRARIES = ['places'];
+
+        GoogleMapsLoader.load(function(google) {
+            console.log( 'map loooaddder' );
+
+            self.autocomplete =  new google.maps.places.Autocomplete(autoInput, autocompleteOpts);
+            google.maps.event.addListener( self.autocomplete, 'place_changed', self._onGoogleVenueChange);
+        });
+        
+
+    },
+
+    _onGoogleVenueChange: function() 
+    {
+        var place = this.autocomplete.getPlace();
+
+        // forbid places that don't exist on google maps
+        if(!place.place_id) {
+        return;
+        }
+
+        this.setState( place );
+        // console.log( 'PLACE?', place );
+        // this.setState({ venue: place });
+    },
+
     getInitialState: function ( )
     {
         return { 
-            name : '',
-            address1 : '',
-            address2 : '',
-            city : '',
-            postcode : '',
-            lat: '',
-            lon: ''
+           
         };
     },
     addPlace : function ( )
     {
         console.log( 'ADDING', this.state );
-         request
-           .post('/api/places/add')
-                .send( this.state )
-                .end( this.andNow );
+         // request
+         //   .post('/api/places/add')
+         //        .send( this.state )
+         //        .end( this.andNow );
 
     },
 
@@ -124,9 +142,30 @@ var Places = React.createClass({
         // var places
     }
 
-
 });
 
+
+
+  // componentDidMount: function() {
+  //   // var venueEl = this.getDOMNode().getElementsByClassName('js-venue-search')[0];
+
+  //   // this.autocomplete = new google.maps.places.Autocomplete(venueEl, autocompleteOpts);
+  //   // set bounds to the user's location
+  //   // if (navigator.geolocation) {
+  //   //   navigator.geolocation.getCurrentPosition(_.bind(function(position) {
+  //   //     var geolocation = new google.maps.LatLng(
+  //   //         position.coords.latitude, position.coords.longitude);
+  //   //     this.autocomplete.setBounds(new google.maps.LatLngBounds(geolocation,
+  //   //         geolocation));
+  //   //   }, this));
+  //   // }
+
+  //   // Listen for the event fired when the user selects an item from the
+  //   // pick list. Retrieve the matching places for that item.
+  //   google.maps.event.addListener(this.autocomplete, 'place_changed', this._onGoogleVenueChange);
+  // },
+
+ 
 
 
 module.exports = Places;

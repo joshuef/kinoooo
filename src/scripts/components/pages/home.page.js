@@ -13,7 +13,7 @@ var Users = React.createClass({
   render: function() {
     return (
       <div className='main'>
-        <h1>HOOOMMMEE</h1>
+        <h1>HOME</h1>
       </div>
     );
   }
