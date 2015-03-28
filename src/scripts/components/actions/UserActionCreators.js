@@ -10,9 +10,10 @@ module.exports = {
   {
       userAPIHelpers.me();
   },
-  login : function ()
+  login : function ( user )
   {
-      userAPIHelpers.login();
+    console.log( 'ACTIONCREATOR', user );
+      userAPIHelpers.login( user );
   },
   logout : function ()
   {

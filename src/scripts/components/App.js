@@ -60,7 +60,7 @@ var App = React.createClass({
   },
 
 	render: function() {
-		console.log( 'RENDERING THE WHOLE APPP' , this);
+		console.log( 'RENDERING THE WHOLE APPP' );
 		return (
 			<div className='main'>
 				<header>

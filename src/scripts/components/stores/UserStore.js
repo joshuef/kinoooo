@@ -33,7 +33,6 @@ var UserStore = _.extend({}, EventEmitter.prototype, {
 
   getUser: function() {
 
-    console.log( 'gettingnng user', _user );
     return _.clone(_user);
   },
 
@@ -69,12 +68,23 @@ UserStore.dispatchToken = AppDispatcher.register(function(payload) {
 
     case ActionTypes.LOGGED_IN_API:
       _user.loggedIn = true;
+      console.log( 'AND IN ACTION', _user );
       if(_user.serviceUserId === action.user.serviceUserId) {
-        _user._id = action.user._id;
+        // _user._id = action.user._id;
+        _user = action.user;
       }
       UserStore.emitChange();
 
-      localStorage.setItem('user', JSON.stringify(_user));
+      // localStorage.setItem('user', JSON.stringify(_user));
+      break;
+
+
+    case ActionTypes.LOGGED_OUT_API:
+      _user.loggedIn = false;
+      _user.name = null;
+
+      UserStore.emitChange();
+
       break;
 
     default:

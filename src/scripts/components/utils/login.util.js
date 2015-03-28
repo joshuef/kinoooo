@@ -30,7 +30,7 @@ var LoginForm = React.createClass({
                 <div>
                     <span>Logged in as: </span>
                     <FlatButton label={ this.props.user.firstName } primary={true} />
-                    <FlatButton label="Logout" secondary={true} onClick={ this.logout }/>
+                    <FlatButton label="Logout" secondary={true} onClick={ UserActionCreators.logout }/>
                 </div>
                 );  
         }
@@ -42,14 +42,14 @@ var LoginForm = React.createClass({
                     <TextField
                     hintText="email@bla.com"
                     floatingLabelText="email"
-                    valueLink={this.linkState('user.email')} /> 
+                    valueLink={this.linkState('email')} /> 
                 
                     <TextField
                     hintText="???"
                     type="password"
                     floatingLabelText="Password" 
-                    valueLink={this.linkState('user.password')} /> 
-                    <RaisedButton label="Submit" onClick={UserActionCreators.login}/>
+                    valueLink={this.linkState('password')} /> 
+                    <RaisedButton label="Submit" onClick={ this.login }/>
 
 
                 </form>
@@ -67,13 +67,17 @@ var LoginForm = React.createClass({
         }
 
     },
-    // tryLogin : function ( )
-    // {
-         
-    //     // var email = this.state.email;
+    login : function ( e )
+    {
+        e.preventDefault();
+        
+        // console.log( this.state );
+         UserActionCreators.login( this.state );
+        // var email = this.state.email;
+        this.setState( this.defaultState );
 
 
-    // },
+    },
 
     // loginSuccess : function( response )
     // {
@@ -88,6 +92,7 @@ var LoginForm = React.createClass({
 
     logout: function( response )
     {
+        this.setState( this.defaultState );
         // var self = this;
         // request
         //    .get('/api/logout')

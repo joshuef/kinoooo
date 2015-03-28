@@ -23,10 +23,11 @@ module.exports = {
               // console.log( user );
           })
   },
-  login: function() {
+  login: function( user ) {   
+    console.log( 'LOGGING IN', user );
     request
      .post(Constants.Endpoints.LOGIN)
-      .send( _.omit( this.state, 'loggedIn' ) )
+      .send( _.omit( user, 'loggedIn' ) )
       // .end( this.loginSuccess );
     // request
     //   .del(Constants.Endpoints.LOGOUT)
@@ -34,6 +35,7 @@ module.exports = {
     //     console.error('API Logout Error', err);
     //   })
       .end(function( response ) {
+        console.log( 'response',response );
         if( response.body && response.body.firstName )
         {
             var user = response.body;
