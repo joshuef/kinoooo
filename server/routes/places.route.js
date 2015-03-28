@@ -70,12 +70,13 @@ module.exports = [
 
             var payload = request.payload;
 
-
+            console.log( 'THE AUUUTHHH', request.auth.credentials );
             var newPlace = new Place({
                 name: payload.name,
                 venue: payload.venue,
                 description: payload.description,
-                image: payload.image
+                image: payload.image,
+                creator: request.auth.credentials._id
             });
 
 

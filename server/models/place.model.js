@@ -9,7 +9,7 @@ var placeSchema = new Schema({
   // details: { type: String, required: true },
   details: { type: String, required: false },
   creationDate: { type: Date, default: Date.now },
-  // creator: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+  creator: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   // comments: [{ body: String, date: Date }],
   venue: {
     place_id: { type: String, required: true },
