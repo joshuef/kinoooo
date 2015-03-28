@@ -4,6 +4,8 @@ var React = require('react/addons');
 var ReactTransitionGroup = React.addons.TransitionGroup;
 var Router = require('react-router');
 
+
+var UserActionCreators = require( './actions/UserActionCreators');
 var LoginForm = require('./utils/login.util');
 
 // var Route = Router.Route;
@@ -11,6 +13,19 @@ var Link = Router.Link;
 var RouteHandler = Router.RouteHandler;
 var injectTapEventPlugin = require("react-tap-event-plugin");
 injectTapEventPlugin();
+
+var UserStore = require('./stores/UserStore');
+
+
+var getAppState = function () {
+
+
+	console.log( 'GETTING APP STATE', UserStore.getUser() );
+  return {
+    // events: EventsStore.getAll(),
+    user: UserStore.getUser()
+  };
+};
 
 
 // CSS
@@ -21,7 +36,31 @@ var imageURL = require('../../images/yeoman.png');
 
 
 var App = React.createClass({
+
+  getInitialState: function() {
+    return getAppState();
+  },
+
+   componentDidMount: function() {
+
+   	console.log( 'here we check for the user' );
+   	UserActionCreators.me();
+
+    // EventsStore.addChangeListener(this._onChange);
+    UserStore.addChangeListener(this._onChange);
+  },
+
+   /**
+   * Event handler for 'change' events coming from the MessageStore
+   */
+  _onChange: function() {
+
+  	console.log( 'APPP CHANGED' );
+    this.setState(getAppState());
+  },
+
 	render: function() {
+		console.log( 'RENDERING THE WHOLE APPP' , this);
 		return (
 			<div className='main'>
 				<header>
@@ -32,7 +71,7 @@ var App = React.createClass({
 		          <li><Link to="/places">Places</Link></li>
 		          <li><Link to="/things">Things</Link></li>
 		        </ul>
-		        <LoginForm/>
+		        <LoginForm user={this.state.user}/>
 	      	</header>
 	        <RouteHandler />
 	        <div id="js-page" > </div>	

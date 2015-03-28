@@ -83,12 +83,12 @@ console.log( 'WHAT' );
 /**
  * Adding plugins
  */
-// server.register(Tv, function (err) {
+server.register(Tv, function (err) {
 
-//     // if (!err) {
-//     //     server.start();
-//     // }
-// });
+    // if (!err) {
+    //     server.start();
+    // }
+});
 
 
 

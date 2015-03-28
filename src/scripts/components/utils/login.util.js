@@ -1,14 +1,16 @@
 'use strict';
 var React = require('react/addons');
+
+var UserActionCreators = require('../actions/UserActionCreators');
+var UserStore = require('../stores/UserStore');
+// var UserServer = require('../helpers/UserActionCreators')
+// var UserActionCreators = require('../helpers/UserActionCreators')
 // var Route = Router.Route;
 // var Link = Router.Link;
 var mui = require('material-ui');
 var RaisedButton = mui.RaisedButton;
 var TextField = mui.TextField;
 var FlatButton = mui.FlatButton;
-var request = require('superagent');
-var _ = require('lodash');
-var Passport = require( 'hapi-passport' );
 
 // require("!style!css!sass!./fi le.scss");
 
@@ -22,16 +24,15 @@ var page = document.getElementById( 'js-page' );
 var LoginForm = React.createClass({
     mixins: [React.addons.LinkedStateMixin],
     render: function() {
-
-        if( this.state.loggedIn )
+        if( this.props.user && this.props.user.loggedIn )
         {
             return(
                 <div>
                     <span>Logged in as: </span>
-                    <FlatButton label={ this.linkState('firstName') } primary={true} />
+                    <FlatButton label={ this.props.user.firstName } primary={true} />
                     <FlatButton label="Logout" secondary={true} onClick={ this.logout }/>
                 </div>
-                );
+                );  
         }
         else
         {
@@ -41,14 +42,14 @@ var LoginForm = React.createClass({
                     <TextField
                     hintText="email@bla.com"
                     floatingLabelText="email"
-                    valueLink={this.linkState('email')} /> 
+                    valueLink={this.linkState('user.email')} /> 
                 
                     <TextField
                     hintText="???"
                     type="password"
                     floatingLabelText="Password" 
-                    valueLink={this.linkState('password')} /> 
-                    <RaisedButton label="Submit" onClick={this.tryLogin}/>
+                    valueLink={this.linkState('user.password')} /> 
+                    <RaisedButton label="Submit" onClick={UserActionCreators.login}/>
 
 
                 </form>
@@ -59,56 +60,41 @@ var LoginForm = React.createClass({
     defaultState : { email : '', password: '', loggedIn : false },
     getInitialState: function ( )
     {
-        var user = this.defaultState;
-        var self = this;
 
-        request.get('/api/deets')
-            .end( function( reply )
-            {
-                if( reply.body && reply.body.firstName  )
-                {
-                    user = reply.body;
-                    user.loggedIn = true;
-                    self.setState( user );
-                }
-
-
-                // console.log( user );
-            })
-
-        return user;
-    },
-    tryLogin : function ( )
-    {
-         request
-           .post('/api/login')
-            .send( _.omit( this.state, 'loggedIn' ) )
-            .end( this.loginSuccess );
-        // var email = this.state.email;
-
-
-    },
-
-    loginSuccess : function( response )
-    {
-        if( response.body && response.body.firstName )
+        if( ! this.state )
         {
-            var user = response.body;
-            user.loggedIn = true;
+            return this.defaultState;
         }
-        this.setState( response.body );
 
     },
+    // tryLogin : function ( )
+    // {
+         
+    //     // var email = this.state.email;
+
+
+    // },
+
+    // loginSuccess : function( response )
+    // {
+    //     if( response.body && response.body.firstName )
+    //     {
+    //         var user = response.body;
+    //         user.loggedIn = true;
+    //     }
+    //     this.setState( response.body );
+
+    // },
 
     logout: function( response )
     {
-        var self = this;
-        request
-           .get('/api/logout')
-            .end( function( reply )
-                {
-                    self.setState( self.defaultState );
-                });
+        // var self = this;
+        // request
+        //    .get('/api/logout')
+        //     .end( function( reply )
+        //         {
+        //             self.setState( self.defaultState );
+        //         });
     }
 
 

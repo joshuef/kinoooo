@@ -82,7 +82,7 @@ module.exports = [
 },
 {
     method: 'GET',
-    path: '/api/deets',
+    path: '/api/me',
     config: {
         auth: { 
             mode: 'try',
