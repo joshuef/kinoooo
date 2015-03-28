@@ -28,9 +28,19 @@ var PlaceForm = React.createClass({
                 <TextField
                 hintText="The Globe Theatre"
                 floatingLabelText="place name"
-                valueLink={this.linkState('name')} />    
+                valueLink={this.linkState('name')} />  
                 <TextField
-                id="js-venue-search" /> 
+                hintText="About the place"
+                floatingLabelText="place description"
+                valueLink={this.linkState('description')} />  
+                <TextField
+                hintText="Image link"
+                floatingLabelText="image link"
+                valueLink={this.linkState('image')} />    
+                <TextField
+                id="js-venue-search"
+                alueLink={this.linkState('venue')} /> 
+
                 
                 <RaisedButton label="Add Place" onClick={this.addPlace}/>
 
@@ -69,7 +79,8 @@ var PlaceForm = React.createClass({
         return;
         }
 
-        this.setState( place );
+        this.setState( { 'venue': place } );
+        this.setState( { 'name': place.name } );
         // console.log( 'PLACE?', place );
         // this.setState({ venue: place });
     },
@@ -83,10 +94,10 @@ var PlaceForm = React.createClass({
     addPlace : function ( )
     {
         console.log( 'ADDING', this.state );
-         // request
-         //   .post('/api/places/add')
-         //        .send( this.state )
-         //        .end( this.andNow );
+         request
+           .post('/api/places/add')
+                .send( this.state )
+                .end( this.andNow );
 
     },
 
