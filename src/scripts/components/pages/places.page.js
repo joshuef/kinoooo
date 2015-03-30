@@ -1,19 +1,15 @@
 'use strict';
 var React = require('react/addons');
-// var Route = Router.Route;
-// var Link = Router.Link;
+
+var PlacesActionCreators = require('../actions/PlacesActionCreators');
+
 var mui             = require('material-ui');
 var RaisedButton = mui.RaisedButton;
 var TextField    = mui.TextField;
-var request         = require('superagent');
 var _ = require('lodash');
 var GoogleMapsLoader = require('google-maps');      // only for common js environments
-// var Geosuggest = require('geosuggest');
 
-
-// CSS
-// require('styles/normalize.css');
-// require('styles/main.css');
+// 
 var page = document.getElementById( 'js-page' );
 
 
@@ -91,25 +87,15 @@ var PlaceForm = React.createClass({
            
         };
     },
-    addPlace : function ( )
+    addPlace : function ( e )
     {
-        console.log( 'ADDING', this.state );
-         request
-           .post('/api/places/add')
-                .send( this.state )
-                .end( this.andNow );
+        e.preventDefault();
 
-    },
+        console.log( 'THE STATE BEFORE SENINDDD', this.state );
+        PlacesActionCreators.addPlace( this.state );
 
-    andNow : function( response )
-    {
-        console.log( 'THISISHAPPENING' );
-        console.log( response );
-        // console.log(  'YESS', response.text  );
-        // this.setState({placeText: response.text});
-        // // this.refs.showPlaces.getDOMNode();
-        //         // console.log( 'ANDSO?', res );
-        // // var places
+        this.setState( this.defaultState );
+
     }
 
 
@@ -137,10 +123,10 @@ var Places = React.createClass({
     },
     getPlaces : function ( )
     {
-        console.log( '"CLICKING"' );
-         request
-           .get('/api/places')
-            .end( this.showPlaces );
+        // console.log( '"CLICKING"' );
+        //  request
+        //    .get('/api/places')
+        //     .end( this.showPlaces );
 
     },
 

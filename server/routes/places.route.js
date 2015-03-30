@@ -69,8 +69,8 @@ module.exports = [
 
 
             var payload = request.payload;
-
-            console.log( 'THE AUUUTHHH', request.auth.credentials );
+            console.log( 'req', request );
+            // console.log( 'THE AUUUTHHH', request.auth.credentials );
             var newPlace = new Place({
                 name: payload.name,
                 venue: payload.venue,
