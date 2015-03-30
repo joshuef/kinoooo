@@ -1,8 +1,9 @@
+'use strict';
+
 var UserServerActionCreators = require('../actions/UserServerActionCreators');
 var Constants = require('../constants/Constants');
 var request = require('superagent');
 var _ = require('lodash');
-// var Passport = require( 'hapi-passport' );
 
 
 module.exports = {
@@ -11,6 +12,7 @@ module.exports = {
      request.get('/api/me')
           .end( function( reply )
           {
+              var user;
               if( reply.body && reply.body.firstName  )
               {
                   user = reply.body;
@@ -21,7 +23,7 @@ module.exports = {
 
 
               // console.log( user );
-          })
+          });
   },
   login: function( user ) {   
     console.log( 'LOGGING IN', user );
@@ -36,9 +38,10 @@ module.exports = {
     //   })
       .end(function( response ) {
         console.log( 'response',response );
+        var user;
         if( response.body && response.body.firstName )
         {
-            var user = response.body;
+            user = response.body;
             user.loggedIn = true;
         }
 

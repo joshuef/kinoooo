@@ -1,3 +1,5 @@
+'use strict';
+
 var Dispatcher = require('flux').Dispatcher;
 
 var _ = require('lodash');
