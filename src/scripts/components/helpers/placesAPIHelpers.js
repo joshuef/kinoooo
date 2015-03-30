@@ -13,7 +13,7 @@ module.exports = {
 
     console.log( 'ADDING PLACE', place );
      request
-       .post('/api/places/add')
+       .post(Constants.Endpoints.ADD_PLACE)
             .send( place )
             .end( function( reply )
                 {
@@ -43,6 +43,18 @@ module.exports = {
 
      //          // console.log( user );
      //      });
+  },
+  getAllPlaces : function ( )
+  {
+    console.log( '"CLICKING"' );
+         request
+           .get(Constants.Endpoints.PLACES)
+            .end( function ( reply )
+            {
+                var places = reply.body.places;
+                PlacesServerActionCreators.addedAllPlaces( places );
+
+            });
   }
 
 };

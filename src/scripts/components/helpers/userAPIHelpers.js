@@ -9,7 +9,7 @@ var _ = require('lodash');
 module.exports = {
   me: function( )
   {
-     request.get('/api/me')
+     request.get(Constants.Endpoints.ME)
           .end( function( reply )
           {
               var user;

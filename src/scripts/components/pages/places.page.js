@@ -11,6 +11,7 @@ var GoogleMapsLoader = require('google-maps');      // only for common js enviro
 
 // 
 var page = document.getElementById( 'js-page' );
+var PlacesStore = require('../stores/PlacesStore');
 
 
 var PlaceForm = React.createClass({
@@ -103,6 +104,15 @@ var PlaceForm = React.createClass({
 
 
 
+var getPlacesState = function () {
+
+    var places = PlacesStore.getAllPlaces();
+    console.log( 'AND THE PLACES WE GET?', places );
+    // console.log( 'GETTING APP STATE', UserStore.getUser() );
+  return {
+    places: places
+  };
+};
 
 
 var Places = React.createClass({
@@ -112,7 +122,7 @@ var Places = React.createClass({
           <div className='main'>
                 <h1> Places  </h1>
                 <RaisedButton label="grab places" onClick={this.getPlaces}/>
-                <div ref="showPlaces">{this.state.placeText}</div>
+                <div ref="showPlaces">{this.state}</div>
                 <PlaceForm />
           </div>
         );
@@ -121,8 +131,28 @@ var Places = React.createClass({
     {
         return { placeText : 'no places' };
     },
+
+   componentDidMount: function() {
+
+    console.log( 'here we check for the user' );
+
+    // EventsStore.addChangeListener(this._onChange);
+    PlacesStore.addChangeListener(this._onChange);
+  },
+    _onChange: function() {
+
+    console.log( 'PLACES CHANGED' );
+    this.setState(getPlacesState());
+
+    console.log( 'THE STATE AFTER', this.state );
+
+  },
+
     getPlaces : function ( )
     {
+
+        PlacesActionCreators.getAllPlaces(  );
+
         // console.log( '"CLICKING"' );
         //  request
         //    .get('/api/places')
@@ -133,7 +163,7 @@ var Places = React.createClass({
     showPlaces : function( response )
     {
         // console.log(  'YESS', response.text  );
-        this.setState({placeText: response.text});
+        // this.setState({placeText: response.text});
         // this.refs.showPlaces.getDOMNode();
                 // console.log( 'ANDSO?', res );
         // var places

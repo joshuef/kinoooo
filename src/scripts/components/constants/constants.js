@@ -7,7 +7,8 @@ module.exports = {
     // GOT_LOCATION: null,
     INIT_USER: null,
     // CREATE_EVENT: null,
-    // CREATED_EVENT: null,
+    CREATED_PLACE: null,
+    PLACES: null,
     LOGGED_OUT_API: null,
     LOGGED_IN_API: null
   }),
@@ -17,7 +18,8 @@ module.exports = {
     LOGOUT: '/api/logout',
     LOGIN: '/api/login',
     ME: '/api/me',
-    // EVENT: '/api/event',
+    ADD_PLACE: '/api/places/add',
+    PLACES: '/api/places',
     // EVENTS: '/api/events',
   }
 

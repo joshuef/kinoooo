@@ -24,8 +24,8 @@ var PlacesStore = _.extend({}, EventEmitter.prototype, {
   },
 
   
-  getPlaces: function() {
-
+  getAllPlaces: function() {
+    console.log( 'getting all places', _places );
     return _.clone(_places);
   },
 
@@ -47,6 +47,14 @@ PlacesStore.dispatchToken = AppDispatcher.register(function(payload) {
     case ActionTypes.INIT_PLACE:
         //is here where we check itsunique?
       _.extend(_places, action.place );
+      PlacesStore.emitChange();
+      break;
+
+
+    case ActionTypes.PLACES:
+    console.log( 'PLACES AFTER SERVER RESPONSE?', action.places );
+        //is here where we check itsunique?
+      _.extend(_places, action.places );
       PlacesStore.emitChange();
       break;
 

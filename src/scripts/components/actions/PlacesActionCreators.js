@@ -11,6 +11,10 @@ module.exports = {
   addPlace : function ( place )
   {
     placesAPIHelpers.addPlace( place );
+  },
+  getAllPlaces : function (  )
+  {
+    placesAPIHelpers.getAllPlaces(  );
   }
 };
 

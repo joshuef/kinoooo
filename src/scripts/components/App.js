@@ -15,6 +15,7 @@ var injectTapEventPlugin = require("react-tap-event-plugin");
 injectTapEventPlugin();
 
 var UserStore = require('./stores/UserStore');
+var PlacesStore = require('./stores/PlacesStore');
 
 
 var getAppState = function () {
@@ -22,7 +23,7 @@ var getAppState = function () {
 
 	console.log( 'GETTING APP STATE', UserStore.getUser() );
   return {
-    // events: EventsStore.getAll(),
+    places: PlacesStore.getAllPlaces(),
     user: UserStore.getUser()
   };
 };
@@ -48,6 +49,7 @@ var App = React.createClass({
 
     // EventsStore.addChangeListener(this._onChange);
     UserStore.addChangeListener(this._onChange);
+    PlacesStore.addChangeListener(this._onChange);
   },
 
    /**
@@ -68,7 +70,7 @@ var App = React.createClass({
 		        <ul>
 		          <li><Link to="/">Home</Link></li>
 		          <li><Link to="/users">Users</Link></li>
-		          <li><Link to="/places">Places</Link></li>
+		          <li><Link to="/places" places={this.state.places}>Places</Link></li>
 		          <li><Link to="/things">Things</Link></li>
 		        </ul>
 		        <LoginForm user={this.state.user}/>

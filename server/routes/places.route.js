@@ -69,7 +69,7 @@ module.exports = [
 
 
             var payload = request.payload;
-            console.log( 'req', request );
+
             // console.log( 'THE AUUUTHHH', request.auth.credentials );
             var newPlace = new Place({
                 name: payload.name,
@@ -105,8 +105,6 @@ module.exports = [
             return Place.findById(req.params.id, function (err, place_data) {
                 if (!err) {
 
-                    // console.log( 'IDDDD',req.params.id );
-                    // console.log( place_data );
                   reply('place_edit', {
                     title: 'place data',
                     place: place_data
