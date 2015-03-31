@@ -59,27 +59,13 @@ PlacesStore.dispatchToken = AppDispatcher.register(function(payload) {
       break;
 
 
-    // case ActionTypes.GOT_LOCATION:
-    //   _places.geolocation =  action.position;
-    //   PlacesStore.emitChange();
-    //   break;
-
-
     case ActionTypes.CREATED_PLACE:
-      // _places.loggedIn = true;
-      
-      console.log( 'AND IN CREATING A PLACE', action.place );
-      console.log( 'Already', _places );
+ 
+         _places.push( action.place );
 
-      // _places.
 
-      // if(_places.servicePlaceId === action.places.servicePlaceId) {
-      //   // _places._id = action.places._id;
-      //   _places = action.places;
-      // }
-      PlacesStore.emitChange();
+        PlacesStore.emitChange();
 
-      // localStorage.setItem('places', JSON.stringify(_places));
       break;
 
 

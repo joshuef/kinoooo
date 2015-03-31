@@ -8,8 +8,6 @@ var AppDispatcher = require('../dispatcher/AppDispatcher'),
 module.exports = {
 
   added : function(place ) {
-
-    // console.log( 'USERACTION__API MEEE', place  );
     AppDispatcher.handleServerAction({
       type: ActionTypes.CREATED_PLACE,
       place  : place 
@@ -17,7 +15,6 @@ module.exports = {
   },
   addedAllPlaces : function( places ) {
 
-    // console.log( 'USERACTION__API MEEE', place  );
     AppDispatcher.handleServerAction({
       type: ActionTypes.PLACES,
       places  : places 

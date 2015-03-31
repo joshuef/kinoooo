@@ -58,7 +58,6 @@ var PlaceForm = React.createClass({
         GoogleMapsLoader.LIBRARIES = ['places'];
 
         GoogleMapsLoader.load(function(google) {
-            console.log( 'map loooaddder' );
 
             self.autocomplete =  new google.maps.places.Autocomplete(autoInput, autocompleteOpts);
             google.maps.event.addListener( self.autocomplete, 'place_changed', self._onGoogleVenueChange);
@@ -78,8 +77,7 @@ var PlaceForm = React.createClass({
 
         this.setState( { 'venue': place } );
         this.setState( { 'name': place.name } );
-        // console.log( 'PLACE?', place );
-        // this.setState({ venue: place });
+
     },
 
     getInitialState: function ( )
@@ -91,10 +89,7 @@ var PlaceForm = React.createClass({
     addPlace : function ( e )
     {
         e.preventDefault();
-
-        console.log( 'THE STATE BEFORE SENINDDD', this.state );
         PlacesActionCreators.addPlace( this.state );
-
         this.setState( this.defaultState );
 
     }
@@ -106,11 +101,8 @@ var PlaceForm = React.createClass({
 
 var getPlacesState = function () {
 
-    var places = PlacesStore.getAllPlaces();
-    console.log( 'AND THE PLACES WE GET?', places );
-    // console.log( 'GETTING APP STATE', UserStore.getUser() );
   return {
-    places: places
+    places: PlacesStore.getAllPlaces()
   };
 };
 
@@ -134,17 +126,12 @@ var Places = React.createClass({
 
    componentDidMount: function() {
 
-    console.log( 'here we check for the user' );
-
-    // EventsStore.addChangeListener(this._onChange);
     PlacesStore.addChangeListener(this._onChange);
   },
     _onChange: function() {
 
-    console.log( 'PLACES CHANGED' );
     this.setState(getPlacesState());
 
-    console.log( 'THE STATE AFTER', this.state );
 
   },
 
@@ -153,44 +140,15 @@ var Places = React.createClass({
 
         PlacesActionCreators.getAllPlaces(  );
 
-        // console.log( '"CLICKING"' );
-        //  request
-        //    .get('/api/places')
-        //     .end( this.showPlaces );
-
     },
 
     showPlaces : function( response )
     {
-        // console.log(  'YESS', response.text  );
-        // this.setState({placeText: response.text});
-        // this.refs.showPlaces.getDOMNode();
-                // console.log( 'ANDSO?', res );
-        // var places
+  
     }
 
 });
 
-
-
-  // componentDidMount: function() {
-  //   // var venueEl = this.getDOMNode().getElementsByClassName('js-venue-search')[0];
-
-  //   // this.autocomplete = new google.maps.places.Autocomplete(venueEl, autocompleteOpts);
-  //   // set bounds to the user's location
-  //   // if (navigator.geolocation) {
-  //   //   navigator.geolocation.getCurrentPosition(_.bind(function(position) {
-  //   //     var geolocation = new google.maps.LatLng(
-  //   //         position.coords.latitude, position.coords.longitude);
-  //   //     this.autocomplete.setBounds(new google.maps.LatLngBounds(geolocation,
-  //   //         geolocation));
-  //   //   }, this));
-  //   // }
-
-  //   // Listen for the event fired when the user selects an item from the
-  //   // pick list. Retrieve the matching places for that item.
-  //   google.maps.event.addListener(this.autocomplete, 'place_changed', this._onGoogleVenueChange);
-  // },
 
  
 

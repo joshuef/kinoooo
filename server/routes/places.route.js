@@ -23,7 +23,7 @@ module.exports = [
             if( request.auth.credentials.userType !== 'admin' )
                 return;
 
-                console.log( "WHAT PLACES?" );
+                // console.log( "WHAT PLACES?" );
             // reply('booom')
             return Place.find(function (err, places) 
             {
