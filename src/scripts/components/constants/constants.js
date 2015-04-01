@@ -9,6 +9,8 @@ module.exports = {
     // CREATE_EVENT: null,
     CREATED_PLACE: null,
     PLACES: null,
+    CREATED_SHOW: null,
+    SHOWS: null,
     LOGGED_OUT_API: null,
     LOGGED_IN_API: null
   }),
@@ -20,6 +22,8 @@ module.exports = {
     ME: '/api/me',
     ADD_PLACE: '/api/places/add',
     PLACES: '/api/places',
+    SHOWS: '/api/shows',
+    ADD_SHOW: '/api/shows/add',
     // EVENTS: '/api/events',
   }
 

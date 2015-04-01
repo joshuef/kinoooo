@@ -62,7 +62,7 @@ var App = React.createClass({
   },
 
 	render: function() {
-		console.log( 'RENDERING THE WHOLE APPP' );
+		// console.log( 'RENDERING THE WHOLE APPP', this.state );
 		return (
 			<div className='main'>
 				<header>
@@ -70,12 +70,12 @@ var App = React.createClass({
 		        <ul>
 		          <li><Link to="/">Home</Link></li>
 		          <li><Link to="/users">Users</Link></li>
-		          <li><Link to="/places" places={this.state.places}>Places</Link></li>
-		          <li><Link to="/things">Things</Link></li>
+		          <li><Link to="/places">Places</Link></li>
+		          <li><Link to="/shows">Shows</Link></li>
 		        </ul>
 		        <LoginForm user={this.state.user}/>
 	      	</header>
-	        <RouteHandler />
+	        <RouteHandler/>
 	        <div id="js-page" > </div>	
 			</div>
 		);

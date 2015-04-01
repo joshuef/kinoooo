@@ -113,9 +113,9 @@ var Places = React.createClass({
         return (
           <div className='main'>
                 <h1> Places  </h1>
-                <RaisedButton label="grab places" onClick={this.getPlaces}/>
-                <div ref="showPlaces">{this.state}</div>
                 <PlaceForm />
+                <div ref="showPlaces">{this.state}</div>
+                <RaisedButton label="grab places" onClick={this.getPlaces}/>
           </div>
         );
     },
