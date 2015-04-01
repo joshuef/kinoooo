@@ -140,11 +140,6 @@ var Places = React.createClass({
 
         PlacesActionCreators.getAllPlaces(  );
 
-    },
-
-    showPlaces : function( response )
-    {
-  
     }
 
 });

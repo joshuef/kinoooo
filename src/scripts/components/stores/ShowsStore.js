@@ -55,6 +55,7 @@ ShowsStore.dispatchToken = AppDispatcher.register(function(payload) {
     console.log( 'SHOWS AFTER SERVER RESPONSE?', action.shows );
         //is here where we check itsunique?
       _.extend(_shows, action.shows );
+      console.log( 'THEN THE SHOWS IN THE STORE', _shows );
       ShowsStore.emitChange();
       break;
 

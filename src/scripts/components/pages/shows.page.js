@@ -10,9 +10,9 @@ var _ = require('lodash');
 
 
 // CSS
-// require('styles/normalize.css');
-// require('styles/main.css');
+
 var page = document.getElementById( 'js-page' );
+var ShowsActionCreators = require('../actions/ShowsActionCreators');
 
 
 console.log( 'SHOW HAPPENING' );
@@ -39,61 +39,52 @@ var ShowForm = React.createClass({
                <DatePicker
                 hintText="thesp"
                 floatingLabelText="startDate" 
-                valueLink={this.linkState('startDate')}
                 onChange={this.dateChanged} /> 
                 <DatePicker
                 hintText="12356909088098"
-                floatingLabelText="endDate" 
-                valueLink={this.linkState('endDate')}
-                onChange={this.dateChanged} /> 
-                <RaisedButton label="Add shows" onClick={this.addUser}/>
+                floatingLabelText="endDate"
+                onChange={this.dateChanged} />  
+                <RaisedButton label="Add shows" onClick={this.addShow}/>
 
 
             </form>
         );
     },
+    defaultState: 
+    {
+        name : '',
+        director : '',
+        place : '',
+        startDate : '',
+        endDate : ''
+    },
     getInitialState: function ( )
     {
-        console.log( 'SHOW STATE', this.props );
-        return { 
-            name : '',
-            director : '',
-            place : '',
-            startDate : '',
-            endDate : ''
-        };
+        return this.defaultState;
     },
     dateChanged : function ( e )
     {
         console.log( 'DATE CHANGED' );
+    },
+    addShow : function ( e  )
+    {
         e.preventDefault();
-    },
-    addUser : function ( )
-    {
-        console.log( 'ADDING', this.state );
-         request
-           .post('/api/shows/add')
-                .send( this.state )
-                .end( this.andNow );
-
-    },
-
-    andNow : function( response )
-    {
-        console.log( 'THISISHAPPENING' );
-        console.log( response );
-        // console.log(  'YESS', response.text  );
-        // this.setState({showText: response.text});
-        // // this.refs.showShows.getDOMNode();
-        //         // console.log( 'ANDSO?', res );
-        // // var shows
+        ShowsActionCreators.addShow( this.state );
+        this.setState( this.getInitialState );
     }
 
 
 });
 
+var ShowsStore = require('../stores/ShowsStore');
 
 
+var getShowsState = function () {
+
+  return {
+    shows: ShowsStore.getAllShows()
+  };
+};
 
 
 var Shows = React.createClass({
@@ -102,32 +93,31 @@ var Shows = React.createClass({
         return (
           <div className='main'>
                 <h1>  Shows  </h1>
-                <RaisedButton label="grab shows" onClick={this.getShows}/>
-                <div ref="showShows">{this.state.showText}</div>
                 <ShowForm />
+                <div ref="showShows">{this.state}</div>
+                <RaisedButton label="grab shows" onClick={this.getShows}/>
           </div>
         );
     },
+    componentDidMount: function() {
+
+        ShowsStore.addChangeListener(this._onChange);
+    },
+    _onChange: function() {
+
+    this.setState(getShowsState());
+
+
+  },
     getInitialState: function ( )
     {
-        return { showText : 'noshows' };
+        
     },
     getShows : function ( )
     {
-        console.log( '"CLICKING"' );
-         request
-           .get('/api/shows')
-            .end( this.showShows );
+        ShowsActionCreators.getAllShows(  );
 
-    },
 
-    showShows : function( response )
-    {
-        // console.log(  'YESS', response.text  );
-        this.setState({showText: response.text});
-        // this.refs.showShows.getDOMNode();
-                // console.log( 'ANDSO?', res );
-        // var shows
     }
 
 

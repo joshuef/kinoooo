@@ -13,7 +13,7 @@ module.exports = {
       show  : show 
     });
   },
-  addedAllPlaces : function( shows ) {
+  addedAllShows : function( shows ) {
 
     AppDispatcher.handleServerAction({
       type: ActionTypes.SHOWS,

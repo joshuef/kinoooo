@@ -73,9 +73,12 @@ module.exports = [
             // console.log( 'THE AUUUTHHH', request.auth.credentials );
             var newShow = new Show({
                 name: payload.name,
-                venue: payload.venue,
-                description: payload.description,
+                director: payload.director,
+                place: payload.place,
                 image: payload.image,
+                description: payload.description,
+                startDate: payload.startDate,
+                endDate: payload.endDate,
                 creator: request.auth.credentials._id
             });
 
@@ -84,6 +87,7 @@ module.exports = [
                     if (!err) {
                       return console.log("created a show");
                   } else {
+                        newShow = 'ERROR SAVING TO DB.';
                       //TODO: return page with errors
                       return console.log(err);
                   }
