@@ -16,6 +16,7 @@ injectTapEventPlugin();
 
 var UserStore = require('./stores/UserStore');
 var PlacesStore = require('./stores/PlacesStore');
+var ShowsStore = require('./stores/ShowsStore');
 
 
 var getAppState = function () {
@@ -24,7 +25,8 @@ var getAppState = function () {
 	console.log( 'GETTING APP STATE', UserStore.getUser() );
   return {
     places: PlacesStore.getAllPlaces(),
-    user: UserStore.getUser()
+    user: UserStore.getUser(),
+    shows: ShowsStore.getAllShows()
   };
 };
 
@@ -44,8 +46,9 @@ var App = React.createClass({
 
    componentDidMount: function() {
 
-   	console.log( 'here we check for the user' );
+   	console.log( ' app state here we check for the user' );
    	UserActionCreators.me();
+    // getAppState();
 
     // EventsStore.addChangeListener(this._onChange);
     UserStore.addChangeListener(this._onChange);
@@ -57,7 +60,7 @@ var App = React.createClass({
    */
   _onChange: function() {
 
-  	console.log( 'APPP CHANGED' );
+  	console.log( 'APPP CHANGED', this.state );
     this.setState(getAppState());
   },
 
@@ -75,7 +78,7 @@ var App = React.createClass({
 		        </ul>
 		        <LoginForm user={this.state.user}/>
 	      	</header>
-	        <RouteHandler/>
+	        <RouteHandler {...this.state}/>
 	        <div id="js-page" > </div>	
 			</div>
 		);

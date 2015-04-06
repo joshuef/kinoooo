@@ -11,7 +11,7 @@ var GoogleMapsLoader = require('google-maps');      // only for common js enviro
 
 // 
 var page = document.getElementById( 'js-page' );
-var PlacesStore = require('../stores/PlacesStore');
+// var PlacesStore = require('../stores/PlacesStore');
 
 
 var PlaceForm = React.createClass({
@@ -99,22 +99,22 @@ var PlaceForm = React.createClass({
 
 
 
-var getPlacesState = function () {
+// var getPlacesState = function () {
 
-  return {
-    places: PlacesStore.getAllPlaces()
-  };
-};
+//   return {
+//     places: PlacesStore.getAllPlaces()
+//   };
+// };
 
 
 var Places = React.createClass({
     render: function() {
-
+        console.log( 'PLACES PROPPPS', this.props );
         return (
           <div className='main'>
                 <h1> Places  </h1>
                 <PlaceForm />
-                <div ref="showPlaces">{this.state}</div>
+                <div ref="showPlaces">{this.props.places}</div>
                 <RaisedButton label="grab places" onClick={this.getPlaces}/>
           </div>
         );
@@ -124,16 +124,16 @@ var Places = React.createClass({
         return { placeText : 'no places' };
     },
 
-   componentDidMount: function() {
+  //  componentDidMount: function() {
 
-    PlacesStore.addChangeListener(this._onChange);
-  },
-    _onChange: function() {
+  //   PlacesStore.addChangeListener(this._onChange);
+  // },
+  //   _onChange: function() {
 
-    this.setState(getPlacesState());
+  //   this.setState(getPlacesState());
 
 
-  },
+  // },
 
     getPlaces : function ( )
     {

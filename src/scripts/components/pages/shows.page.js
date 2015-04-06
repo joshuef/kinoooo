@@ -4,6 +4,7 @@ var React = require('react/addons');
 var mui = require('material-ui');
 var RaisedButton = mui.RaisedButton;
 var TextField = mui.TextField;
+var DropDownMenu = mui.DropDownMenu;
 var DatePicker = mui.DatePicker;
 var request = require('superagent');
 var _ = require('lodash');
@@ -21,6 +22,8 @@ var ShowForm = React.createClass({
 
     render: function() {
 
+// console.log( 'PLACES MENU', this.props.places );
+            console.log( 'SHOWS AND PLACES', this.props.places );
         return (
             <form className='show-form'>
                 <h2>Add Show</h2>
@@ -32,9 +35,11 @@ var ShowForm = React.createClass({
                 hintText="john"
                 floatingLabelText="director"
                 valueLink={this.linkState('director')} /> 
-                <TextField
-                hintText="The globe"
-                floatingLabelText="place" 
+                <DropDownMenu
+                menuItems={this.props.places}
+                onChange={this.placeChanged}
+                // hintText="The globe"
+                // floatingLabelText="place" 
                 valueLink={this.linkState('place')} /> 
                <DatePicker
                 hintText="thesp"
@@ -60,11 +65,16 @@ var ShowForm = React.createClass({
     },
     getInitialState: function ( )
     {
+        console.log( 'THISISHAPPENING', this );
         return this.defaultState;
     },
-    dateChanged : function ( e )
+    placeChanged : function ( e, selectedIndex, menuItem )
     {
-        console.log( 'DATE CHANGED' );
+        this.setState( { place: menuItem });
+    },
+    dateChanged : function ( e, selectedIndex, menuItem )
+    {
+        console.log( 'DATE CHANGED',  e, selectedIndex, menuItem );
     },
     addShow : function ( e  )
     {
@@ -76,15 +86,7 @@ var ShowForm = React.createClass({
 
 });
 
-var ShowsStore = require('../stores/ShowsStore');
 
-
-var getShowsState = function () {
-
-  return {
-    shows: ShowsStore.getAllShows()
-  };
-};
 
 
 var Shows = React.createClass({
@@ -93,25 +95,16 @@ var Shows = React.createClass({
         return (
           <div className='main'>
                 <h1>  Shows  </h1>
-                <ShowForm />
-                <div ref="showShows">{this.state}</div>
+                <ShowForm places={this.props.places}/>
+                <div ref="showShows">{this.props.shows}</div>
                 <RaisedButton label="grab shows" onClick={this.getShows}/>
           </div>
         );
     },
-    componentDidMount: function() {
 
-        ShowsStore.addChangeListener(this._onChange);
-    },
-    _onChange: function() {
-
-    this.setState(getShowsState());
-
-
-  },
     getInitialState: function ( )
     {
-        
+        return null;
     },
     getShows : function ( )
     {

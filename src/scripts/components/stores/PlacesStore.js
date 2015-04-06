@@ -25,6 +25,13 @@ var PlacesStore = _.extend({}, EventEmitter.prototype, {
 
   
   getAllPlaces: function() {
+    _.map( _places, function ( place )
+    {
+        //for the autocompleter menu thing
+        place.text = place.venue.name;
+        place.payload = place._id;
+        return place;
+    });
     console.log( 'getting all places', _places );
     return _.clone(_places);
   },
