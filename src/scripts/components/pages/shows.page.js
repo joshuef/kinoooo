@@ -79,7 +79,8 @@ var ShowForm = React.createClass({
     },
     placeChanged : function ( e, selectedIndex, menuItem )
     {
-        this.setState( { place: menuItem });
+        console.log( 'menuItem', menuItem );
+        this.setState( { place: menuItem._id });
     },
     dateChanged : function ( e, selectedIndex, menuItem )
     {
@@ -100,7 +101,7 @@ var ShowForm = React.createClass({
 
 var Shows = React.createClass({
     render: function() {
-        // console.log( 'RENDERING SHOWS', this.props );
+        console.log( 'RENDERING SHOWS', this.props );
         return (
           <div className='main'>
                 <h1>  Shows  </h1>

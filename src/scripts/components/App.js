@@ -25,7 +25,7 @@ var ShowsStore = require('./stores/ShowsStore');
 var getAppState = function () {
 
 
-	console.log( 'GETTING APP STATE', UserStore.getUser() );
+	console.log( 'GETTING APP STATE'  );
   return {
     places: PlacesStore.getAllPlaces(),
     user: UserStore.getUser(),
@@ -77,6 +77,7 @@ var App = React.createClass({
 
     UserStore.addChangeListener(this._onChange);
     PlacesStore.addChangeListener(this._onChange);
+    ShowsStore.addChangeListener(this._onChange);
   },
 
    /**

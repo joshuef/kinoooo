@@ -79,12 +79,16 @@ var PlaceForm = React.createClass({
         this.setState( { 'name': place.name } );
 
     },
-
+    defaultState : 
+    {
+        name: '',
+        description: '',
+        image: '',
+        venue: {},
+    },
     getInitialState: function ( )
     {
-        return { 
-           
-        };
+        return this.defaultState;
     },
     addPlace : function ( e )
     {

@@ -25,7 +25,7 @@ var ShowsStore = _.extend({}, EventEmitter.prototype, {
 
   
   getAllShows: function() {
-    console.log( 'getting all shows', _shows );
+    console.log( 'getting all shows in store', _shows );
     return _.clone(_shows);
   },
 

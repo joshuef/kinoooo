@@ -32,7 +32,7 @@ var PlacesStore = _.extend({}, EventEmitter.prototype, {
         place.payload = place._id;
         return place;
     });
-    console.log( 'getting all places', _places );
+    console.log( 'getting all places from store', _places );
     return _.clone(_places);
   },
 

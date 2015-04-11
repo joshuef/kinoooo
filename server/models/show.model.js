@@ -6,14 +6,14 @@ var _ = require('lodash');
 
 var showSchema = new Schema({
   image: { type: String, required: false },
-  // details: { type: String, required: true },
+  name: { type: String, required: false },
   director: { type: String, required: false },
   details: { type: String, required: false },
   creationDate: { type: Date, default: Date.now },
   creator: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   // comments: [{ body: String, date: Date }],
-  place: { type: String, required: false },
-  // place: { type: Schema.Types.ObjectId, ref: 'Show', required: true },
+  // place: { type: String, required: true },
+  place: { type: Schema.Types.ObjectId, ref: 'Place', required: true },
     rating: { type: Number},
     website: { type: String }
 }, {
