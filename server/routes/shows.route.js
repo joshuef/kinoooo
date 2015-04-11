@@ -39,6 +39,7 @@ module.exports = [
                   
                   
                 } else {
+                    reply( err );
                   return console.log(err);
                 }
           })
@@ -87,7 +88,12 @@ module.exports = [
                     if (!err) {
                       return console.log("created a show");
                   } else {
-                        newShow = 'ERROR SAVING TO DB.';
+                        newShow = { 
+                            error: true,
+                            text: 'Error saving show.',
+                            action: newShow.name || 'Ups...'
+
+                        };
                       //TODO: return page with errors
                       return console.log(err);
                   }

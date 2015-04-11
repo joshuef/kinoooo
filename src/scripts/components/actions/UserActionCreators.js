@@ -21,6 +21,14 @@ module.exports = {
   {
       userAPIHelpers.logout();
   },
+  addUser : function ( user )
+  {
+    userAPIHelpers.addUser( user );
+  },
+  getAllUsers : function (  )
+  {
+    userAPIHelpers.getAllUsers(  );
+  }
 
 };
 

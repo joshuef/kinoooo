@@ -1,5 +1,6 @@
 var Database = require('../config/database');
 var mongoose = Database.Mongoose;
+var uniqueValidator = require('mongoose-unique-validator');
 var Schema = mongoose.Schema;
 var _ = require('lodash');
 
@@ -12,7 +13,7 @@ var placeSchema = new Schema({
   creator: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   // comments: [{ body: String, date: Date }],
   venue: {
-    place_id: { type: String, required: true },
+    place_id: { type: String, required: true, unique : true },
     name: { type: String, required: true },
     formatted_address: { type: String, required: true },
     url: { type: String, required: true },
@@ -25,12 +26,12 @@ var placeSchema = new Schema({
     },
     rating: { type: Number},
     website: { type: String }
-  }
+  } 
 }, {
     autoIndex: false,
     id: false
 });
 
-
+placeSchema.plugin(uniqueValidator);
 
 module.exports = mongoose.model('Place', placeSchema);

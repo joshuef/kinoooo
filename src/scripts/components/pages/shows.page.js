@@ -9,6 +9,8 @@ var DatePicker = mui.DatePicker;
 var request = require('superagent');
 var _ = require('lodash');
 
+var MessagesActions = require('../actions/MessagesActionCreators');
+
 
 // CSS
 
@@ -90,6 +92,7 @@ var ShowForm = React.createClass({
     {
         e.preventDefault();
         ShowsActions.addShow( this.state );
+        //should update a place with this show also.
         this.setState( this.getInitialState );
     }
 

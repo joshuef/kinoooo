@@ -17,19 +17,40 @@ injectTapEventPlugin();
 
 var ShowsActions = require('./actions/ShowsActionCreators');
 var PlacesActions = require('./actions/PlacesActionCreators');
+var MessagesActions = require('./actions/MessagesActionCreators');
+
 var UserStore = require('./stores/UserStore');
+var MessagesStore = require('./stores/MessagesStore');
 var PlacesStore = require('./stores/PlacesStore');
 var ShowsStore = require('./stores/ShowsStore');
 
+// Notifications
+var mui             = require('material-ui');
+var Snackbar = mui.Snackbar;
+
+
 
 var getAppState = function () {
+   // var latestMessage = MessagesStore.getLatestMessage();
+    // console.log( 'LAST MESSAGE??' , latestMessage );
 
+    // if( !latestMessage )
+    // {
+    // 	console.log( 'LATESTTT', latestMessage );
+	   //  this.setState( { MessageStore: latestMessage } );
+    	
+    // }
+    // else
+    // {
+    // 	latestMessage = { text: 'no', action: 'thing'};
+    // }
 
 	console.log( 'GETTING APP STATE'  );
   return {
     places: PlacesStore.getAllPlaces(),
     user: UserStore.getUser(),
-    shows: ShowsStore.getAllShows()
+    shows: ShowsStore.getAllShows(),
+    message : MessagesStore.getLatestMessage()
   };
 };
 
@@ -78,6 +99,7 @@ var App = React.createClass({
     UserStore.addChangeListener(this._onChange);
     PlacesStore.addChangeListener(this._onChange);
     ShowsStore.addChangeListener(this._onChange);
+    MessagesStore.addChangeListener(this._onChangeMessage);
   },
 
    /**
@@ -87,6 +109,17 @@ var App = React.createClass({
 
   	console.log( 'APPP CHANGED', this.state );
     this.setState(getAppState());
+
+  },
+ /**
+   * Event handler for 'change' events coming from the MessageStore
+   */
+  _onChangeMessage: function() {
+
+  	console.log( 'APPP CHANGED FROM MESSAGE', this.state );
+    this.setState(getAppState());
+    console.log( this );
+    // Snackbar.show();
   },
 
 	render: function() {
@@ -94,19 +127,29 @@ var App = React.createClass({
 		return (
 			<div className='main'>
 				<header>
-				<h1>Welcome</h1>
-		        <ul>
-		          <li><Link to="/">Home</Link></li>
-		          <li><Link to="/users">Users</Link></li>
-		          <li><Link to="/places">Places</Link></li>
-		          <li><Link to="/shows">Shows</Link></li>
-		        </ul>
-		        <LoginForm user={this.state.user}/>
-	      	</header>
-	        <RouteHandler {...this.state}/>
-	        <div id="js-page" > </div>	
-			</div>
+					<h1>Welcome</h1>
+			        <ul>
+			          <li><Link to="/">Home</Link></li>
+			          <li><Link to="/users">Users</Link></li>
+			          <li><Link to="/places">Places</Link></li>
+			          <li><Link to="/shows">Shows</Link></li>
+			        </ul>
+			        <LoginForm user={this.state.user}/>
+			        <Snackbar
+			        message={this.state.message.text}
+			        action={this.state.message.action}
+			        openOnMount={true}
+			        />
+		      	</header>
+		        <RouteHandler {...this.state}/>
+		        <div id="js-page" > </div>	
+				</div>
 		);
+	},
+
+	snackbarAction : function( e )
+	{
+		console.log( 'YOU CLICKED THE SNACKBAR THING' );
 	}
 });
 

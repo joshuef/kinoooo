@@ -39,6 +39,10 @@ module.exports = [
                   
                   
                 } else {
+                    // reply( {
+                    //     error: true,
+                    //     text: 'Error getting users'
+                    // });
                   return console.log(err);
                 }
           })
@@ -69,6 +73,7 @@ module.exports = [
 
 
             var payload = request.payload;
+            var response;
 
 
             var newUser = new User({
@@ -81,17 +86,25 @@ module.exports = [
 
 
             newUser.save(function (err) {
-                    if (!err) {
-                      return console.log("created");
-                  } else {
-                      //TODO: return page with errors
-                      return console.log(err);
-                  }
+                if ( err ) 
+                {
+                    response = 
+                    {
+                        error: true,
+                        text: 'Error adding user'
+                    };
+                } 
+                else 
+                {
+                    response = newUser;
+                }
+                
+                reply(response);
             });
-        
+
             // TODO: return to list page, if saved
             // reply.redirect('/users/', 301);
-            return reply(newUser);  
+            return ;  
 
         }
     }
@@ -112,6 +125,10 @@ module.exports = [
                     user: user_data
                 });
               } else {
+                // reply( {
+                //         error: true,
+                //         text: 'Error getting user'
+                //     });
                   return console.log(err);
               }
           });

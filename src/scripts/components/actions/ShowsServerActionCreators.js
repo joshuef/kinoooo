@@ -8,6 +8,7 @@ var AppDispatcher = require('../dispatcher/AppDispatcher'),
 module.exports = {
 
   added : function(show ) {
+      console.log( 'SHOW IN THE ADDING', show );
     AppDispatcher.handleServerAction({
       type: ActionTypes.CREATED_SHOW,
       show  : show 

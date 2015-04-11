@@ -2,6 +2,7 @@ var Database = require('../config/database');
 var mongoose = Database.Mongoose;
 var Schema = mongoose.Schema;
 var _ = require('lodash');
+var uniqueValidator = require('mongoose-unique-validator');
 
 var SALT_WORK_FACTOR = 10;
 
@@ -24,7 +25,7 @@ var userSchema = new Schema({
   salt : String,
   userType : String,
   gender:  { type: String, enum: gender },
-  email:  { type: String, required: true, index: { unique: true } },
+  email:  { type: String, required: true, unique: true },
   picture: String,
   service: { type: String, enum: services },
   serviceUserId: { type: String, index: true },
@@ -74,5 +75,6 @@ userSchema.virtual('fullName').get(function() {
   return this.firstName + ' ' + this.lastName;
 });
 
+userSchema.plugin(uniqueValidator);
 
 module.exports = mongoose.model('User', userSchema);

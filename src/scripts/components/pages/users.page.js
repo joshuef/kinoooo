@@ -8,6 +8,8 @@ var TextField = mui.TextField;
 var request = require('superagent');
 var _ = require('lodash');
 
+var UserActionCreators = require('../actions/UserActionCreators');
+
 
 // CSS
 // require('styles/normalize.css');
@@ -63,23 +65,24 @@ var UserForm = React.createClass({
     addUser : function ( )
     {
         console.log( 'ADDING', this.state );
-         request
-           .post('/api/users/add')
-                .send( this.state )
-                .end( this.andNow );
+        UserActionCreators.addUser( this.state );
+         // request
+         //   .post('/api/users/add')
+         //        .send( this.state )
+         //        .end( this.andNow );
 
     },
 
-    andNow : function( response )
-    {
-        console.log( 'THISISHAPPENING' );
-        console.log( response );
-        // console.log(  'YESS', response.text  );
-        // this.setState({userText: response.text});
-        // // this.refs.showUsers.getDOMNode();
-        //         // console.log( 'ANDSO?', res );
-        // // var users
-    }
+    // andNow : function( response )
+    // {
+    //     console.log( 'THISISHAPPENING' );
+    //     console.log( response );
+    //     // console.log(  'YESS', response.text  );
+    //     // this.setState({userText: response.text});
+    //     // // this.refs.showUsers.getDOMNode();
+    //     //         // console.log( 'ANDSO?', res );
+    //     // // var users
+    // }
 
 
 });
@@ -104,23 +107,25 @@ var Users = React.createClass({
     {
         return { userText : 'nousers' };
     },
-    getusers : function ( )
+    getusers : function ( e )
     {
-        console.log( '"CLICKING"' );
-         request
-           .get('/api/users')
-            .end( this.showUsers );
+        e.preventDefault();
+        
+        // console.log( '"CLICKING"' );
+        //  request
+        //    .get('/api/users')
+        //     .end( this.showUsers );
 
     },
 
-    showUsers : function( response )
-    {
-        // console.log(  'YESS', response.text  );
-        this.setState({userText: response.text});
-        // this.refs.showUsers.getDOMNode();
-                // console.log( 'ANDSO?', res );
-        // var users
-    }
+    // showUsers : function( response )
+    // {
+    //     // console.log(  'YESS', response.text  );
+    //     // this.setState({userText: response.text});
+    //     // this.refs.showUsers.getDOMNode();
+    //             // console.log( 'ANDSO?', res );
+    //     // var users
+    // }
 
 
 });

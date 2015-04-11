@@ -30,6 +30,12 @@ module.exports = {
     AppDispatcher.handleServerAction({
       type: ActionTypes.LOGGED_OUT_API
     });
+  },
+
+  addedUser : function( user ) {
+    AppDispatcher.handleServerAction({
+      type: ActionTypes.CREATED_USER
+    });
   }
 
 };

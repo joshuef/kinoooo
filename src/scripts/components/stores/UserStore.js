@@ -12,6 +12,8 @@ var _user = {
   loggedIn : false,
 };
 
+var _users = [];
+
 var UserStore = _.extend({}, EventEmitter.prototype, {
 
   emitChange: function() {
@@ -63,10 +65,10 @@ UserStore.dispatchToken = AppDispatcher.register(function(payload) {
       break;
 
 
-    // case ActionTypes.GOT_LOCATION:
-    //   _user.geolocation =  action.position;
-    //   UserStore.emitChange();
-    //   break;
+    case ActionTypes.ADDED_USER:
+      _.extend(_users, action.user);
+      UserStore.emitChange();
+      break;
 
 
     case ActionTypes.LOGGED_IN_API:
