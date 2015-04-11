@@ -14,6 +14,9 @@ var RouteHandler = Router.RouteHandler;
 var injectTapEventPlugin = require("react-tap-event-plugin");
 injectTapEventPlugin();
 
+
+var ShowsActions = require('./actions/ShowsActionCreators');
+var PlacesActions = require('./actions/PlacesActionCreators');
 var UserStore = require('./stores/UserStore');
 var PlacesStore = require('./stores/PlacesStore');
 var ShowsStore = require('./stores/ShowsStore');
@@ -41,16 +44,37 @@ var imageURL = require('../../images/yeoman.png');
 var App = React.createClass({
 
   getInitialState: function() {
+  	this._initialStoreFiller();
     return getAppState();
+
+    //should check local store and check if its out of date to reduce
+  	//requests etc
+  	//
+  	//assuming they are empty:
   },
 
-   componentDidMount: function() {
+  /**
+   * Fills local stores in general for app.
+   * 
+   TODO: Check local storage once states are being saved there.
+   And if local storage, check the when... (older data can be sneakily
+   retrieved while the app is still working);
+   */
+  _initialStoreFiller : function( )
+  {
+  	
+  	if( !this.state )
+  	{
+  		PlacesActions.getAllPlaces();
+  		ShowsActions.getAllShows();
+  	}
 
-   	console.log( ' app state here we check for the user' );
+  },
+
+   componentDidMount: function() 
+   {
    	UserActionCreators.me();
-    // getAppState();
 
-    // EventsStore.addChangeListener(this._onChange);
     UserStore.addChangeListener(this._onChange);
     PlacesStore.addChangeListener(this._onChange);
   },

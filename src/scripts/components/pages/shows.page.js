@@ -13,7 +13,7 @@ var _ = require('lodash');
 // CSS
 
 var page = document.getElementById( 'js-page' );
-var ShowsActionCreators = require('../actions/ShowsActionCreators');
+var ShowsActions = require('../actions/ShowsActionCreators');
 
 
 console.log( 'SHOW HAPPENING' );
@@ -22,8 +22,17 @@ var ShowForm = React.createClass({
 
     render: function() {
 
-// console.log( 'PLACES MENU', this.props.places );
-            console.log( 'SHOWS AND PLACES', this.props.places );
+        var places = [{
+            payload : 0,
+            text: 'No Places SORRY!'
+        }];
+
+        if( this.props.places.length > 0 )
+        {
+            places = this.props.places;
+
+        }
+    
         return (
             <form className='show-form'>
                 <h2>Add Show</h2>
@@ -36,7 +45,7 @@ var ShowForm = React.createClass({
                 floatingLabelText="director"
                 valueLink={this.linkState('director')} /> 
                 <DropDownMenu
-                menuItems={this.props.places}
+                menuItems={places}
                 onChange={this.placeChanged}
                 // hintText="The globe"
                 // floatingLabelText="place" 
@@ -79,7 +88,7 @@ var ShowForm = React.createClass({
     addShow : function ( e  )
     {
         e.preventDefault();
-        ShowsActionCreators.addShow( this.state );
+        ShowsActions.addShow( this.state );
         this.setState( this.getInitialState );
     }
 
@@ -91,7 +100,7 @@ var ShowForm = React.createClass({
 
 var Shows = React.createClass({
     render: function() {
-
+        // console.log( 'RENDERING SHOWS', this.props );
         return (
           <div className='main'>
                 <h1>  Shows  </h1>
@@ -108,7 +117,7 @@ var Shows = React.createClass({
     },
     getShows : function ( )
     {
-        ShowsActionCreators.getAllShows(  );
+        ShowsActions.getAllShows(  );
 
 
     }

@@ -24,7 +24,8 @@ var Routes = (
 
 
 
-Router.run( Routes, Router.HistoryLocation, function (Handler, state) {
+// Router.run( Routes, Router.HistoryLocation, function (Handler, state) {
+Router.run( Routes, function (Handler, state) {
     'use strict';
   React.render(<Handler/>, document.body);
 });
