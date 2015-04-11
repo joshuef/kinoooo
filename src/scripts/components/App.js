@@ -31,19 +31,6 @@ var Snackbar = mui.Snackbar;
 
 
 var getAppState = function () {
-   // var latestMessage = MessagesStore.getLatestMessage();
-    // console.log( 'LAST MESSAGE??' , latestMessage );
-
-    // if( !latestMessage )
-    // {
-    // 	console.log( 'LATESTTT', latestMessage );
-	   //  this.setState( { MessageStore: latestMessage } );
-    	
-    // }
-    // else
-    // {
-    // 	latestMessage = { text: 'no', action: 'thing'};
-    // }
 
 	console.log( 'GETTING APP STATE'  );
   return {
@@ -94,7 +81,7 @@ var App = React.createClass({
 
    componentDidMount: function() 
    {
-   	UserActionCreators.me();
+   	UserActionCreators.me( 'isAdmin' );
 
     UserStore.addChangeListener(this._onChange);
     PlacesStore.addChangeListener(this._onChange);
@@ -119,6 +106,7 @@ var App = React.createClass({
   	console.log( 'APPP CHANGED FROM MESSAGE', this.state );
     this.setState(getAppState());
     console.log( this );
+    this.refs.Snackbar.show();
     // Snackbar.show();
   },
 
@@ -136,9 +124,9 @@ var App = React.createClass({
 			        </ul>
 			        <LoginForm user={this.state.user}/>
 			        <Snackbar
+			        ref="Snackbar"
 			        message={this.state.message.text}
 			        action={this.state.message.action}
-			        openOnMount={true}
 			        />
 		      	</header>
 		        <RouteHandler {...this.state}/>

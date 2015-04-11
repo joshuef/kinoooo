@@ -8,29 +8,38 @@ var MessagesActions = require('../actions/MessagesActionCreators');
 
 
 module.exports = {
-  me: function( )
+  me: function( question )
   {
-    request.get(Constants.Endpoints.ME)
-        .end( function( reply )
-        {
-            if( reply.body.error )
+    
+      request.get( Constants.Endpoints.ME )
+            .query( { question: question })
+            
+            .end( function( reply )
             {
-                MessagesActions.addMessage( reply.body );
-                return;
-            }
+                if( reply.body.error )
+                {
+                  MessagesActions.addMessage( reply.body );
+                  return;
+                }
 
-            var user;
-            if( reply.body && reply.body.firstName  )
-            {
-                user = reply.body;
-                user.loggedIn = true;
-                  // self.setState( user );
-                UserServerActionCreators.me( user );
-            }
+                if( reply.body.answer )
+                {
+                    console.log( 'ANSWERRRRRRRRRR', reply.body.answer );
 
+                    return reply.body.answer;
+                }
 
-              // console.log( user );
-        });
+                var user;
+                if( reply.body && reply.body.firstName  )
+                {
+                    user = reply.body;
+                    user.loggedIn = true;
+                    // self.setState( user );
+                    UserServerActionCreators.me( user );
+                }
+
+            });
+      
   },
   login: function( user ) {   
     console.log( 'LOGGING IN', user );
@@ -80,6 +89,8 @@ module.exports = {
                     MessagesActions.addMessage( reply.body );
                     return;
                 }
+
+                MessagesActions.addMessage( { text: 'Added user!!!' } );
 
                 UserServerActionCreators.addedUser( user );
 

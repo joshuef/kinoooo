@@ -11,6 +11,7 @@ var _ = require('lodash');
 
 var MessagesActions = require('../actions/MessagesActionCreators');
 
+var UserActionCreators = require( '../actions/UserActionCreators');
 
 // CSS
 
@@ -34,6 +35,12 @@ var ShowForm = React.createClass({
             places = this.props.places;
 
         }
+
+
+        if( ! this.props.user.isAdmin )
+        {
+            return null;
+        }
     
         return (
             <form className='show-form'>
@@ -48,11 +55,9 @@ var ShowForm = React.createClass({
                 valueLink={this.linkState('director')} /> 
                 <DropDownMenu
                 menuItems={places}
-                onChange={this.placeChanged}
-                // hintText="The globe"
-                // floatingLabelText="place" 
-                valueLink={this.linkState('place')} /> 
-               <DatePicker
+                ref="placeDropdown" /> 
+                <RaisedButton label="Add place" onClick={this.addPlace}/>
+                <DatePicker
                 hintText="thesp"
                 floatingLabelText="startDate" 
                 onChange={this.dateChanged} /> 
@@ -61,8 +66,6 @@ var ShowForm = React.createClass({
                 floatingLabelText="endDate"
                 onChange={this.dateChanged} />  
                 <RaisedButton label="Add shows" onClick={this.addShow}/>
-
-
             </form>
         );
     },
@@ -70,19 +73,27 @@ var ShowForm = React.createClass({
     {
         name : '',
         director : '',
-        place : '',
+        places : [],
         startDate : '',
         endDate : ''
     },
     getInitialState: function ( )
     {
-        console.log( 'THISISHAPPENING', this );
         return this.defaultState;
     },
-    placeChanged : function ( e, selectedIndex, menuItem )
+    addPlace : function ( e, selectedIndex, menuItem )
     {
-        console.log( 'menuItem', menuItem );
-        this.setState( { place: menuItem._id });
+        e.preventDefault();
+        var places = this.state.places;
+        var placeDropdown = this.refs.placeDropdown;
+
+        var selectedPlace = placeDropdown.props.menuItems[ placeDropdown.state.selectedIndex ];
+
+        places.push( { placeId: selectedPlace._id } );
+        //check the place is unique
+
+        this.setState( { places: places });
+        console.log( 'PLACE ADDDEDDD', this.state.places );
     },
     dateChanged : function ( e, selectedIndex, menuItem )
     {
@@ -102,15 +113,111 @@ var ShowForm = React.createClass({
 
 
 
+
+
+
+
+
+
+
+var PlaceItem = React.createClass({
+
+    render: function()
+    {
+        console.log( 'A PLACEPLACE', this.props );
+        if( ! this.props.place.placeId )
+        {
+            console.log( 'NO ID' );
+            return null;
+        }
+        var placeId = this.props.place.placeId;
+        var placesStore = this.props.placesStore;
+
+        var actualPlace = _.findWhere( placesStore, { _id: placeId });
+
+
+        return(
+            <li>
+                <h6>PLACE::: { actualPlace.text }</h6>
+            
+            </li> 
+            );
+        return null
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var ShowItem = React.createClass({
+
+    render: function()
+    {
+
+        if( ! this.props.show.name )
+        {
+            console.log( 'NO NAME' );
+            return null;
+        }
+        var show = this.props.show;
+        console.log( 'SHOWPLACES', show );
+
+        var allPlaces = show.places;
+        var places = [];
+
+        console.log( 'SHOWPLACES', this.props );
+
+        for (var key in allPlaces) {
+          places.push(<PlaceItem key={key} place={allPlaces[key]} placesStore={this.props.places}/>);
+        }
+
+        console.log( 'SHOWPLACE', places );
+
+
+        return(
+            <li>
+                <h3>{ this.props.show.name }</h3>
+                <ul class="place-list">{places}</ul>
+
+            </li> 
+            );
+    }
+});
+
+
+ 
+
+
 var Shows = React.createClass({
+
     render: function() {
-        console.log( 'RENDERING SHOWS', this.props );
+        console.log( 'RENDERING SHOWS', this );
+
+        var allShows = this.props.shows;
+        var shows = [];
+
+        for (var key in allShows) {
+          shows.push(<ShowItem key={key} show={allShows[key]} places={this.props.places} />);
+        }
+
+
         return (
           <div className='main'>
                 <h1>  Shows  </h1>
-                <ShowForm places={this.props.places}/>
-                <div ref="showShows">{this.props.shows}</div>
-                <RaisedButton label="grab shows" onClick={this.getShows}/>
+                <ShowForm places={this.props.places} user={this.props.user}/>
+                <ul id="show-list">{shows}</ul>
           </div>
         );
     },
@@ -118,12 +225,6 @@ var Shows = React.createClass({
     getInitialState: function ( )
     {
         return null;
-    },
-    getShows : function ( )
-    {
-        ShowsActions.getAllShows(  );
-
-
     }
 
 

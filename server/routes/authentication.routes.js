@@ -27,7 +27,6 @@ module.exports = [
             //     password: Joi.string().required()
             // }
         },
-        // handler: passport.authenticate('local')
         handler: function( request, reply )
         {
             console.log( 'THISISHAPPENING' );
@@ -45,12 +44,10 @@ module.exports = [
             User.findOne( { email: email }, function( err, user )
             {
 
-
                 if( err )
                 {
                     throw err;
                 } 
-
 
                 if( user )
                 {
@@ -98,10 +95,20 @@ module.exports = [
 
         handler: function (request, reply) 
         {
-             //first see if we're already authenticated
+            console.log( 'WHAAAAAAAAAAAAAAAAAAAAAAAAAT' );
+            console.log( request.query );
+
+
             if (request.auth.isAuthenticated) 
             {
                 var user = _.omit( request.auth.credentials, [ 'password', 'userType'] );
+                if( request.query && request.query.question === 'isAdmin'
+                    && request.auth.credentials.userType === 'admin' )
+                {
+                    user.isAdmin = true;
+         
+                }
+                
                 console.log( 'ALREADY DONE IT' );
                 reply( user );
                 return;

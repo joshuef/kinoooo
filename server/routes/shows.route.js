@@ -75,7 +75,7 @@ module.exports = [
             var newShow = new Show({
                 name: payload.name,
                 director: payload.director,
-                place: payload.place,
+                places: payload.places,
                 image: payload.image,
                 description: payload.description,
                 startDate: payload.startDate,

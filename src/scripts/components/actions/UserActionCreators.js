@@ -8,9 +8,9 @@ var userAPIHelpers = require('../helpers/userAPIHelpers');
 
 module.exports = {
 
-  me : function ()
+  me : function ( question )
   {
-      userAPIHelpers.me();
+      userAPIHelpers.me( question );
   },
   login : function ( user )
   {
