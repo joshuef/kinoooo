@@ -72,12 +72,21 @@ UserStore.dispatchToken = AppDispatcher.register(function(payload) {
 
 
     case ActionTypes.LOGGED_IN_API:
+      // if(_user.serviceUserId === action.user.serviceUserId) {
+      //   // _user._id = action.user._id;
+      //   _user = action.user;
+      // }
+      _user = action.user;
       _user.loggedIn = true;
-      console.log( 'AND IN ACTION', _user );
-      if(_user.serviceUserId === action.user.serviceUserId) {
-        // _user._id = action.user._id;
-        _user = action.user;
+
+      if( action.user.userType === 'admin' )
+      {
+        console.log( 'OUR ADMIN GUYYYYY' );
+        _user.isAdmin = true;
       }
+      
+      console.log( 'AND IN ACTION guy', _user );
+
       UserStore.emitChange();
 
       // localStorage.setItem('user', JSON.stringify(_user));
@@ -85,8 +94,8 @@ UserStore.dispatchToken = AppDispatcher.register(function(payload) {
 
 
     case ActionTypes.LOGGED_OUT_API:
-      _user.loggedIn = false;
-      _user.name = null;
+      // _user.loggedIn = false;
+      _user = {};
 
       UserStore.emitChange();
 

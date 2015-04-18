@@ -15,13 +15,9 @@ module.exports = [
     method: 'GET',
     path: showRoot,
     config: {
-         auth: {
-            strategy: 'session'
-        },
         handler: function(request, reply)
         {
-            if( request.auth.credentials.userType !== 'admin' )
-                return;
+           
 
                 // console.log( "WHAT PLACES?" );
             // reply('booom')

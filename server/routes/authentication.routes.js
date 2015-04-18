@@ -29,7 +29,7 @@ module.exports = [
         },
         handler: function( request, reply )
         {
-            console.log( 'THISISHAPPENING' );
+            console.log( 'logging innnnn' );
             var email = request.payload.email;
             var password = request.payload.password;
 
@@ -51,6 +51,7 @@ module.exports = [
 
                 if( user )
                 {
+                    console.log( 'got userrr' );
                     user.comparePassword( password, function( error, isMatch )
                     {
                         if( err )
@@ -61,7 +62,9 @@ module.exports = [
                         request.auth.session.set(user);
                         // request.auth.session.set('user', user );
 
-                        var replyUser = _.omit( user, 'password', 'userType' ) ;
+                        var replyUser = _.omit( user, 'password' ) ;
+
+
                         reply( replyUser );                       // .state('account', user );
                         return;
                     
@@ -70,7 +73,7 @@ module.exports = [
                 }
                 else
                 {
-                    reply( 'neiiin ');
+                    reply( {body: { error: 'Nope' } });
                 }
             });
 
@@ -99,7 +102,7 @@ module.exports = [
             console.log( request.query );
 
 
-            if (request.auth.isAuthenticated) 
+            if (request.auth.credentials) 
             {
                 var user = _.omit( request.auth.credentials, [ 'password', 'userType'] );
                 if( request.query && request.query.question === 'isAdmin'
@@ -115,6 +118,8 @@ module.exports = [
             }
             else
             {
+
+                reply( { body: { error: 'ups' } });
                 return;
             }
         }

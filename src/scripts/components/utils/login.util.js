@@ -93,6 +93,7 @@ var LoginForm = React.createClass({
     logout: function( response )
     {
         this.setState( this.defaultState );
+         UserActionCreators.logout( );
         // var self = this;
         // request
         //    .get('/api/logout')

@@ -18,7 +18,12 @@ var Routes = (
         <DefaultRoute handler={Home}/>
         <Route name="users" handler={Users} />
         <Route name="places" handler={Places}  />
-        <Route name="shows" handler={Shows} />
+        <Route name="shows"  >
+            <Route name="show" path=":showName" handler={Shows} >
+                <Route name="showId" path=":showId" handler={Shows} />
+            </Route>
+            <DefaultRoute  handler={Shows} />
+        </Route>
     </Route>
 );
 
