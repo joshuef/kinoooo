@@ -35,13 +35,25 @@ var ShowForm = React.createClass({
 
         if( this.props.user && ! this.props.user.isAdmin )
         {
-            console.log( 'NO FORM TA, ' , this.props.user );
             return null;
+        }
+
+        var titleText = "Add Show";
+        var submitButtonText = "Add Show";
+
+        if( this.state.editing )
+        {
+            submitButtonText = "Update Show"
+        }
+
+        if( this.props.show )
+        {
+            titleText = ""
         }
     
         return (
             <form className='show-form'>
-                <h2>Add Show</h2>
+                <h2>{titleText}</h2>
                 <TextField
                 hintText="Grease"
                 floatingLabelText="name"
@@ -62,7 +74,7 @@ var ShowForm = React.createClass({
                 hintText="12356909088098"
                 floatingLabelText="endDate"
                 onChange={this.dateChanged} />  
-                <RaisedButton label="Add shows" onClick={this.addShow}/>
+                <RaisedButton label={submitButtonText} onClick={this.submitForm}/>
             </form>
         );
     },
@@ -72,11 +84,22 @@ var ShowForm = React.createClass({
         director : '',
         places : [],
         startDate : '',
-        endDate : ''
+        endDate : '',
+        editing: false
     },
     getInitialState: function ( )
     {
         return this.defaultState;
+    },
+
+    componentWillReceiveProps : function( newProps )
+    {
+        if( newProps.show )
+        {
+            this.setState( newProps.show );
+            this.setState( { editing: true });
+        }
+
     },
     addPlace : function ( e, selectedIndex, menuItem )
     {
@@ -96,12 +119,21 @@ var ShowForm = React.createClass({
     {
         console.log( 'DATE CHANGED',  e, selectedIndex, menuItem );
     },
-    addShow : function ( e  )
+    submitForm : function ( e )
     {
         e.preventDefault();
-        ShowsActions.addShow( this.state );
-        //should update a place with this show also.
-        this.setState( this.getInitialState );
+
+        if( this.state.editing )
+        {
+            ShowsActions.updateShow( _.omit( this.state, 'editing' ) );
+        }
+        else
+        {
+            ShowsActions.addShow( this.state );
+            //should update a place with this show also.
+            this.setState( this.getInitialState );
+            
+        }
     }
 
 

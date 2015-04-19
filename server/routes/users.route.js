@@ -113,12 +113,12 @@ module.exports = [
     method: 'GET',
     path: userRoot + '/{id}',
     config: {
-        handler: function(req, reply)
+        handler: function(request, reply)
         {
-            return User.findById(req.params.id, function (err, user_data) {
+            return User.findById(request.params.id, function (err, user_data) {
                 if (!err) {
 
-                    // console.log( 'IDDDD',req.params.id );
+                    // console.log( 'IDDDD',request.params.id );
                     // console.log( user_data );
                   reply('user_edit', {
                     title: 'user data',

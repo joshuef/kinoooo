@@ -12,6 +12,10 @@ module.exports = {
   {
     showsAPIHelpers.addShow( show );
   },
+  updateShow : function ( show )
+  {
+    showsAPIHelpers.updateShow( show );
+  },
   getAllShows : function (  )
   {
     showsAPIHelpers.getAllShows(  );

@@ -72,10 +72,7 @@ UserStore.dispatchToken = AppDispatcher.register(function(payload) {
 
 
     case ActionTypes.LOGGED_IN_API:
-      // if(_user.serviceUserId === action.user.serviceUserId) {
-      //   // _user._id = action.user._id;
-      //   _user = action.user;
-      // }
+
       _user = action.user;
       _user.loggedIn = true;
 

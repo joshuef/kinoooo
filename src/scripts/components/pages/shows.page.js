@@ -6,6 +6,7 @@ var MessagesActions = require('../actions/MessagesActionCreators');
 
 
 var ShowsActions = require('../actions/ShowsActionCreators');
+var ShowsStore = require('../stores/ShowsStore');
 var ShowForm = require( "./shows/showForm" );
 var ShowList = require( "./shows/showList" );
 
@@ -22,40 +23,40 @@ var Shows = React.createClass({
 
         var currentRoutes = this.context.router.getCurrentRoutes();
         var lastRoute = currentRoutes[currentRoutes.length - 1];
-        console.log( lastRoute, params );
+        // console.log( lastRoute, params );
+        console.log( 'showly', params );
 
 
         // if( ! this.props.user.isAdmin )
         // {
         //     return null;
         // }
-        console.log( 'THE USER ADMIN STATE', this.props.user );
+        // console.log( 'THE USER ADMIN STATE', this.props.user );
 
-        if( params  )
+        if( params.showName )
         {
-            var currentShow = {
-                name: params.showName,
-                id: params.showId
-            };
 
-                console.log( 'ALL ABOPUTTHE USER IF THEY ARE ADMIN', this.props.user );
-                
-                console.log( 'THE CURRENT SHOW ISSS' );
-                console.log( currentShow );
-            if( params.showName && this.props.user && this.props.user.isAdmin  )
-            {
+            var currentShow = params.showId || params.showName;
+     
 
+            //perhaps this should be grtabbed from a shows object in props
+            currentShow = ShowsStore.getShowByNameOrId( currentShow );
+
+
+            if( this.props.user && this.props.user.isAdmin  )
+            {                
+                //EDITING
                 return (
                   <div className='main'>
                         <h1>Edit {currentShow.name}</h1>
-                        <ShowForm places={this.props.places} user={this.props.user}/>
+                        <ShowForm show={currentShow} places={this.props.places} user={this.props.user}/>
                   </div>
                 );
 
             }
             else if ( params.showName ) 
             {
-                return (
+               return (
                   <div className='main'>
                         <h1>About {currentShow.name}</h1>
                   </div>
@@ -63,15 +64,17 @@ var Shows = React.createClass({
             };
             
         }
+        else
+        {
+            return (
+              <div className='main'>
+                    <h1>  Shows  </h1>
+                    <ShowForm places={this.props.places} show={null} user={this.props.user}/>
+                    <ShowList places={this.props.places} shows={this.props.shows}  user={this.props.user}/>
+              </div>
+            );
+        }
 
-
-        return (
-          <div className='main'>
-                <h1>  Shows  </h1>
-                <ShowForm places={this.props.places} user={this.props.user}/>
-                <ShowList places={this.props.places} shows={this.props.shows}  user={this.props.user}/>
-          </div>
-        );
     },
 
     getInitialState: function ( )

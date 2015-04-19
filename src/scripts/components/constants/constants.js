@@ -10,6 +10,7 @@ module.exports = {
     CREATED_PLACE: null,
     PLACES: null,
     CREATED_SHOW: null,
+    UPDATED_SHOW: null,
     SHOWS: null,
     LOGGED_OUT_API: null,
     LOGGED_IN_API: null,

@@ -103,28 +103,78 @@ module.exports = [
     }
 },
 {
-    method: 'GET',
+    method: [ 'GET', 'POST' ],
     path: showRoot + '/{id}',
     config: {
-        handler: function(req, reply)
+        handler: function(request, reply)
         {
-            return Show.findById(req.params.id, function (err, show_data) {
-                if (!err) {
+            if( request.method = 'POST' )
+            {
+                Show.update( request.params.id, request.payload, function( err, show, y )
+                {
+                    console.log( 'UPDATE DONE?', err, show, y );
 
-                  reply('show_edit', {
-                    title: 'show data',
-                    show: show_data
+                    if( err )
+                    {
+                        reply( { error: 'Didnae update' });
+                    }
+
+                    else
+                    {
+                        reply( request.payload );
+                    }
+
+
+                    // reply( show );
+                } );
+
+            }
+            else
+            {
+                return Show.findById(request.params.id, function (err, show_data) {
+                    if (!err) 
+                    {
+
+                        console.log( request.method );
+
+                        var payload = request.payload;
+
+                        // console.log( 'THE AUUUTHHH', request.auth.credentials );
+                        var newShow = new Show({
+                            name: payload.name,
+                            director: payload.director,
+                            places: payload.places,
+                            image: payload.image,
+                            description: payload.description,
+                            startDate: payload.startDate,
+                            endDate: payload.endDate,
+                            creator: request.auth.credentials._id
+                        });
+
+
+                        reply('show_edit', {
+                            title: 'show data',
+                            show: show_data
+                        });
+                    } 
+                    else 
+                    {
+                         reply( {
+                            error: 'Errrrrrr'
+                        });
+
+                        return console.log(err);
+                    }
                 });
-              } else {
-                  return console.log(err);
-              }
-          });
 
-            reply('show_edit', {
-                title: 'show data'
-            });
+                
+                reply('show_edit', {
+                    title: 'show data'
+                });
+            }
 
         }
+
     }
 }
 ];
