@@ -32,6 +32,7 @@ var MessagesStore = _.extend({}, EventEmitter.prototype, {
   getLatestMessage: function() {
     var lastMessage = _.last(_messages);
 
+    console.log( 'getting message', lastMessage );
     if( ! lastMessage )
     {
       lastMessage = {

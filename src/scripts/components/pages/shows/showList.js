@@ -1,7 +1,6 @@
 'use strict';
 var React = require('react/addons');
 
-var ShowsActions = require('../../actions/ShowsActionCreators');
 var ShowItem = require( "./showItem" );
 
 

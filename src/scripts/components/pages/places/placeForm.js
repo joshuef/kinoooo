@@ -5,6 +5,7 @@ var React = require('react/addons');
 var mui             = require('material-ui');
 var RaisedButton = mui.RaisedButton;
 var TextField    = mui.TextField;
+var _ = require('lodash');
 
 var GoogleMapsLoader = require('google-maps');      // only for common js environments
 
@@ -13,14 +14,28 @@ var PlaceForm = React.createClass({
 
     render: function() {
 
-        if( ! this.props.user.isAdmin )
+        if( this.props.user && ! this.props.user.isAdmin )
         {
             return null;
         }
 
+
+        var titleText = "Add Place";
+        var submitButtonText = "Add Place";
+
+        if( this.state.editing )
+        {
+            submitButtonText = "Update Place";
+        }
+
+        if( this.props.show )
+        {
+            titleText = "";
+        }
+
         return (
             <form className='place-form'>
-                <h2>Add Place</h2>
+                <h2>{titleText}</h2>
                 <TextField
                 hintText="The Globe Theatre"
                 floatingLabelText="place name"
@@ -38,7 +53,7 @@ var PlaceForm = React.createClass({
                 alueLink={this.linkState('venue')} /> 
 
                 
-                <RaisedButton label="Add Place" onClick={this.addPlace}/>
+                <RaisedButton label={submitButtonText} onClick={this.submitForm}/>
 
 
             </form>
@@ -65,13 +80,27 @@ var PlaceForm = React.createClass({
 
     },
 
+    componentWillReceiveProps : function( newProps )
+    {
+        if( newProps.place )
+        {
+            this.setState( newProps.place );
+            this.setState( { editing: true });
+        }
+        else
+        {
+            this.setState( this.defaultState );
+        }
+
+    },
+
     _onGoogleVenueChange: function() 
     {
         var place = this.autocomplete.getPlace();
 
         // forbid places that don't exist on google maps
         if(!place.place_id) {
-        return;
+            return;
         }
 
         this.setState( { 'venue': place } );
@@ -84,16 +113,28 @@ var PlaceForm = React.createClass({
         description: '',
         image: '',
         venue: {},
+        editing: false
     },
     getInitialState: function ( )
     {
         return this.defaultState;
     },
-    addPlace : function ( e )
+    submitForm : function ( e )
     {
+
         e.preventDefault();
-        PlacesActionCreators.addPlace( this.state );
-        this.setState( this.defaultState );
+
+        if( this.state.editing )
+        {
+            console.log( 'placeState', this.state );
+            PlacesActionCreators.updatePlace( _.omit( this.state, [ 'editing', 'text', 'name' ] ) );
+        }
+        else
+        {
+            PlacesActionCreators.addPlace( _.omit( this.state, [ 'text', 'name' ] ) );
+            this.setState( this.defaultState );
+        }
+
 
     }
 

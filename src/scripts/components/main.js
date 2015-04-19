@@ -17,7 +17,12 @@ var Routes = (
     <Route name="app" path="/" handler={App}>
         <DefaultRoute handler={Home}/>
         <Route name="users" handler={Users} />
-        <Route name="places" handler={Places}  />
+        <Route name="places" handler={Places} >
+            <Route name="place" path=":placeName" handler={Places} >
+                <Route name="placeId" path=":placeId" handler={Places} />
+            </Route>
+            <DefaultRoute  handler={Places} />
+        </Route>
         <Route name="shows"  >
             <Route name="show" path=":showName" handler={Shows} >
                 <Route name="showId" path=":showId" handler={Shows} />

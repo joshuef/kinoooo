@@ -110,10 +110,8 @@ module.exports = [
         {
             if( request.method = 'POST' )
             {
-                Show.update( request.params.id, request.payload, function( err, show, y )
+                Show.update( request.params.id, _.omit( request.payload, '_id' ), function( err, show, y )
                 {
-                    console.log( 'UPDATE DONE?', err, show, y );
-
                     if( err )
                     {
                         reply( { error: 'Didnae update' });
@@ -123,9 +121,6 @@ module.exports = [
                     {
                         reply( request.payload );
                     }
-
-
-                    // reply( show );
                 } );
 
             }
@@ -135,27 +130,7 @@ module.exports = [
                     if (!err) 
                     {
 
-                        console.log( request.method );
-
-                        var payload = request.payload;
-
-                        // console.log( 'THE AUUUTHHH', request.auth.credentials );
-                        var newShow = new Show({
-                            name: payload.name,
-                            director: payload.director,
-                            places: payload.places,
-                            image: payload.image,
-                            description: payload.description,
-                            startDate: payload.startDate,
-                            endDate: payload.endDate,
-                            creator: request.auth.credentials._id
-                        });
-
-
-                        reply('show_edit', {
-                            title: 'show data',
-                            show: show_data
-                        });
+                        reply( show_data );
                     } 
                     else 
                     {

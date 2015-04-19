@@ -6,19 +6,6 @@ var _ = require('lodash');
 var Router = require('react-router');
 var Link = Router.Link;
 
-// var EditLink = React.createClass({
-//     render : function( )
-//     {
-//         if( ! this.props.user.isAdmin )
-//         {
-//             return null;
-//         }
-
-//         return ( 
-//             <a href="/edit">Edit</a>);
-
-//     }
-// });
 var ShowItem = React.createClass({
 
     render: function()

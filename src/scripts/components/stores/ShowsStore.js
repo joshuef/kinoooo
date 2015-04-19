@@ -54,8 +54,6 @@ var ShowsStore = _.extend({}, EventEmitter.prototype, {
 ShowsStore.dispatchToken = AppDispatcher.register(function(payload) {
 	var action = payload.action;
 
-
-	console.log( 'shows dispatcher happens??', action );
 	switch(action.type) {
 
 		case ActionTypes.INIT_SHOW:

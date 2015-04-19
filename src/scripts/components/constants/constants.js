@@ -8,6 +8,7 @@ module.exports = {
     INIT_USER: null,
     CREATED_USER: null,
     CREATED_PLACE: null,
+    UPDATED_PLACE: null,
     PLACES: null,
     CREATED_SHOW: null,
     UPDATED_SHOW: null,

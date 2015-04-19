@@ -5,7 +5,6 @@ var RaisedButton = mui.RaisedButton;
 var MessagesActions = require('../actions/MessagesActionCreators');
 
 
-var ShowsActions = require('../actions/ShowsActionCreators');
 var ShowsStore = require('../stores/ShowsStore');
 var ShowForm = require( "./shows/showForm" );
 var ShowList = require( "./shows/showList" );
@@ -17,21 +16,13 @@ var Shows = React.createClass({
     router: React.PropTypes.func
   },
     render: function() {
+        //not all are needed here
         var router = this.context.router;
         var params = this.context.router.getCurrentParams();
         var route = this.context.router.getCurrentPath();
 
         var currentRoutes = this.context.router.getCurrentRoutes();
         var lastRoute = currentRoutes[currentRoutes.length - 1];
-        // console.log( lastRoute, params );
-        console.log( 'showly', params );
-
-
-        // if( ! this.props.user.isAdmin )
-        // {
-        //     return null;
-        // }
-        // console.log( 'THE USER ADMIN STATE', this.props.user );
 
         if( params.showName )
         {
@@ -61,7 +52,7 @@ var Shows = React.createClass({
                         <h1>About {currentShow.name}</h1>
                   </div>
                 );
-            };
+            }
             
         }
         else

@@ -21,6 +21,7 @@ var ShowForm = React.createClass({
 
     render: function() {
 
+        console.log( 'SHOWFOOOO' );
         var places = [{
             payload : 0,
             text: 'No Places SORRY!'
@@ -43,12 +44,12 @@ var ShowForm = React.createClass({
 
         if( this.state.editing )
         {
-            submitButtonText = "Update Show"
+            submitButtonText = "Update Show";
         }
 
         if( this.props.show )
         {
-            titleText = ""
+            titleText = "";
         }
     
         return (

@@ -1,8 +1,10 @@
 'use strict';
-var React = require('react/addons');
+var React   = require('react/addons');
+var _       = require('lodash');
+var Router  = require('react-router');
+var Link    = Router.Link;
 
-var _ = require('lodash');
-
+var ShowItem = require( "../shows/showItem" );
 
 var PlaceItem = React.createClass({
 
@@ -27,17 +29,18 @@ var PlaceItem = React.createClass({
             {
                     console.log( 'NO ID' );
                     return null;
-
             }
             
         }
+
+        var placeLink = "/places/" + actualPlace.text  + '/' + actualPlace._id;
 
         //ONLY RENDER THE NAME
         if( this.props.belongsToShow )
         {
             return(
                 <li>
-                    <h6>{ actualPlace.text }</h6>
+                    <h6><Link to={placeLink}>{ actualPlace.text }</Link></h6>
                 
                 </li> 
                 );
@@ -47,7 +50,7 @@ var PlaceItem = React.createClass({
             //RENDER ALL
             return(
                 <li>
-                    <h3>{ actualPlace.text }</h3>
+                    <h3><Link to={placeLink}>{ actualPlace.text }</Link></h3>
                 
                 </li> 
                 );

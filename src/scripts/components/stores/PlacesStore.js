@@ -12,29 +12,39 @@ var _places = [];
 
 var PlacesStore = _.extend({}, EventEmitter.prototype, {
 
-  emitChange: function() {
-    this.emit(CHANGE_EVENT);
-  },
+	emitChange: function() {
+		this.emit(CHANGE_EVENT);
+	},
 
   /**
    * @param {function} callback
    */
-  addChangeListener: function(callback) {
-    this.on(CHANGE_EVENT, callback);
-  },
+   addChangeListener: function(callback) {
+       	this.on(CHANGE_EVENT, callback);
+   },
 
+
+   getAllPlaces: function() {
   
-  getAllPlaces: function() {
-    _.map( _places, function ( place )
-    {
-        //for the autocompleter menu thing
-        place.text = place.venue.name;
-        place.payload = place._id;
+       	console.log( 'getting all places from store', _places );
+       	return _.clone(_places);
+   },
+
+
+   getPlaceByNameOrId: function( placeIdOrName ) 
+   {
+        console.log( 'getting a specific place,', placeIdOrName, _places );
+        var place = _.findWhere(_places, { _id: placeIdOrName });
+
+        if( ! place )
+        {
+            place = _.findWhere(_places, { name: placeIdOrName });
+
+        }
+
         return place;
-    });
-    console.log( 'getting all places from store', _places );
-    return _.clone(_places);
-  },
+   },
+
 
 
   // getBasicPlace: function() {
@@ -45,42 +55,45 @@ var PlacesStore = _.extend({}, EventEmitter.prototype, {
 
 
 PlacesStore.dispatchToken = AppDispatcher.register(function(payload) {
-  var action = payload.action;
+	var action = payload.action;
+
+	switch(action.type) {
+
+		case ActionTypes.INIT_PLACE:
+			//is here where we check itsunique?
+			_.extend(_places, action.place );
+			PlacesStore.emitChange();
+			break;
 
 
-  console.log( 'places dispatcher happens??', action );
-  switch(action.type) {
-
-    case ActionTypes.INIT_PLACE:
-        //is here where we check itsunique?
-      _.extend(_places, action.place );
-      PlacesStore.emitChange();
-      break;
+		case ActionTypes.PLACES:
+			console.log( 'PLACES AFTER SERVER RESPONSE?', action.places );
+			//is here where we check itsunique?
+			_.extend(_places, action.places );
+			PlacesStore.emitChange();
+			break;
 
 
-    case ActionTypes.PLACES:
-    console.log( 'PLACES AFTER SERVER RESPONSE?', action.places );
-        //is here where we check itsunique?
-      _.extend(_places, action.places );
-      PlacesStore.emitChange();
-      break;
+		case ActionTypes.CREATED_PLACE:
+
+			_places.push( action.place );
+			PlacesStore.emitChange();
+
+			break;
+
+		case ActionTypes.UPDATED_PLACE:
+
+			_places.push( action.place );
+			PlacesStore.emitChange();
+
+			break;
 
 
-    case ActionTypes.CREATED_PLACE:
- 
-         _places.push( action.place );
 
 
-        PlacesStore.emitChange();
-
-      break;
-
-
-   
-
-    default:
-      // do nothing
-  }
+		default:
+	  // do nothing
+	}
 
 });
 

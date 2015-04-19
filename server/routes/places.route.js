@@ -76,41 +76,77 @@ module.exports = [
 
             newPlace.save(function (err) {
                     if (!err) {
+                      reply(newPlace)
                       return console.log("created a place");
+
                   } else {
                       //TODO: return page with errors
+                        reply( 
+                        { 
+                            error: true,
+                            text: "adding place failed"
+                        
+                        } );
+                        
                       return console.log(err);
                   }
             });
-        
-            // TODO: return to list page, if saved
-            // reply.redirect('/places/', 301);
-            return reply(newPlace);  
 
         }
     }
 },
 {
-    method: 'GET',
+    method: [ 'GET', 'POST' ],
     path: placeRoot + '/{id}',
     config: {
-        handler: function(req, reply)
+        handler: function(request, reply)
         {
-            return Place.findById(req.params.id, function (err, place_data) {
-                if (!err) {
 
-                  reply('place_edit', {
-                    title: 'place data',
-                    place: place_data
+            if( request.method = 'POST' )
+            {
+                Place.update( request.params.id, _.omit( request.payload, '_id' ), function( err, place, y )
+                {
+                    console.log( 'UPDATE DONE?', err, place, y );
+
+                    if( err )
+                    {
+                        reply( 
+                        { 
+                            error: true,
+                            text: "Didnae update"
+                        
+                        } );
+                    }
+
+                    else
+                    {
+                        reply( request.payload );
+                    }
+
+
+                } );
+
+            }
+            else
+            {
+
+                return Place.findById(request.params.id, function (err, place_data) {
+                    if (!err) {
+
+                        reply( place_data );
+
+                    } else {
+                        reply( { error: 'WHOOOPS' });
+                        return console.log(err);
+                    }
                 });
-              } else {
-                  return console.log(err);
-              }
-          });
+            }
 
-            reply('place_edit', {
-                title: 'place data'
-            });
+
+
+            // reply('place_edit', {
+            //     title: 'place data'
+            // });
 
         }
     }
