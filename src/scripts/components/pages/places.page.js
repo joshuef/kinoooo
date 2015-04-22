@@ -11,6 +11,8 @@ var Places = React.createClass({
         router: React.PropTypes.func
     },
     render: function() {
+
+
         //not all are needed here
         var router = this.context.router;
         var params = this.context.router.getCurrentParams();
@@ -58,11 +60,12 @@ var Places = React.createClass({
         }
         else
         {
+
             return (
               <div className='main'>
                     <h1>Places</h1>
-                    <PlaceForm places={this.props.places} place={null} user={this.props.user}/>
-                    <PlaceList places={this.props.places} shows={this.props.shows}  user={this.props.user}/>
+                    <PlaceForm allPlaces={this.props.places} thisPlace={null} user={this.props.user}/>
+                    <PlaceList allPlaces={this.props.places} allShows={this.props.shows}  user={this.props.user}/>
               </div>
             );
         }

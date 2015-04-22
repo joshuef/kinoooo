@@ -82,9 +82,9 @@ var PlaceForm = React.createClass({
 
     componentWillReceiveProps : function( newProps )
     {
-        if( newProps.place )
+        if( newProps.thisPlace )
         {
-            this.setState( newProps.place );
+            this.setState( newProps.thisPlace );
             this.setState( { editing: true });
         }
         else

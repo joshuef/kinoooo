@@ -3,30 +3,30 @@ var React = require('react/addons');
 
 var PlaceItem = require( "./placeItem" );
 
-
-
 var PlaceList = React.createClass({
 
     render: function() {
 
-        var allPlaces = this.props.places;
+        console.log( 'PLACE LIST PROPS', this.props );
+        var allPlaces = this.props.allPlaces;
         var places = [];
 
         for (var key in allPlaces) {
-          places.push(<PlaceItem key={key} place={allPlaces[key]} places={this.props.places} />);
+          places.push(<PlaceItem key={key} 
+            thisPlace={allPlaces[key]} 
+            allPlaces={this.props.allPlaces} 
+            allShows={this.props.allShows}
+            belongsToShow={this.props.belongsToShow}/>);
         }
+            
+        
+
 
 
         return (
-            <ul id="show-list">{places}</ul>
+            <ul class="place-list">{places}</ul>
         );
-    },
-
-    getInitialState: function ( )
-    {
-        return null;
     }
-
 
 });
 

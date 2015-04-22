@@ -5,8 +5,8 @@ var Schema = mongoose.Schema;
 var _ = require('lodash');
 
 
-var venueSchema = new Schema({
-  placeId: { type: Schema.Types.ObjectId, ref: 'Place' }
+var showSchema = new Schema({
+  showId: { type: Schema.Types.ObjectId, ref: 'Show' }
 });
 
 var placeSchema = new Schema({
@@ -28,6 +28,7 @@ var placeSchema = new Schema({
 	  			B: Number
 	  		}
 	  	},
+	  	shows: [ showSchema ],
 	  	rating: { type: Number},
 	  	website: { type: String }
   	} 

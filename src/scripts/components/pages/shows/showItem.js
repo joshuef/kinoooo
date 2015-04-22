@@ -1,56 +1,62 @@
 'use strict';
 var React = require('react/addons');
-var PlaceItem = require( "../places/placeItem" );
+
+var BasicPlaceList = require( "../places/basicPlaceList" );
 var _ = require('lodash');
 
 var Router = require('react-router');
 var Link = Router.Link;
 
 var ShowItem = React.createClass({
-
+componentWillMount : function( )
+{
+    console.log( 'SHOW ITEM MOUNTING' );
+},
     render: function()
     {
-
-        if( ! this.props.show.name )
+        console.log( 'SHOWPROPS', this.props );
+        if( ! this.props.thisShow.name )
         {
             console.log( 'NO NAME' );
             return null;
         }
 
-        var show = this.props.show;
-        // console.log( 'SHOWPLACES', show );
-
-        var allPlaces = show.places;
-        var places = [];
+        var show = this.props.thisShow;
 
 
-        for (var key in allPlaces) {
-          places.push(<PlaceItem belongsToShow={true} key={key} place={allPlaces[key]} placesStore={this.props.places}/>);
-        }
+        var showLink = "/shows/" + show.name + '/' + show._id;
 
 
-        var showLink = "/shows/" + this.props.show.name + '/' + this.props.show._id;
+        // if( ! show.name )
+        // {
+        //     //ie. passed from a show
+            
+        //     if( show.showId )
+        //     {
 
-        if( this.props.belongsToPlace )
-        {
-            return(
-                <li>
-                    <h6><Link to={showLink}>{ this.props.show.name }</Link></h6>
-                    <ul class="place-list">{places}</ul>
+        //         var showId = this.props.show.showId;
+        //         var showsStore = this.props.shows;
 
-                </li> 
-                );
-        }
-        else
-        {
-             return(
-                <li>
-                    <h3><Link to={showLink}>{ this.props.show.name }</Link></h3>
-                    <ul class="place-list">{places}</ul>
+        //         show = _.findWhere( showsStore, { _id: showId });
 
-                </li> 
-                );
-        }
+        //     }
+        //     else
+        //     {
+        //             console.log( 'NO ID' );
+        //             return null;
+        //     }
+            
+        // }
+
+        console.log( 'showprops name', show.name );
+        return(
+            <li>
+                <h3><Link to={showLink}>{ show.name }</Link></h3>
+                <BasicPlaceList showPlaces={show.places} allPlaces={this.props.allPlaces} belongsToShow={true}/>
+
+            </li> 
+        );
+        
     }
 });
 

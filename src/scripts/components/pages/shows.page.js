@@ -5,6 +5,7 @@ var RaisedButton = mui.RaisedButton;
 var MessagesActions = require('../actions/MessagesActionCreators');
 
 
+var ShowsActions = require('../actions/ShowsActionCreators');
 var ShowsStore = require('../stores/ShowsStore');
 var ShowForm = require( "./shows/showForm" );
 var ShowList = require( "./shows/showList" );
@@ -16,6 +17,7 @@ var Shows = React.createClass({
     router: React.PropTypes.func
   },
     render: function() {
+        console.log( 'SHOWPAGE', this.props );
         //not all are needed here
         var router = this.context.router;
         var params = this.context.router.getCurrentParams();

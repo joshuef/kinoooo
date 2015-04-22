@@ -1,7 +1,7 @@
 'use strict';
 var React = require('react/addons');
 
-var ShowItem = require( "./showItem" );
+var BasicShowItem = require( "./basicShowItem" );
 
 
 var ShowList = React.createClass({
@@ -9,13 +9,13 @@ var ShowList = React.createClass({
     render: function() {
         console.log( 'SHOW LIST PROPS', this.props );
 
-        var allShows = this.props.shows;
+        var allShows = this.props.allShows;
         var shows = [];
 
         for (var key in allShows) {
-          shows.push(<ShowItem key={key} 
+          shows.push(<BasicShowItem key={key} 
             thisShow={allShows[key]} 
-            allPlaces={this.props.places} 
+            allShows={this.props.allShows}
             belongsToPlace={this.props.belongsToPlace}/>);
         }
 

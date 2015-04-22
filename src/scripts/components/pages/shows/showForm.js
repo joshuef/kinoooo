@@ -21,7 +21,6 @@ var ShowForm = React.createClass({
 
     render: function() {
 
-        console.log( 'SHOWFOOOO' );
         var places = [{
             payload : 0,
             text: 'No Places SORRY!'
@@ -110,11 +109,13 @@ var ShowForm = React.createClass({
 
         var selectedPlace = placeDropdown.props.menuItems[ placeDropdown.state.selectedIndex ];
 
-        places.push( { placeId: selectedPlace._id } );
-        //check the place is unique
+        console.log( 'add show place in the form', selectedPlace );
+        places.push ( { placeId: selectedPlace._id } );
+
+        places = _.uniq( places, false, function( place ){ return place.place_Id } );
 
         this.setState( { places: places });
-        console.log( 'PLACE ADDDEDDD', this.state.places );
+        // console.log( 'add show || after add place, the array::  ', this.state );
     },
     dateChanged : function ( e, selectedIndex, menuItem )
     {
@@ -123,6 +124,8 @@ var ShowForm = React.createClass({
     submitForm : function ( e )
     {
         e.preventDefault();
+
+        console.log( 'ADD SHOW', this.state );
 
         if( this.state.editing )
         {

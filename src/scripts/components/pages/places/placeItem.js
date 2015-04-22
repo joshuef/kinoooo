@@ -4,59 +4,64 @@ var _       = require('lodash');
 var Router  = require('react-router');
 var Link    = Router.Link;
 
-var ShowItem = require( "../shows/showItem" );
+var BasicShowList = require( "../shows/basicShowList" );
 
 var PlaceItem = React.createClass({
-
+componentWillMount : function( )
+{
+    console.log( 'PLACE ITEM MOUNTING' );
+},
     render: function()
     {
-
-        var actualPlace = this.props.place;
-
-        if( ! actualPlace.text )
+        console.log( 'placeprops', this.props );
+        if( ! this.props.thisPlace.name )
         {
-            //ie. passed from a show
+            console.log( 'NO NAME' );
+            return null;
+        }
+
+        var place = this.props.thisPlace;
+
+        var placeLink = "/places/" + place.name  + '/' + place._id;
+
+
+        // if( ! place.name )
+        // {
+        //     //ie. passed from a show
             
-            if( this.props.place.placeId )
-            {
+        //     if( place.placeId )
+        //     {
 
-                var placeId = this.props.place.placeId;
-                var placesStore = this.props.placesStore;
+        //         var placeId = place.placeId;
+        //         var placesStore = place.allPlaces;
 
-                actualPlace = _.findWhere( placesStore, { _id: placeId });
-            }
-            else
-            {
-                    console.log( 'NO ID' );
-                    return null;
-            }
+        //         place = _.findWhere( places, { _id: placeId });
+
+        //     }
+        //     else
+        //     {
+        //             console.log( 'NO ID' );
+        //             return null;
+        //     }
             
-        }
+        // }
 
-        var placeLink = "/places/" + actualPlace.text  + '/' + actualPlace._id;
+        console.log( 'PLACE ITEM WITH LIST??', place );
+        //RENDER ALL
+        return(
+            <li>
+                <h3><Link to={placeLink}>{ place.name }</Link></h3>
+                <BasicShowList placeShows={ place.shows } allShows={ this.props.allShows } belongsToPlace={true} />
+            </li> 
+            );
+        
 
-        //ONLY RENDER THE NAME
-        if( this.props.belongsToShow )
-        {
-            return(
-                <li>
-                    <h6><Link to={placeLink}>{ actualPlace.text }</Link></h6>
-                
-                </li> 
-                );
-        }
-        else
-        {
-            //RENDER ALL
-            return(
-                <li>
-                    <h3><Link to={placeLink}>{ actualPlace.text }</Link></h3>
-                
-                </li> 
-                );
-        }
 
-    }
+        return null;
+
+    },
+
+
 });
 
 
