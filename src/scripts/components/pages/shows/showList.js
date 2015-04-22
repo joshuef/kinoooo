@@ -9,13 +9,13 @@ var ShowList = React.createClass({
     render: function() {
         console.log( 'SHOW LIST PROPS', this.props );
 
-        var allShows = this.props.shows;
+        var allShows = this.props.allShows;
         var shows = [];
 
         for (var key in allShows) {
           shows.push(<ShowItem key={key} 
             thisShow={allShows[key]} 
-            allPlaces={this.props.places} 
+            allPlaces={this.props.allPlaces} 
             belongsToPlace={this.props.belongsToPlace}/>);
         }
 

@@ -42,7 +42,7 @@ var Shows = React.createClass({
                 return (
                   <div className='main'>
                         <h1>Edit {currentShow.name}</h1>
-                        <ShowForm show={currentShow} places={this.props.places} user={this.props.user}/>
+                        <ShowForm thisShow={currentShow} allPlaces={this.props.places} user={this.props.user}/>
                   </div>
                 );
 
@@ -62,8 +62,8 @@ var Shows = React.createClass({
             return (
               <div className='main'>
                     <h1>  Shows  </h1>
-                    <ShowForm places={this.props.places} show={null} user={this.props.user}/>
-                    <ShowList places={this.props.places} shows={this.props.shows}  user={this.props.user}/>
+                    <ShowForm allPlaces={this.props.places} thisShow={null} user={this.props.user}/>
+                    <ShowList allPlaces={this.props.places} allShows={this.props.shows}  user={this.props.user}/>
               </div>
             );
         }

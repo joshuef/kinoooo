@@ -14,6 +14,8 @@ var PlaceForm = React.createClass({
 
     render: function() {
 
+        console.log( 'PLACEFORM', this.props );
+
         if( this.props.user && ! this.props.user.isAdmin )
         {
             return null;
@@ -26,11 +28,11 @@ var PlaceForm = React.createClass({
         if( this.state.editing )
         {
             submitButtonText = "Update Place";
+            titleText = "";
         }
 
         if( this.props.show )
         {
-            titleText = "";
         }
 
         return (
@@ -61,6 +63,13 @@ var PlaceForm = React.createClass({
     },
     componentDidMount : function( )
     {
+        console.log( 'param placename  MOUNTEDDD', this.props );
+
+        if( this.props.thisPlace )
+        {
+            this.setupForEditing( this.props.thisPlace );
+        }
+
         var self = this;
 
         var autocompleteOpts = {
@@ -82,16 +91,24 @@ var PlaceForm = React.createClass({
 
     componentWillReceiveProps : function( newProps )
     {
+        console.log( 'param placename RECEIVING PROPS' );
         if( newProps.thisPlace )
         {
-            this.setState( newProps.thisPlace );
-            this.setState( { editing: true });
+            this.setupForEditing(newProps.thisPlace);
         }
         else
         {
             this.setState( this.defaultState );
         }
 
+    },
+
+    setupForEditing : function( newPlace )
+    {
+        console.log( 'SETTING EDITING', newPlace );
+        this.setState( newPlace );
+        this.setState( { editing: true });
+        // this.forceUpdate();
     },
 
     _onGoogleVenueChange: function() 

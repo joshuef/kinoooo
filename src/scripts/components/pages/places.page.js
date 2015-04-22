@@ -28,6 +28,7 @@ var Places = React.createClass({
 
         if( params.placeName )
         {
+            console.log( 'PARAM PLACENAME', params );
 
             var currentPlace = params.placeId || params.placeName;
      
@@ -35,7 +36,7 @@ var Places = React.createClass({
             //perhaps this should be grtabbed from a places object in props
             currentPlace = PlacesStore.getPlaceByNameOrId( currentPlace );
 
-            console.log( 'current', currentPlace );
+            console.log( 'PARAM PLACENAME current', currentPlace );
 
             if( this.props.user && this.props.user.isAdmin  )
             {                
@@ -43,7 +44,7 @@ var Places = React.createClass({
                 return (
                   <div className='main'>
                         <h1>Edit {currentPlace.name}</h1>
-                        <PlaceForm place={currentPlace} shows={this.props.shows} user={this.props.user}/>
+                        <PlaceForm allShows={this.props.shows} thisPlace={currentPlace}  user={this.props.user}/>
                   </div>
                 );
 
@@ -64,7 +65,7 @@ var Places = React.createClass({
             return (
               <div className='main'>
                     <h1>Places</h1>
-                    <PlaceForm allPlaces={this.props.places} thisPlace={null} user={this.props.user}/>
+                    <PlaceForm allPlaces={this.props.places} allShows={this.props.shows}  thisPlace={null} user={this.props.user}/>
                     <PlaceList allPlaces={this.props.places} allShows={this.props.shows}  user={this.props.user}/>
               </div>
             );

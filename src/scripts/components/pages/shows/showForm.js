@@ -20,15 +20,15 @@ var ShowForm = React.createClass({
     mixins: [React.addons.LinkedStateMixin],
 
     render: function() {
-
+        console.log( 'showform props', this.props );
         var places = [{
             payload : 0,
             text: 'No Places SORRY!'
         }];
 
-        if( this.props.places.length > 0 )
+        if( this.props.allPlaces.length > 0 )
         {
-            places = this.props.places;
+            places = this.props.allPlaces;
 
         }
 
@@ -44,12 +44,9 @@ var ShowForm = React.createClass({
         if( this.state.editing )
         {
             submitButtonText = "Update Show";
-        }
-
-        if( this.props.show )
-        {
             titleText = "";
         }
+
     
         return (
             <form className='show-form'>
@@ -91,13 +88,26 @@ var ShowForm = React.createClass({
     {
         return this.defaultState;
     },
+    componentDidMount : function( )
+    {
+        console.log( 'param show  MOUNTEDDD', this.props );
 
+        if( this.props.thisShow )
+        {
+            this.setupForEditing( this.props.thisShow );
+        }
+    },
     componentWillReceiveProps : function( newProps )
     {
-        if( newProps.show )
+        console.log( 'param show receiving', newProps );
+        if( newProps.thisShow )
         {
-            this.setState( newProps.show );
-            this.setState( { editing: true });
+            this.setupForEditing( newProps.thisShow );
+        }
+        else
+        {
+            this.setState( this.defaultState );
+
         }
 
     },
@@ -121,6 +131,14 @@ var ShowForm = React.createClass({
     {
         console.log( 'DATE CHANGED',  e, selectedIndex, menuItem );
     },
+
+    setupForEditing : function( newShow )
+    {
+        console.log( 'param show EDITING', newShow );
+        this.setState( newShow );
+        this.setState( { editing: true });
+    },
+
     submitForm : function ( e )
     {
         e.preventDefault();
