@@ -5,10 +5,6 @@ var Schema = mongoose.Schema;
 var _ = require('lodash');
 
 
-var showSchema = new Schema({
-  showId: { type: Schema.Types.ObjectId, ref: 'Show' }
-});
-
 var placeSchema = new Schema({
 	image: { type: String, required: false },
   	// details: { type: String, required: true },
@@ -16,19 +12,19 @@ var placeSchema = new Schema({
   	creationDate: { type: Date, default: Date.now },
   	creator: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   	// comments: [{ body: String, date: Date }],
-  	venue: {
-	  	place_id: { type: String, required: true, unique : true },
-	  	name: { type: String, required: true },
-	  	formatted_address: { type: String, required: true },
-	  	url: { type: String, required: true },
-	  	international_phone_number: { type: String },
-	  	geometry: {
-	  		location: {
-	  			k: Number,
-	  			B: Number
-	  		}
-	  	},
-	  	shows: [ showSchema ],
+  	shows: [ { type: Schema.Types.ObjectId, ref: 'Show' }  ],
+    venue: {
+        place_id: { type: String, required: true, unique : true },
+        name: { type: String, required: true },
+        formatted_address: { type: String, required: true },
+        url: { type: String, required: true },
+        international_phone_number: { type: String },
+        geometry: {
+            location: {
+                k: Number,
+                B: Number
+            }
+        },
 	  	rating: { type: Number},
 	  	website: { type: String }
   	} 

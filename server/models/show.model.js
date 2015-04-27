@@ -4,9 +4,7 @@ var Schema = mongoose.Schema;
 var _ = require('lodash');
 
 
-var placeSchema = new Schema({
-  placeId: { type: Schema.Types.ObjectId, ref: 'Place' }
-});
+
 var showSchema = new Schema({
   image: { type: String, required: false },
   name: { type: String, required: false },
@@ -16,7 +14,7 @@ var showSchema = new Schema({
   creator: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   // comments: [{ body: String, date: Date }],
   // place: { type: String, required: true },
-  places: [ placeSchema ],
+  places: [ { type: Schema.Types.ObjectId, ref: 'Place' } ],
     rating: { type: Number},
     website: { type: String }
 }, {

@@ -10,38 +10,28 @@ var ShowItem = React.createClass({
 
     render: function()
     {
-        console.log( 'basicSHOWPROPS', this.props );
-        if( ! this.props.thisShow.name )
+        if( ! this.props.thisShow )
         {
-            console.log( 'NO NAME' );
+            console.log( 'NO SHOW' );
             return null;
         }
 
         var show = this.props.thisShow;
 
-
-
-
-        if( ! show.name )
+        if( show )
         {
-            //ie. passed from a show
-            
-            if( show.showId )
-            {
+            var showId = show;
+            var showsStore = this.props.allShows;
 
-                var showId = show.showId;
-                var showsStore = this.props.allShows;
+            show = _.findWhere( showsStore, { _id: showId });
 
-                show = _.findWhere( showsStore, { _id: showId });
-
-            }
-            else
-            {
-                    console.log( 'NO ID' );
-                    return null;
-            }
-            
         }
+        else
+        {
+                console.log( 'NO ID' );
+                return null;
+        }
+            
 
         if( ! show.name )
         {

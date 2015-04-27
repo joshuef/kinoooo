@@ -7,14 +7,14 @@ var BasicShowItem = require( "./basicShowItem" );
 var ShowList = React.createClass({
 
     render: function() {
-        console.log( 'SHOW LIST PROPS', this.props );
+        console.log( 'basicSHOW LIST PROPS', this.props );
 
-        var allShows = this.props.allShows;
+        var placeShows = this.props.placeShows;
         var shows = [];
 
-        for (var key in allShows) {
+        for (var key in placeShows) {
           shows.push(<BasicShowItem key={key} 
-            thisShow={allShows[key]} 
+            thisShow={placeShows[key]} 
             allShows={this.props.allShows}
             belongsToPlace={this.props.belongsToPlace}/>);
         }

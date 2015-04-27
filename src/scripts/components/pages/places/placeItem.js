@@ -13,7 +13,7 @@ componentWillMount : function( )
 },
     render: function()
     {
-        console.log( 'placeprops', this.props );
+        console.log( 'thisplacceprops', this.props.thisPlace.name, this.props.thisPlace );
         if( ! this.props.thisPlace.name )
         {
             console.log( 'NO NAME' );

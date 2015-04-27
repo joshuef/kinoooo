@@ -3,11 +3,48 @@
 
 
 var Show = require( "../models/show.model");
+var Place = require( "../models/place.model");
 var _ = require( 'lodash' );
 var Joi  = require('joi');
 
 var showRoot = '/api/shows';
 
+
+/**
+ * Adds Shows to the shows array of a place, via mongoose update.
+ * @param  {object } place   place object / schema
+ * @param  {object} newShowId The show ID being referenced
+ */
+var updatePlaceWithShow = function( place, newShowId ){ 
+
+
+    // place.shows = [ newShowId ];
+
+    console.log( 'UPDATING PLACE', place );
+
+    Place.update( place.placeId, { $pushAll:{ shows: [ newShowId ] } },{upsert:true}, function( err, place )
+    {
+        console.log( 'UPDATE DONE?', err, place );
+
+        if( err )
+        {
+            // console.log( err );
+            reply( 
+            { 
+                error: true,
+                text: "Place Didnae update as well"
+            
+            } );
+        }
+
+        else
+        {
+            console.log( 'PLACE UPDATED AS WELLLLLLL' );
+        }
+
+
+    } );
+};
 
 // // module.exports = null;
 module.exports = [
@@ -94,6 +131,17 @@ module.exports = [
                       return console.log(err);
                   }
             });
+
+
+
+            if( newShow.places )
+            {
+                console.log( 'GOT NEWSHOWPLACES' );
+                _.each( newShow.places, function( place )
+                {
+                    updatePlaceWithShow( place, newShow._id );
+                } );
+            }
         
             // TODO: return to list page, if saved
             // reply.redirect('/shows/', 301);
@@ -110,8 +158,13 @@ module.exports = [
         {
             if( request.method = 'POST' )
             {
-                Show.update( request.params.id, _.omit( request.payload, '_id' ), function( err, show, y )
+                Show.update( request.params.id, _.omit( request.payload, '_id' ), function( err, show )
                 {
+
+                    console.log( 'SHOW UPDATED THANKS' );
+
+
+
                     if( err )
                     {
                         reply( { error: 'Didnae update' });
@@ -119,6 +172,17 @@ module.exports = [
 
                     else
                     {
+                        //update the place now, aye
+                        if( request.payload.places )
+                        {
+                            //should be a promise for the waiting here
+                            console.log( 'GOT NEWSHOWPLACES', request.params );
+                            _.each( request.payload.places, function( place )
+                            {
+                                updatePlaceWithShow( place, request.params );
+                            } );
+                        }
+
                         reply( request.payload );
                     }
                 } );

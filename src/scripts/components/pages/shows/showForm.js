@@ -20,7 +20,6 @@ var ShowForm = React.createClass({
     mixins: [React.addons.LinkedStateMixin],
 
     render: function() {
-        console.log( 'showform props', this.props );
         var places = [{
             payload : 0,
             text: 'No Places SORRY!'
@@ -90,7 +89,6 @@ var ShowForm = React.createClass({
     },
     componentDidMount : function( )
     {
-        console.log( 'param show  MOUNTEDDD', this.props );
 
         if( this.props.thisShow )
         {
@@ -99,7 +97,6 @@ var ShowForm = React.createClass({
     },
     componentWillReceiveProps : function( newProps )
     {
-        console.log( 'param show receiving', newProps );
         if( newProps.thisShow )
         {
             this.setupForEditing( newProps.thisShow );
@@ -120,7 +117,7 @@ var ShowForm = React.createClass({
         var selectedPlace = placeDropdown.props.menuItems[ placeDropdown.state.selectedIndex ];
 
         console.log( 'add show place in the form', selectedPlace );
-        places.push ( { placeId: selectedPlace._id } );
+        places.push ( selectedPlace._id );
 
         places = _.uniq( places, false, function( place ){ return place.place_Id } );
 
