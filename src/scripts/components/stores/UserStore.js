@@ -41,6 +41,11 @@ var UserStore = _.extend({}, EventEmitter.prototype, {
     return _.clone(_user);
   },
 
+  userHasLocation: function() {
+    if( _user.location && _user.location.coords )
+    return true;
+  },
+
   getUserId: function() {
     return _user._id || false;
   },
@@ -67,6 +72,11 @@ UserStore.dispatchToken = AppDispatcher.register(function(payload) {
 
     case ActionTypes.ADDED_USER:
       _.extend(_users, action.user);
+      UserStore.emitChange();
+      break;
+
+    case ActionTypes.GOT_USER_LOCATION:
+      _.extend( _user, action.user );
       UserStore.emitChange();
       break;
 

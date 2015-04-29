@@ -27,6 +27,9 @@ var ShowsStore = require('./stores/ShowsStore');
 // Notifications
 var mui             = require('material-ui');
 var Snackbar = mui.Snackbar;
+var Toolbar = mui.Toolbar;
+var ToolbarGroup = mui.ToolbarGroup;
+var FlatButton = mui.FlatButton;
 
 
 
@@ -73,9 +76,39 @@ var App = React.createClass({
 		
 		if( !this.state )
 		{
+			this.getGeoLocation(this.addLocationToUser, this.noLocation);
 			PlacesActions.getAllPlaces();
 			ShowsActions.getAllShows();
 		}
+
+	},
+
+	addLocationToUser : function( location )
+	{
+		console.log( 'LOCATION' );
+
+		var user = this.state.user;
+		user.location = location;
+		console.log( 'LOCATION USER?', user );
+		UserActionCreators.addLocation( user );
+	},
+
+	getGeoLocation : function ( success, fail )
+	{
+
+	    if( navigator && navigator.geolocation ) 
+	    {
+	      	navigator.geolocation.getCurrentPosition( success, fail );
+	    } 
+	    else 
+	    {
+    		this.noLocation();
+	    }
+	},
+
+	noLocation : function( )
+	{
+		MessagesActions.addMessage( {text: 'Error getting location', action : 'fuck...' });
 
 	},
 
@@ -115,14 +148,27 @@ var App = React.createClass({
 		return (
 			<div className='main'>
 				<header>
+					<Toolbar >
+						<ToolbarGroup key={0} float="left">
+							<Link to="/">
+								<FlatButton label="Home"/>
+							</Link>
+							<Link to="/users">
+								<FlatButton label="users"/>
+							</Link>
+							<Link to="/places">
+								<FlatButton label="places"/>
+							</Link>
+							<Link to="/shows">
+								<FlatButton label="shows"/>
+							</Link>
+
+						</ToolbarGroup>
+						<ToolbarGroup key={1} float="right">
+							<LoginForm user={this.state.user}/>
+						</ToolbarGroup>
+					</Toolbar>
 					<h1>Welcome</h1>
-					<ul>
-						<li><Link to="/">Home</Link></li>
-						<li><Link to="/users">Users</Link></li>
-						<li><Link to="/places">Places</Link></li>
-						<li><Link to="/shows">Shows</Link></li>
-					</ul>
-					<LoginForm user={this.state.user}/>
 					<Snackbar
 					ref="Snackbar"
 					message={this.state.message.text}

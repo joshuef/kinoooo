@@ -7,6 +7,7 @@ module.exports = {
     // GOT_LOCATION: null,
     INIT_USER: null,
     CREATED_USER: null,
+    GOT_USER_LOCATION: null,
     CREATED_PLACE: null,
     UPDATED_PLACE: null,
     PLACES: null,

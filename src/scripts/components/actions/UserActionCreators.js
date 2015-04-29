@@ -25,6 +25,13 @@ module.exports = {
   {
     userAPIHelpers.addUser( user );
   },
+  addLocation : function ( user )
+  {
+     AppDispatcher.handleServerAction({
+      type: ActionTypes.GOT_USER_LOCATION,
+      user : user
+    });
+  },
   getAllUsers : function (  )
   {
     userAPIHelpers.getAllUsers(  );
