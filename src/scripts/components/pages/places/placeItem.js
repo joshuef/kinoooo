@@ -55,10 +55,6 @@ componentWillMount : function( )
             </li> 
             );
         
-
-
-        return null;
-
     },
 
 

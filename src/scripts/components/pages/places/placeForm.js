@@ -138,7 +138,7 @@ var PlaceForm = React.createClass({
     },
     submitForm : function ( e )
     {
-
+        console.log( 'placesubmit', this.state );
         e.preventDefault();
 
         if( this.state.editing )

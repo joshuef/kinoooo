@@ -21,8 +21,8 @@ var placeSchema = new Schema({
         international_phone_number: { type: String },
         geometry: {
             location: {
-                k: Number,
-                B: Number
+                A: { type: Number },
+                F: {type: Number }
             }
         },
 	  	rating: { type: Number},
@@ -39,7 +39,14 @@ placeSchema.virtual('text').get(function() {
 	return this.venue.name;
 });
 placeSchema.virtual('name').get(function() {
-	return this.venue.name;
+  return this.venue.name;
+});
+
+placeSchema.virtual('latitude').get(function() {
+    return this.venue.geometry.location.A;
+});
+placeSchema.virtual('longitude').get(function() {
+	return this.venue.geometry.location.F;
 });
 
 placeSchema.plugin(uniqueValidator);

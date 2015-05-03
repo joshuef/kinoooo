@@ -36,6 +36,7 @@
   "devDependencies": {
     "css-loader": "~0.9.0",
     "flux": "~2.0.1",
+    "geolib": "^2.0.14",
     "google-maps": "^2.1.1",
     "grunt": "~0.4.5",
     "grunt-contrib-clean": "~0.6.0",

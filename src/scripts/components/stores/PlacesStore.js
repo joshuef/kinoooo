@@ -5,6 +5,7 @@ var AppDispatcher = require('../dispatcher/AppDispatcher');
 var ActionTypes = require('../constants/Constants').ActionTypes;
 var EventEmitter = require('events').EventEmitter;
 var _ = require('lodash');
+var Geolib = require( 'geolib' );
 
 var CHANGE_EVENT = 'change';
 
@@ -26,9 +27,43 @@ var PlacesStore = _.extend({}, EventEmitter.prototype, {
 
    getAllPlaces: function() {
   
-       	console.log( 'getting all places from store', _places );
-       	return _.clone(_places);
+        console.log( 'getting all places from store', _places );
+        return _.clone(_places);
    },
+
+   getPlacesByProximity: function( location ) {
+
+        // coords object
+// Geolib.orderByDistance({latitude: 51.515, longitude: 7.453619}, {
+        var sortedByProximity = Geolib.orderByDistance( location, _places);
+        
+        _.each( sortedByProximity, function( sortInfo )
+        {
+            _places[ sortInfo.key ].distance = sortInfo.distance;
+
+        });
+  
+        // debugger;
+       	console.log( 'SORTING all places from store', _places.sort(this.sort_by('distance', false, parseInt) ) );    
+
+        // homes.sort(sort_by('price', true, parseInt));
+
+       	return _.clone( _places ).sort(this.sort_by('distance', false, parseInt));
+   },
+
+
+   sort_by : function(field, reverse, primer){
+    console.log( 'SORTING' );
+       var key = primer ? 
+           function(x) {return primer(x[field])} : 
+           function(x) {return x[field]};
+
+       reverse = !reverse ? 1 : -1;
+
+       return function (a, b) {
+           return a = key(a), b = key(b), reverse * ((a > b) - (b > a));
+         } 
+    },
 
 
    getPlaceByNameOrId: function( placeIdOrName ) 

@@ -43,7 +43,10 @@ var UserStore = _.extend({}, EventEmitter.prototype, {
 
   userHasLocation: function() {
     if( _user.location && _user.location.coords )
-    return true;
+    {
+      return true;
+      
+    }
   },
 
   getUserId: function() {

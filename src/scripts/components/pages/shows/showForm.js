@@ -119,7 +119,10 @@ var ShowForm = React.createClass({
         console.log( 'add show place in the form', selectedPlace );
         places.push ( selectedPlace._id );
 
-        places = _.uniq( places, false, function( place ){ return place.place_Id } );
+        places = _.uniq( places, false, function( place )
+            { 
+                return place.place_Id; 
+            } );
 
         this.setState( { places: places });
         // console.log( 'add show || after add place, the array::  ', this.state );
