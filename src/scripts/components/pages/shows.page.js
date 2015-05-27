@@ -3,7 +3,7 @@ var React = require('react/addons');
 var mui = require('material-ui');
 var RaisedButton = mui.RaisedButton;
 var MessagesActions = require('../actions/MessagesActionCreators');
-var Moment = require( "moment" );
+var moment = require( "moment" );
 
 var ShowsActions = require('../actions/ShowsActionCreators');
 var ShowsStore = require('../stores/ShowsStore');
@@ -29,11 +29,28 @@ var Shows = React.createClass({
     },
     filter: function( e )
     {
+        console.log( 'FILTERRRR' );
         e.preventDefault();
 
-        var todaysShowsStillToCome = ShowsStore.filterShowsByTime( Moment() );
+        var todaysShowsStillToCome = ShowsStore.filterShowsByTime( moment() );
 
-        console.log( 'FILTERRRR' );
+        this.setState(
+        {
+            filteredShows: todaysShowsStillToCome
+        })
+
+    },
+    clearFilters: function( e )
+    {
+        console.log( 'CLEARRRFILTERRRR' );
+        e.preventDefault();
+
+        this.setState(
+        {
+            filteredShows: this.props.allShows
+        })
+        // var todaysShowsStillToCome = ShowsStore.filterShowsByTime( moment() );
+
     },
     render: function() {
         console.log( 'SHOWPAGE', this.props );
@@ -83,6 +100,7 @@ var Shows = React.createClass({
                     <h1>  Shows on TODAY ONLY (right now filtered by date or so) </h1>
                     <ShowForm allPlaces={this.props.places} thisShow={null} user={this.props.user}/>
                     <RaisedButton label="FilterByDate" onClick={this.filter}/>
+                    <RaisedButton label="Clear Filters" onClick={this.clearFilters}/>
                     <ShowList allPlaces={this.props.places} filteredShows={this.state.filteredShows} allShows={this.props.shows}  user={this.props.user}/>
               </div>
             );

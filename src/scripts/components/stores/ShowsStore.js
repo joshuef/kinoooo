@@ -5,7 +5,7 @@ var AppDispatcher = require('../dispatcher/AppDispatcher');
 var ActionTypes = require('../constants/Constants').ActionTypes;
 var EventEmitter = require('events').EventEmitter;
 var _ = require('lodash');
-
+var moment = require( "moment" );
 var CHANGE_EVENT = 'change';
 
 var _shows = [];
@@ -46,7 +46,28 @@ var ShowsStore = _.extend({}, EventEmitter.prototype, {
 
    filterShowsByTime: function( time )
    {
-        console.log( 'THE TIME OF FILTERING IS', time );
+        console.log( 'THE TIME OF FILTERING IS', _shows );
+
+        var filteredShows = _.filter( _shows, function( show, i)
+            {
+                // console.log( 'filter show', show.name );
+
+                //we only care about hours here SORT IT
+                var showMoment = moment( show.startTime );
+                var showHour = showMoment.hour();
+                console.log( 'showHour', showHour );
+                // console.log( 'filter', showMoment );
+
+                var nowHour = time.hour();
+                console.log( 'NOW HOUR', nowHour );
+                // console.log( 'VALID TIME?', showMoment );
+                var isItStillToCome = showHour >= nowHour;
+                console.log( 'filter IS IT?', isItStillToCome );
+                // return moment( show.startTime ).isAfter( time, 'hour' );
+                return isItStillToCome;
+            });
+
+        return filteredShows;
 
    },
 

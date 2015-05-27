@@ -22,7 +22,11 @@ var showSchema = new Schema({
     autoIndex: false,
     id: false
 });
+// showSchema.virtual('showTime').get(function() {
 
+//   console.log( 'STARRTRTTT', this.startTime );
+//   return this.startTime;
+// });
 
 
 module.exports = mongoose.model('Show', showSchema);
