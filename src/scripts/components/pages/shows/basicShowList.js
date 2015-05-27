@@ -20,7 +20,7 @@ var ShowList = React.createClass({
         }
 
         return (
-            <ul id="show-list">{shows}</ul>
+            <ul className="show-list">{shows}</ul>
         );
     }
 

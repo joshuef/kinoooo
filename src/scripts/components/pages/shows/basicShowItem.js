@@ -28,12 +28,11 @@ var ShowItem = React.createClass({
         }
         else
         {
-                console.log( 'NO ID' );
-                return null;
+            console.log( 'NO ID' );
+            return null;
         }
             
-
-        if( ! show.name )
+        if( _.isUndefined( show ) || _.isUndefined( show.name ) )
         {
             console.log( 'STILL NO SHOW NAME' );
             return null;

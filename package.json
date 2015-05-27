@@ -57,7 +57,7 @@
     "karma-script-launcher": "~0.1.0",
     "karma-webpack": "~1.2.2",
     "load-grunt-tasks": "~0.6.0",
-    "material-ui": "^0.7.2",
+    "material-ui": "^0.8",
     "mongoose-unique-validator": "^0.4.1",
     "react": "^0.13.1",
     "react-geosuggest": "^1.0.2",

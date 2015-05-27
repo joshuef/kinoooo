@@ -3,22 +3,12 @@ var React = require('react/addons');
 
 var UserActionCreators = require('../actions/UserActionCreators');
 var UserStore = require('../stores/UserStore');
-// var UserServer = require('../helpers/UserActionCreators')
-// var UserActionCreators = require('../helpers/UserActionCreators')
-// var Route = Router.Route;
-// var Link = Router.Link;
+
 var mui = require('material-ui');
 var RaisedButton = mui.RaisedButton;
 var TextField = mui.TextField;
 var FlatButton = mui.FlatButton;
 
-// require("!style!css!sass!./fi le.scss");
-
-
-// CSS
-// require('material/scaffolding.less');
-require('styles/material.less');
-// require('styles/main.css');
 var page = document.getElementById( 'js-page' );
 
 var LoginForm = React.createClass({

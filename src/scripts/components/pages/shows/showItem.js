@@ -27,28 +27,7 @@ componentWillMount : function( )
         var showLink = "/shows/" + show.name + '/' + show._id;
 
 
-        // if( ! show.name )
-        // {
-        //     //ie. passed from a show
-            
-        //     if( show.showId )
-        //     {
-
-        //         var showId = this.props.show.showId;
-        //         var showsStore = this.props.shows;
-
-        //         show = _.findWhere( showsStore, { _id: showId });
-
-        //     }
-        //     else
-        //     {
-        //             console.log( 'NO ID' );
-        //             return null;
-        //     }
-            
-        // }
-
-        console.log( 'showprops name', show.name );
+            console.log( 'showprops name', show.name );
         return(
             <li>
                 <h3><Link to={showLink}>{ show.name }</Link></h3>

@@ -37,14 +37,14 @@ var BasicPlaceItem = React.createClass({
         }
         else
         {
-                console.log( 'NO ID' );
-                return null;
+            console.log( 'NO ID' );
+            return null;
         }
             
-
-        if( ! place.name )
+        if( _.isUndefined( place ) || _.isUndefined( place.name ))
         {
-            console.log( 'NO PLACE FOUND', place );
+            console.log( 'NO PLACE FOUND' );
+            return null;
         }
 
 
@@ -61,7 +61,6 @@ var BasicPlaceItem = React.createClass({
 
         }
         else
-
         {
             return(
                 <li>

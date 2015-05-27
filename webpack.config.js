@@ -31,7 +31,6 @@ module.exports = {
     extensions: ['', '.js'],
     alias: {
       'styles':  __dirname + '/src/styles',
-      // 'material':  __dirname + '/node_modules/material-ui/src/less',
       'components': __dirname + '/src/scripts/components/'
     }
   },

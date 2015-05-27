@@ -11,6 +11,7 @@ var showSchema = new Schema({
   director: { type: String, required: false },
   details: { type: String, required: false },
   creationDate: { type: Date, default: Date.now },
+  startTime: { type: Date },
   creator: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   // comments: [{ body: String, date: Date }],
   // place: { type: String, required: true },

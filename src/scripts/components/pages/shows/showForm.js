@@ -6,6 +6,9 @@ var RaisedButton = mui.RaisedButton;
 var TextField = mui.TextField;
 var DropDownMenu = mui.DropDownMenu;
 var DatePicker = mui.DatePicker;
+var TimePicker = mui.TimePicker;
+
+console.log( 'TimePicker', TimePicker );
 
 var _ = require('lodash');
 
@@ -61,6 +64,10 @@ var ShowForm = React.createClass({
                 menuItems={places}
                 ref="placeDropdown" /> 
                 <RaisedButton label="Add place" onClick={this.addPlace}/>
+                <TimePicker
+                format="24hr"
+                hintText="24hr Format"
+                onChange={this.timeChanged} /> 
                 <DatePicker
                 hintText="thesp"
                 floatingLabelText="startDate" 
@@ -148,6 +155,11 @@ var ShowForm = React.createClass({
     dateChanged : function ( e, selectedIndex, menuItem )
     {
         console.log( 'DATE CHANGED',  e, selectedIndex, menuItem );
+    },
+
+    timeChanged : function ( e, selectedIndex, menuItem )
+    {
+        console.log( 'TIME CHANGED',  e, selectedIndex, menuItem );
     },
 
     setupForEditing : function( newShow )

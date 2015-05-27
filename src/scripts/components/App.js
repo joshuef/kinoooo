@@ -26,6 +26,8 @@ var ShowsStore = require('./stores/ShowsStore');
 
 // Notifications
 var mui             = require('material-ui');
+var ThemeManager = require('material-ui/lib/styles/theme-manager')();
+
 var Snackbar = mui.Snackbar;
 var Toolbar = mui.Toolbar;
 var ToolbarGroup = mui.ToolbarGroup;
@@ -45,9 +47,6 @@ var getAppState = function () {
 };
 
 
-// CSS
-// require('styles/normalize.css');
-// require('styles/main.css');
 
 var imageURL = require('../../images/yeoman.png');
 
@@ -63,6 +62,15 @@ var App = React.createClass({
 		//
 		//assuming they are empty:
 	},
+	childContextTypes: {
+        muiTheme: React.PropTypes.object
+    },
+
+    getChildContext: function() {
+        return {
+            muiTheme: ThemeManager.getCurrentTheme()
+        };
+    },
 
 	/**
 	 * Fills local stores in general for app.
