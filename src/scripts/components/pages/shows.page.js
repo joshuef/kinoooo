@@ -3,7 +3,7 @@ var React = require('react/addons');
 var mui = require('material-ui');
 var RaisedButton = mui.RaisedButton;
 var MessagesActions = require('../actions/MessagesActionCreators');
-
+var Moment = require( "moment" );
 
 var ShowsActions = require('../actions/ShowsActionCreators');
 var ShowsStore = require('../stores/ShowsStore');
@@ -16,6 +16,25 @@ var Shows = React.createClass({
  contextTypes: {
     router: React.PropTypes.func
   },
+    componentWillMount :function () 
+    {
+        if( !this.props.filteredShows )
+        {
+            console.log( 'NO FILTERED SHOWS',this.props.allShows );
+            this.setState( { 
+                filteredShows: this.props.allShows
+            })
+
+        }
+    },
+    filter: function( e )
+    {
+        e.preventDefault();
+
+        var todaysShowsStillToCome = ShowsStore.filterShowsByTime( Moment() );
+
+        console.log( 'FILTERRRR' );
+    },
     render: function() {
         console.log( 'SHOWPAGE', this.props );
         //not all are needed here
@@ -47,7 +66,7 @@ var Shows = React.createClass({
                 );
 
             }
-            else if ( params.showName ) 
+            else if ( ! _.isUndefined( currentShow ) && currentShow.showName ) 
             {
                return (
                   <div className='main'>
@@ -61,18 +80,14 @@ var Shows = React.createClass({
         {
             return (
               <div className='main'>
-                    <h1>  Shows  </h1>
+                    <h1>  Shows on TODAY ONLY (right now filtered by date or so) </h1>
                     <ShowForm allPlaces={this.props.places} thisShow={null} user={this.props.user}/>
-                    <ShowList allPlaces={this.props.places} allShows={this.props.shows}  user={this.props.user}/>
+                    <RaisedButton label="FilterByDate" onClick={this.filter}/>
+                    <ShowList allPlaces={this.props.places} filteredShows={this.state.filteredShows} allShows={this.props.shows}  user={this.props.user}/>
               </div>
             );
         }
 
-    },
-
-    getInitialState: function ( )
-    {
-        return null;
     }
 
 

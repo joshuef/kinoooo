@@ -8,8 +8,6 @@ var DropDownMenu = mui.DropDownMenu;
 var DatePicker = mui.DatePicker;
 var TimePicker = mui.TimePicker;
 
-console.log( 'TimePicker', TimePicker );
-
 var _ = require('lodash');
 
 var MessagesActions = require('../../actions/MessagesActionCreators');
@@ -20,7 +18,11 @@ var BasicPlaceList = require( "../places/basicPlaceList" );
 
 var ShowForm = React.createClass({
     mixins: [React.addons.LinkedStateMixin],
-
+    guy: function( e)
+    {
+        e.preventDefault();
+        return null;
+    },
     render: function() {
         var places = [{
             payload : 0,
@@ -65,21 +67,22 @@ var ShowForm = React.createClass({
                 ref="placeDropdown" /> 
                 <RaisedButton label="Add place" onClick={this.addPlace}/>
                 <TimePicker
-                format="24hr"
-                hintText="24hr Format"
-                onChange={this.timeChanged} /> 
+                format="ampm"
+                ref="startTime"
+                hintText="Starts when?" 
+                onChange={this.guy}/> 
                 <DatePicker
                 hintText="thesp"
                 floatingLabelText="startDate" 
-                onChange={this.dateChanged} /> 
+                ref="startDate"/> 
                 <DatePicker
                 hintText="12356909088098"
                 floatingLabelText="endDate"
-                onChange={this.dateChanged} />
-                <h3>Current Shows</h3>
+                ref="endDate" />
                 <BasicPlaceList showPlaces={this.state.places} 
                 allPlaces={this.props.allPlaces} belongsToShow={true}  
                 onClick={this.removePlace} inForm={true}/>
+                <h3>Current Shows</h3>
                 <RaisedButton label={submitButtonText} onClick={this.submitForm}/>
             </form>
         );
@@ -138,7 +141,6 @@ var ShowForm = React.createClass({
         var places = this.state.places;
 
         var placeDropdown = this.refs.placeDropdown;
-
         var selectedPlace = placeDropdown.props.menuItems[ placeDropdown.state.selectedIndex ];
 
         console.log( 'add show place in the form', selectedPlace );
@@ -150,18 +152,7 @@ var ShowForm = React.createClass({
             } );
 
         this.setState( { places: places });
-        // console.log( 'add show || after add place, the array::  ', this.state );
     },
-    dateChanged : function ( e, selectedIndex, menuItem )
-    {
-        console.log( 'DATE CHANGED',  e, selectedIndex, menuItem );
-    },
-
-    timeChanged : function ( e, selectedIndex, menuItem )
-    {
-        console.log( 'TIME CHANGED',  e, selectedIndex, menuItem );
-    },
-
     setupForEditing : function( newShow )
     {
         console.log( 'param show EDITING', newShow );
@@ -174,6 +165,17 @@ var ShowForm = React.createClass({
         e.preventDefault();
 
         console.log( 'ADD SHOW', this.state );
+
+        var startTime = this.refs.startTime.getTime();
+        var startDate = this.refs.startDate.getDate();
+        var endDate = this.refs.endDate.getDate();
+
+        this.setState( { 
+            startTime: startTime,
+            startDate: startDate,
+            endDate: endDate
+        });
+
 
         if( this.state.editing )
         {

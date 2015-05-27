@@ -24,23 +24,30 @@ var ShowsStore = _.extend({}, EventEmitter.prototype, {
    },
 
 
-   getAllShows: function() {
-   	console.log( 'getting all shows in store', _shows );
-   	return _.clone(_shows);
+   getAllShows: function() 
+   {
+   	    console.log( 'getting all shows in store', _shows );
+   	    return _.clone(_shows);
    }, 
 
    getShowByNameOrId: function( showIdOrName ) 
    {
-   	console.log( 'getting a specific show,', showIdOrName, _shows );
-   	var show = _.findWhere(_shows, { _id: showIdOrName });
+       	console.log( 'getting a specific show,', showIdOrName, _shows );
+       	var show = _.findWhere(_shows, { _id: showIdOrName });
 
-   	if( ! show )
-   	{
-   		show = _.findWhere(_shows, { name: showIdOrName });
+       	if( ! show )
+       	{
+       		show = _.findWhere(_shows, { name: showIdOrName });
 
-   	}
+       	}
 
-   	return show;
+       	return show;
+   },
+
+   filterShowsByTime: function( time )
+   {
+        console.log( 'THE TIME OF FILTERING IS', time );
+
    },
 
 

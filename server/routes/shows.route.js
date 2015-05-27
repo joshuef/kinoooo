@@ -28,13 +28,14 @@ var updatePlaceWithShow = function( place, newShowId ){
 
         if( err )
         {
+            console.log( 'ERROR SAVING PLACE TO SHOW' );
             // console.log( err );
-            reply( 
-            { 
-                error: true,
-                text: "Place Didnae update as well"
+            // reply( 
+            // { 
+            //     error: true,
+            //     text: "Place Didnae update as well"
             
-            } );
+            // } );
         }
 
         else
@@ -111,6 +112,7 @@ module.exports = [
                 places: payload.places,
                 image: payload.image,
                 description: payload.description,
+                startTime: payload.startTime,
                 startDate: payload.startDate,
                 endDate: payload.endDate,
                 creator: request.auth.credentials._id
@@ -181,6 +183,12 @@ module.exports = [
                             {
                                 updatePlaceWithShow( place, request.params );
                             } );
+                        }
+                        else
+                        {
+                            //we need to remove the records from the place tooo
+                            //
+                            //DOHHHHHHH
                         }
 
                         reply( request.payload );
