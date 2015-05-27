@@ -85,11 +85,13 @@ var App = React.createClass({
 
 	addLocationToUser : function( location )
 	{
-		console.log( 'LOCATION' );
 
 		var user = this.state.user;
-		user.location = location;
-		console.log( 'LOCATION USER?', user );
+		//dont clone the coords or location object as they
+		//are special and hasOwnProperty doesnt work
+		user.location = {};
+		user.location.latitude =  location.coords.latitude;
+		user.location.longitude =  location.coords.longitude;
 		UserActionCreators.addLocation( user );
 	},
 

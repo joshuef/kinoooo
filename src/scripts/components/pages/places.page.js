@@ -4,6 +4,7 @@ var React = require('react/addons');
 var PlaceForm = require( "./places/placeForm" );
 var PlaceList = require( "./places/placeList" );
 var PlacesStore = require('../stores/PlacesStore');
+var _ = require('lodash');
 
 var mui = require('material-ui');
 var DropDownMenu = mui.DropDownMenu;
@@ -109,15 +110,14 @@ var Places = React.createClass({
     },
     sortTheList : function( e, selectedIndex, menuItem )
     {
-        console.log( 'SORTING PLACES', selectedIndex, menuItem );
-        var userLocation = this.props.user.location;
-        if( userLocation )
-        {
-            userLocation = this.props.user.location.coords;
-
-        }
-
         
+        var userLocation =  this.props.user.location;
+
+        if( !userLocation )
+        {
+            return;
+        }
+   
         if( menuItem.payload === 'location' && userLocation )
         {
             var sortedPlaces = PlacesStore.getPlacesByProximity( userLocation );
@@ -125,7 +125,6 @@ var Places = React.createClass({
             this.setState( { places: sortedPlaces } )
         }
 
-        // console.log( 'SORTED?', this.state );
     },
     getInitialState: function ( )
     {
