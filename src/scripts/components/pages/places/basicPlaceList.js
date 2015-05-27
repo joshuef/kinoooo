@@ -5,7 +5,18 @@ var BasicPlaceItem = require( "./basicPlaceItem" );
 
 
 var PlaceList = React.createClass({
+    onClick : function( e, place )
+    {
+        console.log( 'LIST CLICK', e, this.props );
+        if( ! this.props.inForm )
+        {
+            return;
+        }
+      
+      //we're in a form so run it up
+      this.props.onClick( e, place );
 
+    },
     render: function() {
         console.log( 'BASIC PLACE LIST PROPS', this.props );
 
@@ -19,10 +30,12 @@ var PlaceList = React.createClass({
           places.push(<BasicPlaceItem key={key} 
             thisPlace={showPlaces[key]} 
             allPlaces={this.props.allPlaces} 
-            belongsToShow={this.props.belongsToShow}/>);
+            belongsToShow={this.props.belongsToShow}
+            onClick={ this.onClick }
+            inForm={ this.props.inForm } />);
         }
         return (
-            <ul class="place-list">{places}</ul>
+            <ul className="place-list">{places}</ul>
         );
 
     

@@ -10,10 +10,9 @@ var DatePicker = mui.DatePicker;
 var _ = require('lodash');
 
 var MessagesActions = require('../../actions/MessagesActionCreators');
-
-
 var ShowsActions = require('../../actions/ShowsActionCreators');
 
+var BasicPlaceList = require( "../places/basicPlaceList" );
 
 
 var ShowForm = React.createClass({
@@ -31,7 +30,6 @@ var ShowForm = React.createClass({
 
         }
 
-
         if( this.props.user && ! this.props.user.isAdmin )
         {
             return null;
@@ -46,7 +44,8 @@ var ShowForm = React.createClass({
             titleText = "";
         }
 
-    
+            console.log( 'BASIC PLACE LIST PROPS IN SHOWFORM', this.state.places );
+
         return (
             <form className='show-form'>
                 <h2>{titleText}</h2>
@@ -69,7 +68,11 @@ var ShowForm = React.createClass({
                 <DatePicker
                 hintText="12356909088098"
                 floatingLabelText="endDate"
-                onChange={this.dateChanged} />  
+                onChange={this.dateChanged} />
+                <h3>Current Shows</h3>
+                <BasicPlaceList showPlaces={this.state.places} 
+                allPlaces={this.props.allPlaces} belongsToShow={true}  
+                onClick={this.removePlace} inForm={true}/>
                 <RaisedButton label={submitButtonText} onClick={this.submitForm}/>
             </form>
         );
@@ -108,10 +111,25 @@ var ShowForm = React.createClass({
         }
 
     },
+    removePlace : function( e, place )
+    {
+        e.preventDefault();
+        var places = this.state.places;
+        var updatedPlaces =  _.remove( places , function( value, i )
+        {
+            console.log( 'INSIDE THE STATETTTT', value, i );
+
+            return value.toString === place;
+        } );
+
+        this.setState( { places: updatedPlaces });
+
+    },
     addPlace : function ( e, selectedIndex, menuItem )
     {
         e.preventDefault();
         var places = this.state.places;
+
         var placeDropdown = this.refs.placeDropdown;
 
         var selectedPlace = placeDropdown.props.menuItems[ placeDropdown.state.selectedIndex ];
