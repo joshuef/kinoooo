@@ -91,6 +91,7 @@ var ShowForm = React.createClass({
         name : '',
         director : '',
         places : [],
+        removePlaces : [],
         startDate : '',
         endDate : '',
         editing: false
@@ -125,18 +126,32 @@ var ShowForm = React.createClass({
         console.log( 'OHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH' );
         e.preventDefault();
     },
+
     removePlace : function( e, place )
     {
-        e.preventDefault();
         var places = this.state.places;
-        var updatedPlaces =  _.remove( places , function( value, i )
-        {
-            console.log( 'INSIDE THE STATETTTT', value, i );
+        e.preventDefault();
 
-            return value.toString === place;
+         _.remove( places , function( value, i )
+        {
+            return value === place;
         } );
 
-        this.setState( { places: updatedPlaces });
+        var removePlaces = this.state.removePlaces;
+        
+        removePlaces.push( place );
+
+        removePlaces = _.uniq( removePlaces, false, function( place_Id )
+            { 
+                console.log( 'removing places in loop', place_Id );
+                return place_Id; 
+            } );
+
+
+        this.setState( { 
+            places: places,
+            removePlaces: removePlaces
+             });
 
     },
     addPlace : function ( e, selectedIndex, menuItem )
@@ -147,13 +162,17 @@ var ShowForm = React.createClass({
         var placeDropdown = this.refs.placeDropdown;
         var selectedPlace = placeDropdown.props.menuItems[ placeDropdown.state.selectedIndex ];
 
-        console.log( 'add show place in the form', selectedPlace );
+        console.log( 'add a show place in the form', selectedPlace );
         places.push ( selectedPlace._id );
 
-        places = _.uniq( places, false, function( place )
+        console.log( 'add a show before unique', places );
+        places = _.uniq( places, false, function( place_Id )
             { 
-                return place.place_Id; 
+                console.log( 'add a show... in the loop', place_Id );
+                return place_Id; 
             } );
+
+        console.log( 'add a show after unique', places );
 
         this.setState( { places: places });
     },

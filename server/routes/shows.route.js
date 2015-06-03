@@ -13,36 +13,37 @@ var showRoot = '/api/shows';
 /**
  * Adds Shows to the shows array of a place, via mongoose update.
  * @param  {object } place   place object / schema
- * @param  {object} newShowId The show ID being referenced
+ * @param  {object} showId The show ID being referenced
+ * @param  {boolean} remove Should we remove this?
  */
-var updatePlaceWithShow = function( place, newShowId ){ 
+var updateAPlacesShows = function( place, showId, remove  ){ 
 
+    console.log( 'UPDATING PLACE', place, showId, 'remove?', remove );
+    
+    var mongooseUpdate;
 
-    // place.shows = [ newShowId ];
+    if( remove )
+    {
+        mongooseUpdate = { $pushAll:{ shows: [ showId ] } }
+    }
+    else
+    {
+        mongooseUpdate = { $pullAll:{ shows: [ showId ] } }
+    }
 
-    console.log( 'UPDATING PLACE', place );
-
-    Place.update( place.placeId, { $pushAll:{ shows: [ newShowId ] } },{upsert:true}, function( err, place )
+    Place.update( place, mongooseUpdate,{upsert:true}, function( err, place )
     {
         console.log( 'UPDATE DONE?', err, place );
 
         if( err )
         {
             console.log( 'ERROR SAVING PLACE TO SHOW' );
-            // console.log( err );
-            // reply( 
-            // { 
-            //     error: true,
-            //     text: "Place Didnae update as well"
-            
-            // } );
         }
 
         else
         {
             console.log( 'PLACE UPDATED AS WELLLLLLL' );
         }
-
 
     } );
 };
@@ -141,7 +142,7 @@ module.exports = [
                 console.log( 'GOT NEWSHOWPLACES' );
                 _.each( newShow.places, function( place )
                 {
-                    updatePlaceWithShow( place, newShow._id );
+                    updateAPlacesShows( place, newShow._id );
                 } );
             }
         
@@ -178,12 +179,25 @@ module.exports = [
                         if( request.payload.places )
                         {
                             //should be a promise for the waiting here
-                            console.log( 'GOT NEWSHOWPLACES', request.params );
+                            console.log( 'GOT NEWSHOWPLACES', request.params.id );
                             _.each( request.payload.places, function( place )
                             {
-                                updatePlaceWithShow( place, request.params );
+                                updateAPlacesShows( place, request.params.id );
                             } );
                         }
+
+                        if( request.payload.removePlaces )
+                        {
+                            //should be a promise for the waiting here
+                            console.log( 'REMOVING PLACES', request.params.id );
+                            _.each( request.payload.removePlaces, function( place )
+                            {
+                                updateAPlacesShows( place, request.params.id, true );
+                            } );
+                        }
+
+
+
                         else
                         {
                             //we need to remove the records from the place tooo
