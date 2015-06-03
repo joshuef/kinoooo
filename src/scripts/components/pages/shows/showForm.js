@@ -62,15 +62,10 @@ var ShowForm = React.createClass({
                 hintText="john"
                 floatingLabelText="director"
                 valueLink={this.linkState('director')} /> 
-                <DropDownMenu
-                menuItems={places}
-                ref="placeDropdown" /> 
-                <RaisedButton label="Add place" onClick={this.addPlace}/>
                 <TimePicker
                 format="ampm"
                 ref="startTime"
-                hintText="Starts when?" 
-                onChange={this.guy}/> 
+                hintText="Starts when?" /> 
                 <DatePicker
                 hintText="thesp"
                 floatingLabelText="startDate" 
@@ -79,10 +74,14 @@ var ShowForm = React.createClass({
                 hintText="12356909088098"
                 floatingLabelText="endDate"
                 ref="endDate" />
+                <DropDownMenu
+                menuItems={places}
+                ref="placeDropdown" /> 
+                <RaisedButton label="Add place" onClick={this.addPlace}/>
+                <h3>Current Places</h3>
                 <BasicPlaceList showPlaces={this.state.places} 
                 allPlaces={this.props.allPlaces} belongsToShow={true}  
                 onClick={this.removePlace} inForm={true}/>
-                <h3>Current Shows</h3>
                 <RaisedButton label={submitButtonText} onClick={this.submitForm}/>
             </form>
         );
@@ -120,6 +119,11 @@ var ShowForm = React.createClass({
 
         }
 
+    },
+    pickerHandler : function ( e )
+    {
+        console.log( 'OHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH' );
+        e.preventDefault();
     },
     removePlace : function( e, place )
     {

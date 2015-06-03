@@ -1,5 +1,3 @@
-console.log( 'ARE WE HERE?' );
-
 /**
  * Config Location
  */
@@ -59,7 +57,7 @@ var goodConfig = {
         args: [__dirname + '/test/awesome_log', { ops: '*' }]
     }, {
         reporter: goodHttp,
-        args: [{ error: '*' }, 'http://prod.logs:3000', {
+        args: [{ error: '*' }, 'http://theatre.wyli.co.uk/api/logs:3000', {
             threshold: 20,
             wreck: {
                 headers: { 'x-api-key' : 12345 }
@@ -72,9 +70,6 @@ var goodConfig = {
  * Creating Server connection with our configuration
  */
 server.connection(config.server);
-
-console.log( 'WHAT' );
-
 
 
 
@@ -95,8 +90,6 @@ server.register(Tv, function (err) {
 
 server.register(require('hapi-auth-cookie'), function (err) 
 {
-console.log( 'HAPI AUTH COOKIE' );
-
     server.auth.strategy('session', 'cookie', {
         password: 'thisissecret!',
         cookie: 'londonplaayyyyy',
