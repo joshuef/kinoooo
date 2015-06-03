@@ -1,5 +1,7 @@
 'use strict';
 var React = require('react/addons');
+var _ = require( "lodash" );
+
 var mui = require('material-ui');
 var RaisedButton = mui.RaisedButton;
 var MessagesActions = require('../actions/MessagesActionCreators');
@@ -23,7 +25,7 @@ var Shows = React.createClass({
             console.log( 'NO FILTERED SHOWS',this.props.allShows );
             this.setState( { 
                 filteredShows: this.props.allShows
-            })
+            });
 
         }
     },
@@ -37,7 +39,7 @@ var Shows = React.createClass({
         this.setState(
         {
             filteredShows: todaysShowsStillToCome
-        })
+        });
 
     },
     clearFilters: function( e )
@@ -48,7 +50,7 @@ var Shows = React.createClass({
         this.setState(
         {
             filteredShows: this.props.allShows
-        })
+        });
         // var todaysShowsStillToCome = ShowsStore.filterShowsByTime( moment() );
 
     },

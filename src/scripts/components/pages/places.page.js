@@ -14,17 +14,7 @@ var Places = React.createClass({
     {
         router: React.PropTypes.func
     },
-    // componentWillMount :function()
-    // {
 
-    //     if( this.props && this.props.places )
-    //     {
-
-    //         this.setState( { places: this.props.places } );
-    //     // console.log( 'PAGE STATE ALL PLACES', this.state );
-    //     }
-
-    // },
     render: function() {
 
 
@@ -122,7 +112,7 @@ var Places = React.createClass({
         {
             var sortedPlaces = PlacesStore.getPlacesByProximity( userLocation );
             console.log( 'SORTED PLACES', sortedPlaces );
-            this.setState( { places: sortedPlaces } )
+            this.setState( { places: sortedPlaces } );
         }
 
     },
@@ -130,10 +120,7 @@ var Places = React.createClass({
     {
         if( this.props && this.props.places )
         {
-            return { places: this.props.places } ;
-
-            // this.setState( { places: this.props.places } );
-        // console.log( 'PAGE STATE ALL PLACES', this.state );
+            return { places: this.props.places };
         }
         else
         {
