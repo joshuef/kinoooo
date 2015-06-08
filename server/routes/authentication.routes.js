@@ -13,7 +13,7 @@ var Joi  = require('joi');
 module.exports = [
 {
     method: ['POST'],
-    path: '/api/login',
+    path: '/login',
     config: {
          auth: {
             mode: 'try',
@@ -82,7 +82,7 @@ module.exports = [
 },
 {
     method: 'GET',
-    path: '/api/me',
+    path: '/me',
     config: {
         auth: { 
             mode: 'try',
@@ -128,7 +128,7 @@ module.exports = [
 },
 {
     method: 'GET',
-    path: '/api/logout',
+    path: '/logout',
     config: {
         // auth: { strategy: 'session'},
         validate: {
@@ -190,17 +190,17 @@ module.exports = [
 // },
 // {
 //     method: 'POST',
-//     path: '/api/auth',
+//     path: '/auth',
 //     config: authController.signIn
 // },
 // {
 //     method: ['PUT', 'POST', 'GET', 'DELETE' ],
-//     path: '/api/signout',
+//     path: '/signout',
 //     config: authController.signOut
 // },
 // {
 //     method: 'POST',
-//     path: '/api/signup',
+//     path: '/signup',
 //     config: authController.createUser
 ];
 

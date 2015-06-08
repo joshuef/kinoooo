@@ -6,7 +6,7 @@ var Place = require( "../models/place.model");
 var _ = require( 'lodash' );
 var Joi  = require('joi');
 
-var placeRoot = '/api/places';
+var placeRoot = '/places';
 
 
 // // module.exports = null;

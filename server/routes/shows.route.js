@@ -7,7 +7,7 @@ var Place = require( "../models/place.model");
 var _ = require( 'lodash' );
 var Joi  = require('joi');
 
-var showRoot = '/api/shows';
+var showRoot = '/shows';
 
 
 /**

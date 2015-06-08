@@ -6,7 +6,7 @@ var User = require( "../models/user.model");
 var _ = require( 'lodash' );
 var Joi  = require('joi');
 
-var userRoot = '/api/users';
+var userRoot = '/users';
 
 
 // // module.exports = null;

@@ -34,7 +34,7 @@ var ToolbarGroup = mui.ToolbarGroup;
 var FlatButton = mui.FlatButton;
 
 require('styles/normalize.css');
-// require('styles/main.css');
+require('styles/main.scss');
 
 var getAppState = function () {
 

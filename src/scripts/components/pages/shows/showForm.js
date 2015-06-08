@@ -15,6 +15,8 @@ var ShowsActions = require('../../actions/ShowsActionCreators');
 
 var BasicPlaceList = require( "../places/basicPlaceList" );
 
+require('styles/admin-form.scss');
+
 
 var ShowForm = React.createClass({
     mixins: [React.addons.LinkedStateMixin],
