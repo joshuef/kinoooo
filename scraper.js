@@ -11,6 +11,7 @@
  var path = require('path');
  var request = require('superagent');
  var cheerio = require('cheerio');
+ var moment = require('moment');
 
 
  var mainLink = "http://www.berlin.de/kino/_bin/trefferliste.php?kino=&datum=&genre=&stadtteil=&freitext=&suche=1&kinoid=hl66u24s0gfe3gmql02e70s63a5d71cg8udkoia94cqvrnb43sr0"
@@ -58,6 +59,22 @@
         {
             _.each( result.find( 'tr' ), function( time )
             {
+                time = $( time );
+
+                moment.locale('de');
+
+                // console.log( 'NOW???', moment() );
+                time = time.children( '.datum' ).text() + time.children( '.uhrzeit' ).text();
+
+                //parse out first few chars cos we dont need em
+                time = time.substring( 4 );
+
+                console.log( 'TIMES', time );
+
+//So, 14.06.15 13:45
+
+                var showing = moment( time, 'DD-MM-YY HH:mm' );
+                console.log( 'SHOWING ', showing.hour() );
                 //then we have td datum and tds for each time; convert to moment
                 //and save
                 // console.log( 'TIME?', time.text() );
@@ -66,7 +83,7 @@
             });
 
 
-            console.log( 'TIMESSSSS', result.find( 'tr' ) );
+            // console.log( 'TIMESSSSS', result.find( 'tr' ) );
         }
 
 
