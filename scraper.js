@@ -45,14 +45,13 @@
 
 
         var currentShow = {
-            places: [],
-            times: []
+            name: '',
+            showingAt : [ ]
         };
         //only our movie will have the reference here, and then the kinos added later
         if( result[0].name === 'h3' )
         {
-            // console.log( 'MOVIIIIEEEE', result.text() );
-            currentShow = { name: result.text(), places : [ currentKino ] } ;
+            currentShow = { name: result.text() } ;
         }
 
         if( result[0].name === 'div' )
@@ -60,21 +59,20 @@
             _.each( result.find( 'tr' ), function( time )
             {
                 time = $( time );
-
                 moment.locale('de');
-
-                // console.log( 'NOW???', moment() );
                 time = time.children( '.datum' ).text() + time.children( '.uhrzeit' ).text();
 
                 //parse out first few chars cos we dont need em
                 time = time.substring( 4 );
 
-                console.log( 'TIMES', time );
+                var showTime = moment( time, 'DD-MM-YY HH:mm' );
 
-//So, 14.06.15 13:45
+                currentShow.showingAt.push( 
+                {
+                    place: currentKino,
+                    time: showTime
+                });
 
-                var showing = moment( time, 'DD-MM-YY HH:mm' );
-                console.log( 'SHOWING ', showing.hour() );
                 //then we have td datum and tds for each time; convert to moment
                 //and save
                 // console.log( 'TIME?', time.text() );
@@ -93,7 +91,37 @@
     // console.log( 'allSHOWS' , allShows );
     // console.log( 'allkinos' , allKinos );
 
+    return {
+        allShows : allShows,
+        allKinos : allKinos
+    }
 };
 
+request.get( mainLink ).on('error', function( err )
+{
+    console.log( 'ERRORS', error );
 
-request.get( mainLink ).end( parser );
+} ).end( function( response )
+{
+    var results = parser( response );
+    console.log( 'ALL OUR RESULTS', results );
+
+    _.each( results.allKinos, function( kino )
+    {
+        console.log( 'adding kino', kino );
+        var place = { name: kino };
+
+        request
+        .post( 'http://127.0.0.1:8011/places/add' )
+        .send( place );
+
+    });
+
+    //now we push all kinos
+
+    // var thisPagesShows = parser( response );
+
+} );
+
+
+

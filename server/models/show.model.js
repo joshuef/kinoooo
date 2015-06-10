@@ -12,6 +12,8 @@ var showSchema = new Schema({
   details: { type: String, required: false },
   creationDate: { type: Date, default: Date.now },
   startTime: { type: Date },
+  showingAt: [ { place: { type: Schema.Types.ObjectId, ref: 'Place' },
+            type: Date } ],
   creator: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   // comments: [{ body: String, date: Date }],
   // place: { type: String, required: true },
