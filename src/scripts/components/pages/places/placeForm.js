@@ -7,6 +7,9 @@ var RaisedButton = mui.RaisedButton;
 var TextField    = mui.TextField;
 var _ = require('lodash');
 
+var BasicShowList = require( "../shows/basicShowList" );
+
+
 var GoogleMapsLoader = require('google-maps');      // only for common js environments
 
 var PlaceForm = React.createClass({
@@ -31,30 +34,47 @@ var PlaceForm = React.createClass({
             titleText = "";
         }
 
-        if( this.props.show )
+        var placeShows = [];
+        if( this.props.thisPlace )
         {
+            placeShows = this.props.thisPlace.shows;
+            
         }
 
         return (
             <form className='place-form'>
                 <h2>{titleText}</h2>
                 <TextField
+                id="js-venue-search"
+                alueLink={this.linkState('venue')} /> 
+                <br/>
+                <TextField
                 hintText="The Globe Theatre"
                 floatingLabelText="place name"
                 valueLink={this.linkState('name')} />  
                 <TextField
+                hintText="link"
+                floatingLabelText="link"
+                valueLink={this.linkState('url')} />  
+                <TextField
                 hintText="About the place"
                 floatingLabelText="place description"
+                multiLine={true}
                 valueLink={this.linkState('description')} />  
                 <TextField
                 hintText="Image link"
                 floatingLabelText="image link"
-                valueLink={this.linkState('image')} />    
-                <TextField
-                id="js-venue-search"
-                alueLink={this.linkState('venue')} /> 
+                valueLink={this.linkState('image')} /> 
 
-                
+                <h3>Current Shows</h3>
+                <BasicShowList 
+                placeShows={ placeShows }
+                allShows={this.props.allShows} 
+                belongsToPlace={true}  
+                inForm={true}/>    
+         
+
+                <br/>
                 <RaisedButton label={submitButtonText} onClick={this.submitForm}/>
 
 
@@ -121,6 +141,7 @@ var PlaceForm = React.createClass({
         }
 
         this.setState( { 'venue': place } );
+        this.setState( { 'url': place.url } );
         this.setState( { 'name': place.name } );
 
     },
@@ -129,6 +150,7 @@ var PlaceForm = React.createClass({
         name: '',
         description: '',
         image: '',
+        url: '',
         venue: {},
         editing: false
     },

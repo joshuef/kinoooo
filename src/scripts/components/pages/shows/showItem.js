@@ -31,7 +31,7 @@ componentWillMount : function( )
         return(
             <li>
                 <h3><Link to={showLink}>{ show.name }</Link></h3>
-                <BasicPlaceList showPlaces={show.places} allPlaces={this.props.allPlaces} belongsToShow={true}/>
+                <BasicPlaceList showPlaceTimes={show.showingAt} allPlaces={this.props.allPlaces} belongsToShow={true}/>
 
             </li> 
         );

@@ -12,7 +12,8 @@ var placeSchema = new Schema({
   	creationDate: { type: Date, default: Date.now },
   	creator: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   	// comments: [{ body: String, date: Date }],
-  	shows: [ { type: Schema.Types.ObjectId, ref: 'Show' }  ],
+    url: { type: String, required: true },
+    shows: [ { type: Schema.Types.ObjectId, ref: 'Show', index: {unique: true, dropDups: true}  }  ],
     venue: {
         place_id: { type: String, required: true, unique : true },
         name: { type: String, required: true },
@@ -41,6 +42,7 @@ placeSchema.virtual('text').get(function() {
 placeSchema.virtual('name').get(function() {
   return this.venue.name;
 });
+
 
 placeSchema.virtual('latitude').get(function() {
     return this.venue.geometry.location.A;

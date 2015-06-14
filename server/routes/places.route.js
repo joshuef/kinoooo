@@ -43,10 +43,10 @@ module.exports = [
     method: 'POST',
     path: placeRoot + '/add',
     config: {
-        // auth : 
-        // {
-        //     strategy: 'session'
-        // },
+        auth : 
+        {
+            strategy: 'session'
+        },
         validate: {
 
             // payload:
@@ -70,6 +70,7 @@ module.exports = [
                 venue: payload.venue,
                 description: payload.description,
                 image: payload.image,
+                url: payload.url,
                 creator: request.auth.credentials._id
             });
 

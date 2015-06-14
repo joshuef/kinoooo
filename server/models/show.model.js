@@ -10,25 +10,25 @@ var showSchema = new Schema({
   name: { type: String, required: false },
   director: { type: String, required: false },
   details: { type: String, required: false },
+  is3d: { type: Boolean, required: false },
+  isOmU: { type: Boolean, required: false },
+  isOV: { type: Boolean, required: false },
+  isOmenlU: { type: Boolean, required: false },
   creationDate: { type: Date, default: Date.now },
-  startTime: { type: Date },
-  showingAt: [ { place: { type: Schema.Types.ObjectId, ref: 'Place' },
-            type: Date } ],
+  showingAt: [ 
+    { 
+      place: { type: Schema.Types.ObjectId, ref: 'Place' },
+      time: { type: Date } ,
+      id: false
+    } ],
   creator: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-  // comments: [{ body: String, date: Date }],
-  // place: { type: String, required: true },
-  places: [ { type: Schema.Types.ObjectId, ref: 'Place' } ],
     rating: { type: Number},
     website: { type: String }
 }, {
     autoIndex: false,
     id: false
 });
-// showSchema.virtual('showTime').get(function() {
 
-//   console.log( 'STARRTRTTT', this.startTime );
-//   return this.startTime;
-// });
 
 
 module.exports = mongoose.model('Show', showSchema);

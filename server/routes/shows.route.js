@@ -19,21 +19,22 @@ var showRoot = '/shows';
 var updateAPlacesShows = function( place, showId, remove  ){ 
 
     console.log( 'UPDATING PLACE', place, showId, 'remove?', remove );
-    
+    place = { _id: place };
     var mongooseUpdate;
 
     if( remove )
     {
-        mongooseUpdate = { $pushAll:{ shows: [ showId ] } }
+        mongooseUpdate = { $pullAll:{ shows: [ showId ] } }
     }
     else
     {
-        mongooseUpdate = { $pullAll:{ shows: [ showId ] } }
+        mongooseUpdate = { $addToSet:{ shows: showId } }
     }
+        console.log( 'UPDATE TO BE DONE?', place, mongooseUpdate );
 
     Place.update( place, mongooseUpdate,{upsert:true}, function( err, place )
     {
-        console.log( 'UPDATE DONE?', err, place );
+        console.log( 'UPDATE DONE?', err, place, mongooseUpdate );
 
         if( err )
         {
@@ -110,10 +111,10 @@ module.exports = [
             var newShow = new Show({
                 name: payload.name,
                 director: payload.director,
-                places: payload.places,
+                // places: payload.places,
                 image: payload.image,
                 description: payload.description,
-                startTime: payload.startTime,
+                showingAt: payload.showingAt,
                 startDate: payload.startDate,
                 endDate: payload.endDate,
                 creator: request.auth.credentials._id
@@ -137,12 +138,12 @@ module.exports = [
 
 
 
-            if( newShow.places )
+            if( newShow.showingAt )
             {
-                console.log( 'GOT NEWSHOWPLACES' );
-                _.each( newShow.places, function( place )
+                console.log( 'GOT NEWSHOWPLACES', newShow );
+                _.each( newShow.showingAt, function( placeTime )
                 {
-                    updateAPlacesShows( place, newShow._id );
+                    updateAPlacesShows( placeTime.place, newShow._id );
                 } );
             }
         
@@ -176,23 +177,23 @@ module.exports = [
                     else
                     {
                         //update the place now, aye
-                        if( request.payload.places )
+                        if( request.payload.showingAt )
                         {
                             //should be a promise for the waiting here
                             console.log( 'GOT NEWSHOWPLACES', request.params.id );
-                            _.each( request.payload.places, function( place )
+                            _.each( request.payload.showingAt, function( placeTime )
                             {
-                                updateAPlacesShows( place, request.params.id );
+                                updateAPlacesShows( placeTime.place, request.params.id );
                             } );
                         }
 
-                        if( request.payload.removePlaces )
+                        if( request.payload.removePlaceTime )
                         {
                             //should be a promise for the waiting here
                             console.log( 'REMOVING PLACES', request.params.id );
-                            _.each( request.payload.removePlaces, function( place )
+                            _.each( request.payload.removePlaceTime, function( placeTime )
                             {
-                                updateAPlacesShows( place, request.params.id, true );
+                                updateAPlacesShows( placeTime.place, request.params.id, true );
                             } );
                         }
 

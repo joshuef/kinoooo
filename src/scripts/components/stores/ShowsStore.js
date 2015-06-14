@@ -78,6 +78,23 @@ var ShowsStore = _.extend({}, EventEmitter.prototype, {
 
 });
 
+var makeTimesMoments = function( shows )
+{
+    _.each( shows, function( show, i )
+    {
+
+        _.each( show.showingAt, function( placeTime, i )
+        {
+            if( ! moment.isMoment( placeTime.time ) )
+            {
+                placeTime.time = moment( placeTime.time, "YYYY-MM-DD HH:mm" );
+
+            }
+        });
+
+    } );
+
+};
 
 ShowsStore.dispatchToken = AppDispatcher.register(function(payload) {
 	var action = payload.action;
@@ -92,6 +109,8 @@ ShowsStore.dispatchToken = AppDispatcher.register(function(payload) {
 
 
 		case ActionTypes.SHOWS:
+
+            makeTimesMoments( action.shows );
 			console.log( 'SHOWS AFTER SERVER RESPONSE?', action.shows );
 			//is here where we check itsunique?
 			_.extend(_shows, action.shows );
