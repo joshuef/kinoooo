@@ -70,6 +70,7 @@ module.exports = [
                 venue: payload.venue,
                 description: payload.description,
                 image: payload.image,
+                url: payload.url,
                 creator: request.auth.credentials._id
             });
 

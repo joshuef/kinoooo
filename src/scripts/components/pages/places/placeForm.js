@@ -43,8 +43,13 @@ var PlaceForm = React.createClass({
                 floatingLabelText="place name"
                 valueLink={this.linkState('name')} />  
                 <TextField
+                hintText="link"
+                floatingLabelText="link"
+                valueLink={this.linkState('url')} />  
+                <TextField
                 hintText="About the place"
                 floatingLabelText="place description"
+                multiLine={true}
                 valueLink={this.linkState('description')} />  
                 <TextField
                 hintText="Image link"
@@ -121,6 +126,7 @@ var PlaceForm = React.createClass({
         }
 
         this.setState( { 'venue': place } );
+        this.setState( { 'url': place.url } );
         this.setState( { 'name': place.name } );
 
     },
@@ -129,6 +135,7 @@ var PlaceForm = React.createClass({
         name: '',
         description: '',
         image: '',
+        url: '',
         venue: {},
         editing: false
     },

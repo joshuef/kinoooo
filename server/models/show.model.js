@@ -12,8 +12,12 @@ var showSchema = new Schema({
   details: { type: String, required: false },
   creationDate: { type: Date, default: Date.now },
   // startTime: { type: Date },
-  showingAt: [ { place: { type: Schema.Types.ObjectId, ref: 'Place' },
-            time: { type: Date } } ],
+  showingAt: [ 
+    { 
+      place: { type: Schema.Types.ObjectId, ref: 'Place' },
+      time: { type: Date } ,
+      id: false
+    } ],
   // places: [ { type: Schema.Types.ObjectId, ref: 'Place' } ],
   creator: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   // comments: [{ body: String, date: Date }],
