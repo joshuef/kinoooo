@@ -10,6 +10,10 @@ var showSchema = new Schema({
   name: { type: String, required: false },
   director: { type: String, required: false },
   details: { type: String, required: false },
+  is3d: { type: Boolean, required: false },
+  isOmU: { type: Boolean, required: false },
+  isOV: { type: Boolean, required: false },
+  isOmenlU: { type: Boolean, required: false },
   creationDate: { type: Date, default: Date.now },
   showingAt: [ 
     { 
