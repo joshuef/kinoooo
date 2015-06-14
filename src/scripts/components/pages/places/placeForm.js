@@ -7,6 +7,9 @@ var RaisedButton = mui.RaisedButton;
 var TextField    = mui.TextField;
 var _ = require('lodash');
 
+var BasicShowList = require( "../shows/basicShowList" );
+
+
 var GoogleMapsLoader = require('google-maps');      // only for common js environments
 
 var PlaceForm = React.createClass({
@@ -31,8 +34,11 @@ var PlaceForm = React.createClass({
             titleText = "";
         }
 
-        if( this.props.show )
+        var placeShows = [];
+        if( this.props.thisPlace )
         {
+            placeShows = this.props.thisPlace.shows;
+            
         }
 
         return (
@@ -58,7 +64,15 @@ var PlaceForm = React.createClass({
                 <TextField
                 hintText="Image link"
                 floatingLabelText="image link"
-                valueLink={this.linkState('image')} />    
+                valueLink={this.linkState('image')} /> 
+
+                <h3>Current Shows</h3>
+                <BasicShowList 
+                placeShows={ placeShows }
+                allShows={this.props.allShows} 
+                belongsToPlace={true}  
+                inForm={true}/>    
+         
 
                 <br/>
                 <RaisedButton label={submitButtonText} onClick={this.submitForm}/>

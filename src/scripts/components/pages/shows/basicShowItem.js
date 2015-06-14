@@ -8,8 +8,10 @@ var Link = Router.Link;
 
 var ShowItem = React.createClass({
 
+    
     render: function()
     {
+        console.log( 'BASICSHOWITEM', this.props );
         if( ! this.props.thisShow )
         {
             console.log( 'NO SHOW' );
