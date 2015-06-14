@@ -1,0 +1,29 @@
+# -*- coding: utf-8 -*-
+
+# Scrapy settings for kino project
+#
+# For simplicity, this file contains only the most important settings by
+# default. All the other settings are documented here:
+#
+#     http://doc.scrapy.org/en/latest/topics/settings.html
+#
+
+BOT_NAME = 'kino'
+
+SPIDER_MODULES = ['kino.spiders']
+NEWSPIDER_MODULE = 'kino.spiders'
+
+ITEM_PIPELINES = {
+    'kino.pipelines.KinoPipeline': 300,
+    'kino.pipelines.MongoDBPipeline': 800,
+}
+
+MONGODB_SERVER = "ds062797.mongolab.com"
+MONGODB_PORT = 62797
+MONGODB_DB = "playplay"
+MONGODB_COLLECTION = "raw_showings"
+MONGODB_USER = ""
+MONGODB_PASS = ""
+
+# Crawl responsibly by identifying yourself (and your website) on the user-agent
+#USER_AGENT = 'kino (+http://www.yourdomain.com)'
