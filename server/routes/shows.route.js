@@ -19,21 +19,22 @@ var showRoot = '/shows';
 var updateAPlacesShows = function( place, showId, remove  ){ 
 
     console.log( 'UPDATING PLACE', place, showId, 'remove?', remove );
-    
+    place = { _id: place };
     var mongooseUpdate;
 
     if( remove )
     {
-        mongooseUpdate = { $pushAll:{ shows: [ showId ] } }
+        mongooseUpdate = { $pullAll:{ shows: [ showId ] } }
     }
     else
     {
-        mongooseUpdate = { $pullAll:{ shows: [ showId ] } }
+        mongooseUpdate = { $addToSet:{ shows: showId } }
     }
+        console.log( 'UPDATE TO BE DONE?', place, mongooseUpdate );
 
     Place.update( place, mongooseUpdate,{upsert:true}, function( err, place )
     {
-        console.log( 'UPDATE DONE?', err, place );
+        console.log( 'UPDATE DONE?', err, place, mongooseUpdate );
 
         if( err )
         {
@@ -139,7 +140,7 @@ module.exports = [
 
             if( newShow.showingAt )
             {
-                console.log( 'GOT NEWSHOWPLACES' );
+                console.log( 'GOT NEWSHOWPLACES', newShow );
                 _.each( newShow.showingAt, function( placeTime )
                 {
                     updateAPlacesShows( placeTime.place, newShow._id );

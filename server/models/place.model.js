@@ -13,7 +13,7 @@ var placeSchema = new Schema({
   	creator: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   	// comments: [{ body: String, date: Date }],
     url: { type: String, required: true },
-    shows: [ { type: Schema.Types.ObjectId, ref: 'Show' }  ],
+    shows: [ { type: Schema.Types.ObjectId, ref: 'Show', index: {unique: true, dropDups: true}  }  ],
     venue: {
         place_id: { type: String, required: true, unique : true },
         name: { type: String, required: true },

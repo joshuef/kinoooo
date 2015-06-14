@@ -39,6 +39,10 @@ var PlaceForm = React.createClass({
             <form className='place-form'>
                 <h2>{titleText}</h2>
                 <TextField
+                id="js-venue-search"
+                alueLink={this.linkState('venue')} /> 
+                <br/>
+                <TextField
                 hintText="The Globe Theatre"
                 floatingLabelText="place name"
                 valueLink={this.linkState('name')} />  
@@ -55,11 +59,8 @@ var PlaceForm = React.createClass({
                 hintText="Image link"
                 floatingLabelText="image link"
                 valueLink={this.linkState('image')} />    
-                <TextField
-                id="js-venue-search"
-                alueLink={this.linkState('venue')} /> 
 
-                
+                <br/>
                 <RaisedButton label={submitButtonText} onClick={this.submitForm}/>
 
 
