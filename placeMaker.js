@@ -31,9 +31,7 @@ Raw.distinct('place', function( err, places )
 
     _.each( places, function( thisPlace )
     {
-\        
         var newPlace = new Place({ venue: { name : thisPlace }, url: '' });
-
 
         Place.findOneOrCreate({name: thisPlace}, newPlace, function(err, thisPlace) {
             // {name: 'Mohammad', age: 20}

@@ -2,6 +2,7 @@ var Database = require('../config/database');
 var mongoose = Database.Mongoose;
 var Schema = mongoose.Schema;
 var _ = require('lodash');
+var findOneOrCreate = require('mongoose-find-one-or-create');
 
 
 
@@ -19,7 +20,7 @@ var showSchema = new Schema({
       details: { type: String, required: false },
       flags: [],
     } ],
-  creator: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+  creator: { type: Schema.Types.ObjectId, ref: 'User', required: false },
     rating: { type: Number},
     website: { type: String }
 }, {
@@ -28,5 +29,6 @@ var showSchema = new Schema({
 });
 
 
+showSchema.plugin(findOneOrCreate);
 
 module.exports = mongoose.model('Show', showSchema);
