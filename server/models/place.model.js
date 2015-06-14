@@ -3,6 +3,7 @@ var mongoose = Database.Mongoose;
 var uniqueValidator = require('mongoose-unique-validator');
 var Schema = mongoose.Schema;
 var _ = require('lodash');
+var findOneOrCreate = require('mongoose-find-one-or-create');
 
 
 
@@ -11,16 +12,16 @@ var placeSchema = new Schema({
     // details: { type: String, required: true },
     details: { type: String, required: false },
     creationDate: { type: Date, default: Date.now },
-    creator: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    creator: { type: Schema.Types.ObjectId, ref: 'User', required: false },
     // comments: [{ body: String, date: Date }],
-    url: { type: String, required: true },
+    url: { type: String, required: false },
     shows: [ { type: Schema.Types.ObjectId, ref: 'Show', index: {unique: true, dropDups: true}  }  ],
     location : { type : [Number], index : '2d'},
     venue: {
-        place_id: { type: String, required: true, unique : true },
-        name: { type: String, required: true },
-        formatted_address: { type: String, required: true },
-        url: { type: String, required: true },
+        place_id: { type: String, required: false, unique : true },
+        name: { type: String, required: false },
+        formatted_address: { type: String, required: false },
+        url: { type: String, required: false },
         international_phone_number: { type: String },
         geometry: {
 
@@ -58,5 +59,6 @@ placeSchema.virtual('longitude').get(function() {
 });
 
 placeSchema.plugin(uniqueValidator);
+placeSchema.plugin(findOneOrCreate);
 
 module.exports = mongoose.model('Place', placeSchema);
