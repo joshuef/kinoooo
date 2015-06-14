@@ -7,19 +7,17 @@ var _ = require('lodash');
 
 var showSchema = new Schema({
   image: { type: String, required: false },
-  name: { type: String, required: false },
+  name: { type: String, required: false, unique: true },
   director: { type: String, required: false },
-  details: { type: String, required: false },
-  is3d: { type: Boolean, required: false },
-  isOmU: { type: Boolean, required: false },
-  isOV: { type: Boolean, required: false },
   isOmenlU: { type: Boolean, required: false },
   creationDate: { type: Date, default: Date.now },
   showingAt: [ 
     { 
       place: { type: Schema.Types.ObjectId, ref: 'Place' },
       time: { type: Date } ,
-      id: false
+      id: false,
+      details: { type: String, required: false },
+      flags: [],
     } ],
   creator: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     rating: { type: Number},

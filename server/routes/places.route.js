@@ -40,6 +40,44 @@ module.exports = [
     }
 },
 {
+    method: 'GET',
+    path: placeRoot + '/near',
+    config: {
+        
+        handler: function(request, reply)
+        {
+            
+            var options = { near: [10, 10], maxDistance: 5 };
+            var payload = request.payload;
+
+
+            return Place.geoNear([9,9], { spherical : true, maxDistance : .1 }, function (err, results, stats) 
+            {
+                console.log(err, results);
+            });
+          //   return Place.find(function (err, places) 
+          //   {
+          //       if (!err) 
+          //       {
+          //           // console.log( reply );
+          //           reply( {
+          //           places: places,
+          //           title: 'Places'
+          //           }   );
+
+          //           // console.log( places );
+                  
+                  
+          //       } else {
+          //         return console.log(err);
+          //       }
+          // })
+        }
+    }
+},
+
+
+{
     method: 'POST',
     path: placeRoot + '/add',
     config: {
@@ -68,6 +106,8 @@ module.exports = [
             var newPlace = new Place({
                 name: payload.name,
                 venue: payload.venue,
+                //needs to be longitude, lat
+                location: [ payload.venue.geometry.location.F, payload.venue.geometry.location.A  ],
                 description: payload.description,
                 image: payload.image,
                 url: payload.url,

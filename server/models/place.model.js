@@ -5,15 +5,17 @@ var Schema = mongoose.Schema;
 var _ = require('lodash');
 
 
+
 var placeSchema = new Schema({
-	image: { type: String, required: false },
-  	// details: { type: String, required: true },
-  	details: { type: String, required: false },
-  	creationDate: { type: Date, default: Date.now },
-  	creator: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-  	// comments: [{ body: String, date: Date }],
+  image: { type: String, required: false },
+    // details: { type: String, required: true },
+    details: { type: String, required: false },
+    creationDate: { type: Date, default: Date.now },
+    creator: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    // comments: [{ body: String, date: Date }],
     url: { type: String, required: true },
     shows: [ { type: Schema.Types.ObjectId, ref: 'Show', index: {unique: true, dropDups: true}  }  ],
+    location : { type : [Number], index : '2d'},
     venue: {
         place_id: { type: String, required: true, unique : true },
         name: { type: String, required: true },
@@ -21,19 +23,23 @@ var placeSchema = new Schema({
         url: { type: String, required: true },
         international_phone_number: { type: String },
         geometry: {
+
             location: {
                 A: { type: Number },
                 F: {type: Number }
             }
         },
-	  	rating: { type: Number},
-	  	website: { type: String }
-  	} 
+      rating: { type: Number},
+      website: { type: String }
+    } 
 }, {
-	autoIndex: false,
-	id: false
+  autoIndex: false,
+  id: false
 });
 if (!placeSchema.options.toJSON) placeSchema.options.toJSON = {};
+
+// placeSchema.index({ "location" : "geoHaystack", type : 1},{ bucketSize : 1});
+// placeSchema.index({ "location" : "2d" } );
 
 placeSchema.options.toJSON.virtuals = true;
 placeSchema.virtual('text').get(function() {
