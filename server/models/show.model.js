@@ -11,28 +11,20 @@ var showSchema = new Schema({
   director: { type: String, required: false },
   details: { type: String, required: false },
   creationDate: { type: Date, default: Date.now },
-  // startTime: { type: Date },
   showingAt: [ 
     { 
       place: { type: Schema.Types.ObjectId, ref: 'Place' },
       time: { type: Date } ,
       id: false
     } ],
-  // places: [ { type: Schema.Types.ObjectId, ref: 'Place' } ],
   creator: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-  // comments: [{ body: String, date: Date }],
-  // place: { type: String, required: true },
     rating: { type: Number},
     website: { type: String }
 }, {
     autoIndex: false,
     id: false
 });
-// showSchema.virtual('showTime').get(function() {
 
-//   console.log( 'STARRTRTTT', this.startTime );
-//   return this.startTime;
-// });
 
 
 module.exports = mongoose.model('Show', showSchema);

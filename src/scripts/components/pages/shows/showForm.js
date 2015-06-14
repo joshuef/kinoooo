@@ -7,6 +7,7 @@ var TextField = mui.TextField;
 var DropDownMenu = mui.DropDownMenu;
 var DatePicker = mui.DatePicker;
 var TimePicker = mui.TimePicker;
+var moment = require( 'moment' ) ;
 
 var _ = require('lodash');
 
@@ -137,31 +138,33 @@ var ShowForm = React.createClass({
 
     removePlaceTime : function( e, place )
     {
+        console.log( 'REMOVING', place );
         var showingAt = this.state.showingAt;
         e.preventDefault();
 
          _.remove( showingAt , function( value, i )
         {
-            return value === place;
+            return value.place === place;
         } );
 
         var removePlaceTime = this.state.removePlaceTime;
         
-        removePlaceTime.push( showingAt );
+        removePlaceTime.push( place );
 
-        removePlaceTime = _.uniq( removePlaceTime, false, function( place_Id )
+        removePlaceTime = _.uniq( removePlaceTime, false, function( placeTime )
             { 
-                console.log( 'removing places in loop', place_Id );
-                return place_Id; 
+                return placeTime.place + placeTime.time.format(); 
             } );
 
 
         this.setState( { 
-            places: places,
+            showingAt: showingAt,
             removePlaceTime: removePlaceTime
              });
 
     },
+
+
     addPlaceTime : function ( e, selectedIndex, menuItem )
     {
         e.preventDefault();
@@ -173,6 +176,9 @@ var ShowForm = React.createClass({
         console.log( 'add a show place in the form', selectedPlace );
 
         var startTime = this.refs.startTime.getTime();
+
+        startTime = moment( startTime );
+
         // var startDate = this.refs.startDate.getDate();
         // var endDate = this.refs.endDate.getDate();
 
@@ -186,10 +192,12 @@ var ShowForm = React.createClass({
         showingAt.push ( showTime );
 
         console.log( 'add a show before unique', showingAt );
+
+
         showingAt = _.uniq( showingAt, false, function( placeTime )
             { 
-                console.log( 'add a show... in the loop', placeTime );
-                return { place: placeTime.place, time: placeTime.time };
+ 
+                return placeTime.place + placeTime.time.format();
             } );
 
         console.log( 'add a show after unique', showingAt );
@@ -198,14 +206,6 @@ var ShowForm = React.createClass({
 
         console.log( 'add a show AFTER', this );
 
-        //GET THE CURRENT TIME ETC
-        //
-
-        // this.setState( { 
-        //     startTime: startTime,
-        //     startDate: startDate,
-        //     endDate: endDate
-        // });
     },
     setupForEditing : function( newShow )
     {
