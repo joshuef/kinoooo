@@ -79,11 +79,11 @@ var ShowForm = React.createClass({
                 <DropDownMenu
                 menuItems={places}
                 ref="placeDropdown" /> 
-                <RaisedButton label="Add place" onClick={this.addPlace}/>
+                <RaisedButton label="Add place" onClick={this.addPlaceTime}/>
                 <h3>Current Places</h3>
-                <BasicPlaceList showPlaces={this.state.places} 
+                <BasicPlaceList showPlaceTimes={this.state.showingAt} 
                 allPlaces={this.props.allPlaces} belongsToShow={true}  
-                onClick={this.removePlace} inForm={true}/>
+                onClick={this.removePlaceTime} inForm={true}/>
                 <RaisedButton label={submitButtonText} onClick={this.submitForm}/>
             </form>
         );
@@ -92,8 +92,8 @@ var ShowForm = React.createClass({
     {
         name : '',
         director : '',
-        places : [],
-        removePlaces : [],
+        showingAt : [],
+        removePlaceTime : [],
         startDate : '',
         endDate : '',
         editing: false
@@ -129,21 +129,21 @@ var ShowForm = React.createClass({
         e.preventDefault();
     },
 
-    removePlace : function( e, place )
+    removePlaceTime : function( e, place )
     {
-        var places = this.state.places;
+        var showingAt = this.state.showingAt;
         e.preventDefault();
 
-         _.remove( places , function( value, i )
+         _.remove( showingAt , function( value, i )
         {
             return value === place;
         } );
 
-        var removePlaces = this.state.removePlaces;
+        var removePlaceTime = this.state.removePlaceTime;
         
-        removePlaces.push( place );
+        removePlaceTime.push( showingAt );
 
-        removePlaces = _.uniq( removePlaces, false, function( place_Id )
+        removePlaceTime = _.uniq( removePlaceTime, false, function( place_Id )
             { 
                 console.log( 'removing places in loop', place_Id );
                 return place_Id; 
@@ -152,31 +152,54 @@ var ShowForm = React.createClass({
 
         this.setState( { 
             places: places,
-            removePlaces: removePlaces
+            removePlaceTime: removePlaceTime
              });
 
     },
-    addPlace : function ( e, selectedIndex, menuItem )
+    addPlaceTime : function ( e, selectedIndex, menuItem )
     {
         e.preventDefault();
-        var places = this.state.places;
+        var showingAt = this.state.showingAt;
 
         var placeDropdown = this.refs.placeDropdown;
         var selectedPlace = placeDropdown.props.menuItems[ placeDropdown.state.selectedIndex ];
 
         console.log( 'add a show place in the form', selectedPlace );
-        places.push ( selectedPlace._id );
 
-        console.log( 'add a show before unique', places );
-        places = _.uniq( places, false, function( place_Id )
+        var startTime = this.refs.startTime.getTime();
+        // var startDate = this.refs.startDate.getDate();
+        // var endDate = this.refs.endDate.getDate();
+
+        var showTime = 
+        {
+            place: selectedPlace._id,
+            time: startTime
+
+        };
+
+        showingAt.push ( showTime );
+
+        console.log( 'add a show before unique', showingAt );
+        showingAt = _.uniq( showingAt, false, function( placeTime )
             { 
-                console.log( 'add a show... in the loop', place_Id );
-                return place_Id; 
+                console.log( 'add a show... in the loop', placeTime );
+                return { place: placeTime.place, time: placeTime.time };
             } );
 
-        console.log( 'add a show after unique', places );
+        console.log( 'add a show after unique', showingAt );
 
-        this.setState( { places: places });
+        this.setState( { showingAt: showingAt });
+
+        console.log( 'add a show AFTER', this );
+
+        //GET THE CURRENT TIME ETC
+        //
+
+        // this.setState( { 
+        //     startTime: startTime,
+        //     startDate: startDate,
+        //     endDate: endDate
+        // });
     },
     setupForEditing : function( newShow )
     {
@@ -191,15 +214,15 @@ var ShowForm = React.createClass({
 
         console.log( 'ADD SHOW', this.state );
 
-        var startTime = this.refs.startTime.getTime();
-        var startDate = this.refs.startDate.getDate();
-        var endDate = this.refs.endDate.getDate();
+        // var startTime = this.refs.startTime.getTime();
+        // var startDate = this.refs.startDate.getDate();
+        // var endDate = this.refs.endDate.getDate();
 
-        this.setState( { 
-            startTime: startTime,
-            startDate: startDate,
-            endDate: endDate
-        });
+        // this.setState( { 
+        //     startTime: startTime,
+        //     startDate: startDate,
+        //     endDate: endDate
+        // });
 
 
         if( this.state.editing )

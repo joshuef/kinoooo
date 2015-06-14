@@ -11,13 +11,13 @@ var showSchema = new Schema({
   director: { type: String, required: false },
   details: { type: String, required: false },
   creationDate: { type: Date, default: Date.now },
-  startTime: { type: Date },
+  // startTime: { type: Date },
   showingAt: [ { place: { type: Schema.Types.ObjectId, ref: 'Place' },
-            type: Date } ],
+            time: { type: Date } } ],
+  // places: [ { type: Schema.Types.ObjectId, ref: 'Place' } ],
   creator: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   // comments: [{ body: String, date: Date }],
   // place: { type: String, required: true },
-  places: [ { type: Schema.Types.ObjectId, ref: 'Place' } ],
     rating: { type: Number},
     website: { type: String }
 }, {
