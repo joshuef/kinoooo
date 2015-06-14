@@ -64,6 +64,11 @@ var ShowForm = React.createClass({
                 hintText="john"
                 floatingLabelText="director"
                 valueLink={this.linkState('director')} /> 
+                <TextField
+                hintText="about the show"
+                floatingLabelText="description"
+                multiLine={true}
+                valueLink={this.linkState('description')} /> 
                 <TimePicker
                 format="ampm"
                 ref="startTime"
@@ -92,6 +97,7 @@ var ShowForm = React.createClass({
     {
         name : '',
         director : '',
+        description : '',
         showingAt : [],
         removePlaceTime : [],
         startDate : '',

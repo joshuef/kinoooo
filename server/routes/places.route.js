@@ -43,10 +43,10 @@ module.exports = [
     method: 'POST',
     path: placeRoot + '/add',
     config: {
-        // auth : 
-        // {
-        //     strategy: 'session'
-        // },
+        auth : 
+        {
+            strategy: 'session'
+        },
         validate: {
 
             // payload:
