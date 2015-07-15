@@ -32,14 +32,15 @@ var ShowsStore = _.extend({}, EventEmitter.prototype, {
 
    getShowByNameOrId: function( showIdOrName ) 
    {
-       	console.log( 'getting a specific show,', showIdOrName, _shows );
-       	var show = _.findWhere(_shows, { _id: showIdOrName });
+        var show = _.findWhere(_shows, { _id: showIdOrName });
 
-       	if( ! show )
-       	{
-       		show = _.findWhere(_shows, { name: showIdOrName });
+        if( ! show )
+        {
+          show = _.findWhere(_shows, { name: showIdOrName });
 
-       	}
+        }
+
+       	console.log( 'getting a specific show,', showIdOrName, _shows, show );
 
        	return show;
    },

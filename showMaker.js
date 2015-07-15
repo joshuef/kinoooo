@@ -54,7 +54,7 @@ Raw.distinct('show', function( err, shows )
 
                     _.each( rawShowsObjects, function( rawObject, i )
                     {
-                        if( i > 5 )
+                        if( i > 3 )
                         {
                             return;
                         }
@@ -90,26 +90,33 @@ Raw.distinct('show', function( err, shows )
 
                         var thePlaceId = Place.findOne({ 'venue' : { 'name' : rawObject.place  } }, function( err, place )
                             {
-                                return place._id;
+                                console.log( 'THE PLACE', place._id );
+                                // return place._id;
+                                
+
+                                updatedShow.showingAt.push(
+                                {
+                                    time: rawObject.time,
+                                    place: thePlaceId,
+                                    flags: flags
+                                });
+
+                                createdShow = updatedShow;
+                                
                             });
 
-                        console.log( 'THE POALCE', thePlaceId );
-
-                        updatedShow.showingAt.push(
-                        {
-                            time: rawObject.time,
-                            place: thePlaceId,
-                            flags: flags
-                        });
+                        // console.log( 'THISISHAPPENING AFTER PLACE ID?', thePlaceId );
 
                         // console.log( 'UPDATED SHOW?', updatedShow );
 
-                        Show.update( createdShow, updatedShow, function( err, or)
-                        {
-                            console.log( 'AND FINALLY??', err, or );
-                        } );
 
                     } );
+                    
+                    createdShow.save();
+                    // Show.update( createdShow, updatedShow, function( err, show)
+                    // {
+                    //     console.log( 'AND FINALLY??', err, show );
+                    // } );
 
                 }
             });

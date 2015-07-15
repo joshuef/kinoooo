@@ -68,7 +68,6 @@ var Shows = React.createClass({
         {
 
             var currentShow = params.showId || params.showName;
-     
 
             //perhaps this should be grtabbed from a shows object in props
             currentShow = ShowsStore.getShowByNameOrId( currentShow );
@@ -85,11 +84,12 @@ var Shows = React.createClass({
                 );
 
             }
-            else if ( ! _.isUndefined( currentShow ) && currentShow.showName ) 
+            else if ( ! _.isUndefined( currentShow ) && currentShow.name ) 
             {
                return (
                   <div className='main'>
                         <h1>About {currentShow.name}</h1>
+                        <span>more to come here, right now no info to show</span>
                   </div>
                 );
             }
