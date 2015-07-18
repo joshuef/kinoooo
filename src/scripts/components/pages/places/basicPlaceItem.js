@@ -21,12 +21,13 @@ var BasicPlaceItem = React.createClass({
             return null;
         }
 
-        var place = this.props.thisPlace;
+        var thisPlace = this.props.thisPlace;
+        var place;
 
-        if( place )
+        if( thisPlace )
         {
 
-            var placeId = place;
+            var placeId = thisPlace.placeId;
             var allPlaces = this.props.allPlaces;
 
             place = _.findWhere( allPlaces, { _id: placeId });
@@ -47,8 +48,20 @@ var BasicPlaceItem = React.createClass({
             return null;
         }
 
+        var placeUrl = encodeURIComponent(place.name);
+        var placeLink = "/places/" + placeUrl  + '/' + place._id;
 
-        var placeLink = "/places/" + place.name  + '/' + place._id;
+        var showingsToRender = [];
+        //times elements
+        for (var key in thisPlace.showings ) 
+        {
+
+            //if the 
+
+            console.log( 'BASIC PLACE ITEM SHOWINGS loop', place.showings );
+            // places.push( 'bla');
+          showingsToRender.push( thisPlace.showings.time );
+        }
 
         if( this.props.inForm )
         {  
@@ -65,7 +78,9 @@ var BasicPlaceItem = React.createClass({
             return(
                 <li>
                     <h6><Link to={placeLink}>{ place.name }</Link></h6>
-                
+                    <ol>
+                        {showingsToRender}
+                    </ol>
                 </li> 
                 );
         }

@@ -2,7 +2,7 @@
 var React = require('react/addons');
 
 var BasicPlaceItem = require( "./basicPlaceItem" );
-
+var _ = require( "lodash" );
 
 var PlaceList = React.createClass({
     onClick : function( e, place )
@@ -22,20 +22,80 @@ var PlaceList = React.createClass({
 
         var showPlaceTimes = this.props.showPlaceTimes;
         var places = [];
+       
 
-   
-        for (var key in showPlaceTimes) {
-            console.log( 'BASIC PLACE LIST loop', showPlaceTimes );
+
+        // {
+        //     time,
+        //     place,
+        //     flags
+        // }
+
+
+        // wanted
+
+        // {
+        //     place:
+        //         showings:[ {time, flags }]
+        // }
+
+        _.each( showPlaceTimes, function( showPlaceTime )
+        {
+            if( !showPlaceTime.place ||
+                !showPlaceTime.time )
+            {
+                console.log( 'no place no time' );
+                return;
+            }
+
+            var thisPlace = { 
+                placeId: showPlaceTime.place,
+                showings: [ { 
+                    time: showPlaceTime.time,
+                    flags: showPlaceTime.flags
+                } ]
+             }
+
+            var existingPlace = _.findWhere( places, { placeId: thisPlace.placeId})
+                
+                console.log( 'existing place?', existingPlace );
+            if( ! existingPlace  )
+            {
+                console.log( 'nae place and soooo' );
+                //add this new place
+                places.push( thisPlace );
+            }
+            else
+            {
+                console.log( 'EXISTING PLACE', existingPlace );
+                //add the new showing
+                existingPlace.showings.push( 
+                { 
+                    time: showPlaceTime.time,
+                    flags: showPlaceTime.flags
+                } );
+
+            }
+
+        });
+
+        var placesToRender =[];
+
+        for (var key in places) {
+
+            //if the 
+
+            console.log( 'BASIC PLACE LIST WITH SHOWS loop', places );
             // places.push( 'bla');
-          places.push(<BasicPlaceItem key={key} 
-            thisPlace={showPlaceTimes[key].place} 
+          placesToRender.push(<BasicPlaceItem key={key} 
+            thisPlace={places[key]} 
             allPlaces={this.props.allPlaces} 
             belongsToShow={this.props.belongsToShow}
             onClick={ this.onClick }
             inForm={ this.props.inForm } />);
         }
         return (
-            <ul className="place-list">{places}</ul>
+            <ul className="place-list">{placesToRender}</ul>
         );
 
     

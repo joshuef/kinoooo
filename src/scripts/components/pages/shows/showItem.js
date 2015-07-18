@@ -15,11 +15,14 @@ componentWillMount : function( )
     render: function()
     {
         console.log( 'SHOWPROPS', this.props );
-        if( ! this.props.thisShow.name )
+        if( ! this.props.thisShow.name  || 
+            this.props.thisShow.showingAt.length < 1 )
         {
-            console.log( 'NO NAME' );
+            console.log( 'NO NAME or NO SHOWINGS' );
             return null;
         }
+
+
 
         var show = this.props.thisShow;
 
