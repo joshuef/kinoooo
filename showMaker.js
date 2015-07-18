@@ -47,7 +47,7 @@ Raw.distinct('show', function( err, shows )
             });
 
         Show.findOneOrCreate({name: thisShow}, newShow, function(err, createdShow) {
-            // {name: 'Mohammad', age: 20}
+
             console.log('CREATED A SHOW', createdShow);
 
             Raw.find({ 'show': createdShow.name }, function(err, rawShowsObjects)
@@ -63,19 +63,13 @@ Raw.distinct('show', function( err, shows )
 
                     _.each( rawShowsObjects, function( rawObject, i )
                     {
-                        if( i > 3 )
-                        {
-                            return;
-                        }
-                        // console.log( 'RAW OBJECT?', rawObject.show );
-                        // console.log( 'RAW OBJECT?', rawObject.place );
-                        // console.log( 'RAW OBJECT?', rawObject.time );
-                        var flags = [];
-
-                        // if( ! rawObject )
+                        // if( i > 3 )
                         // {
                         //     return;
                         // }
+   
+                        var flags = [];
+
 
                         if( rawObject.is_3d )
                         {
@@ -97,27 +91,20 @@ Raw.distinct('show', function( err, shows )
                             flags.push( 'fl' );
                         }
 
-                        if( rawObject.place !== currentPlace )
+                        if( rawObject.place )
                         {
                             //if its not the same place, lets find the new place
                             //
                             
                             currentPlace = rawObject.place;
                             
-                            thePlace = Place.findOne({ 'venue' : { 'name' : rawObject.place  } }, function( err, place )
-                            // Place.findOne({ 'venue' : { 'name' : rawObject.place  } }, function( err, place )
+                            // thePlace = Place.findOne({ 'venue' : { 'name' : rawObject.place  } }, function( err, place )
+                            Place.findOne({ 'venue' : { 'name' : rawObject.place  } }, function( err, place )
                                 {
                                     console.log( 'THE PLACE', place._id );
                                     thePlaceId =place._id;
 
-
-                                    //then we createa  showtime object
-
-                                    // console.log( 'thePlacewe Found', thePlace );
-                                    // console.log( 'thePlacewe FoundID', thePlace._id );
-                                    console.log( 'PLACEIDDDDDDD ', thePlaceId );
-
-                                    if( thePlaceId.length > 0 )
+                                    if( place._id )
                                     {
                                         showtimeObject = {
                                             time: rawObject.time,
@@ -130,11 +117,19 @@ Raw.distinct('show', function( err, shows )
 
                                         updatedShow.showingAt.push( showtimeObject );    
                                         console.log( 'UPDATED SHOW (after finding new place)?', updatedShow );
+                                        
+
+
+                                        createdShow = updatedShow;
+                                        createdShow.save();
+                                    }
+                                    else
+                                    {
+                                        console.log( 'NO PLACE ID OKAAAAYYYYYYYYYY?????', thePlaceId, place );
                                     }
 
                                     //and then we'd save it cos we have to. then all future things will be for the same show
-                                    createdShow = updatedShow;
-                                        // createdShow.save();
+                                    
                                     return place;
                                     
 
@@ -144,44 +139,17 @@ Raw.distinct('show', function( err, shows )
                                 });
 
                         }//end if
-                        
-                        showtimeObject = {
-                                            time: rawObject.time,
-                                            place: thePlaceId,
-                                            flags: flags
-                                        };
 
-                        updatedShow.showingAt.push( showtimeObject );    
-
-                        //
-
-
-
-                        // console.log( 'THISISHAPPENING AFTER PLACE ID?', thePlaceId );
-
-                        console.log( 'UPDATED SHOW?', updatedShow );
 
 
                     } );
-                    createdShow = updatedShow;
-                    
-                    // createdShow.save();
-                    // Show.update( createdShow, updatedShow, function( err, show)
-                    // {
-                    //     console.log( 'AND FINALLY??', err, show );
-                    // } );
+
 
                 }
             });
         });
     } )
 
-    // process.exit();
 
-
-    // var createShowTime = function( rawObject, thePlaceId )
-    // {
-
-    // }
 
 });

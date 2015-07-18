@@ -14,6 +14,7 @@ var showSchema = new Schema({
   creationDate: { type: Date, default: Date.now },
   showingAt: [ 
     { 
+      // place: { type: Schema.Types.ObjectId, ref: 'Place' },
       place: { type: Schema.Types.ObjectId, ref: 'Place' },
       time: { type: Date } ,
       id: false,
