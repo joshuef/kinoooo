@@ -31,8 +31,12 @@ var Raw = mongoose.model('Raw',
 Raw.distinct('show', function( err, shows )
 {
 
-    _.each( shows, function( thisShow )
+    _.each( shows, function( thisShow, i )
     {
+        if( i > 5 )
+        {
+            return;
+        }
 
         var newShow = new Show(
             { 
@@ -48,9 +52,14 @@ Raw.distinct('show', function( err, shows )
 
             Raw.find({ 'show': createdShow.name }, function(err, rawShowsObjects)
             {
+                console.log( 'FINDING SIMILAR SHOWS IN RAW' );
                 if( createdShow && rawShowsObjects.length > 0 )
                 {
                     var updatedShow = createdShow;
+
+                    var currentPlace ='';
+                    var thePlaceId ='';
+                    var showtimeObject = {};
 
                     _.each( rawShowsObjects, function( rawObject, i )
                     {
@@ -88,31 +97,75 @@ Raw.distinct('show', function( err, shows )
                             flags.push( 'fl' );
                         }
 
-                        var thePlaceId = Place.findOne({ 'venue' : { 'name' : rawObject.place  } }, function( err, place )
-                            {
-                                console.log( 'THE PLACE', place._id );
-                                // return place._id;
-                                
-
-                                updatedShow.showingAt.push(
+                        if( rawObject.place !== currentPlace )
+                        {
+                            //if its not the same place, lets find the new place
+                            //
+                            
+                            currentPlace = rawObject.place;
+                            
+                            thePlace = Place.findOne({ 'venue' : { 'name' : rawObject.place  } }, function( err, place )
+                            // Place.findOne({ 'venue' : { 'name' : rawObject.place  } }, function( err, place )
                                 {
-                                    time: rawObject.time,
-                                    place: thePlaceId,
-                                    flags: flags
+                                    console.log( 'THE PLACE', place._id );
+                                    thePlaceId =place._id;
+
+
+                                    //then we createa  showtime object
+
+                                    // console.log( 'thePlacewe Found', thePlace );
+                                    // console.log( 'thePlacewe FoundID', thePlace._id );
+                                    console.log( 'PLACEIDDDDDDD ', thePlaceId );
+
+                                    if( thePlaceId.length > 0 )
+                                    {
+                                        showtimeObject = {
+                                            time: rawObject.time,
+                                            place: thePlaceId,
+                                            flags: flags
+                                        };
+
+                                        console.log( 'PLACE ID AND SO SHOWTIME OBJECT', showtimeObject );
+
+
+                                        updatedShow.showingAt.push( showtimeObject );    
+                                        console.log( 'UPDATED SHOW (after finding new place)?', updatedShow );
+                                    }
+
+                                    //and then we'd save it cos we have to. then all future things will be for the same show
+                                    createdShow = updatedShow;
+                                        // createdShow.save();
+                                    return place;
+                                    
+
+
+                                    
+
                                 });
 
-                                createdShow = updatedShow;
-                                
-                            });
+                        }//end if
+                        
+                        showtimeObject = {
+                                            time: rawObject.time,
+                                            place: thePlaceId,
+                                            flags: flags
+                                        };
+
+                        updatedShow.showingAt.push( showtimeObject );    
+
+                        //
+
+
 
                         // console.log( 'THISISHAPPENING AFTER PLACE ID?', thePlaceId );
 
-                        // console.log( 'UPDATED SHOW?', updatedShow );
+                        console.log( 'UPDATED SHOW?', updatedShow );
 
 
                     } );
+                    createdShow = updatedShow;
                     
-                    createdShow.save();
+                    // createdShow.save();
                     // Show.update( createdShow, updatedShow, function( err, show)
                     // {
                     //     console.log( 'AND FINALLY??', err, show );
@@ -125,5 +178,10 @@ Raw.distinct('show', function( err, shows )
 
     // process.exit();
 
+
+    // var createShowTime = function( rawObject, thePlaceId )
+    // {
+
+    // }
 
 });
