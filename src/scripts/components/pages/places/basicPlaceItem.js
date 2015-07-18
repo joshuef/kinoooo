@@ -1,6 +1,7 @@
 'use strict';
 var React   = require('react/addons');
 var _       = require('lodash');
+var moment       = require('moment');
 var Router  = require('react-router');
 var Link    = Router.Link;
 
@@ -57,10 +58,18 @@ var BasicPlaceItem = React.createClass({
         {
 
             //if the 
+            var time = thisPlace.showings[key].time;
 
-            console.log( 'BASIC PLACE ITEM SHOWINGS loop', place.showings );
-            // places.push( 'bla');
-          showingsToRender.push( thisPlace.showings.time );
+            if( moment.isMoment( time ) )
+            {
+                console.log( 'BASIC PLACE ITEM SHOWINGS loop', place.showings );
+
+                // console.log( 'SHOWTIME IS MOMENT?'  );
+                // if( )
+                // places.push( 'bla');
+                showingsToRender.push( <li>{time.format("dddd, MMMM Do YYYY, h:mm:ss a")}</li> );
+            }
+
         }
 
         if( this.props.inForm )
