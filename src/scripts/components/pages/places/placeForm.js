@@ -10,19 +10,21 @@ var _ = require('lodash');
 var BasicShowList = require( "../shows/basicShowList" );
 
 
-var GoogleMapsLoader = require('google-maps');      // only for common js environments
 
 var PlaceForm = React.createClass({
     mixins: [React.addons.LinkedStateMixin],
 
+    componentWillMount : function( )
+    {
+        if( this.props.user && ! this.props.user.isAdmin )
+        {
+            this.render = function( ){ return false;}
+        }
+
+    },
     render: function() {
 
         console.log( 'PLACEFORM', this.props );
-
-        if( this.props.user && ! this.props.user.isAdmin )
-        {
-            return null;
-        }
 
 
         var titleText = "Add Place";
@@ -40,6 +42,8 @@ var PlaceForm = React.createClass({
             placeShows = this.props.thisPlace.shows;
             
         }
+
+
 
         return (
             <form className='place-form'>
@@ -83,6 +87,7 @@ var PlaceForm = React.createClass({
     },
     componentDidMount : function( )
     {
+        var GoogleMapsLoader = require('google-maps');      // only for common js environments
         console.log( 'param placename  MOUNTEDDD', this.props );
 
         if( this.props.thisPlace )

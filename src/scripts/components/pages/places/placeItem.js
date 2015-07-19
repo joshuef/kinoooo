@@ -22,29 +22,9 @@ componentWillMount : function( )
 
         var place = this.props.thisPlace;
 
-        var placeLink = "/places/" + place.name  + '/' + place._id;
+        var placeUrl = encodeURIComponent( place.name.replace(/ +/g, '_') );
+        var placeLink = "/places/" + placeUrl  + '/' + place._id;
 
-
-        // if( ! place.name )
-        // {
-        //     //ie. passed from a show
-            
-        //     if( place.placeId )
-        //     {
-
-        //         var placeId = place.placeId;
-        //         var placesStore = place.allPlaces;
-
-        //         place = _.findWhere( places, { _id: placeId });
-
-        //     }
-        //     else
-        //     {
-        //             console.log( 'NO ID' );
-        //             return null;
-        //     }
-            
-        // }
 
         console.log( 'PLACE ITEM WITH LIST??', place );
         //RENDER ALL

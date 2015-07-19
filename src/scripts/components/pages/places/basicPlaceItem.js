@@ -49,7 +49,7 @@ var BasicPlaceItem = React.createClass({
             return null;
         }
 
-        var placeUrl = encodeURIComponent(place.name);
+        var placeUrl = encodeURIComponent( place.name.replace(/ +/g, '_') );
         var placeLink = "/places/" + placeUrl  + '/' + place._id;
 
         var showingsToRender = [];
@@ -64,9 +64,6 @@ var BasicPlaceItem = React.createClass({
             {
                 console.log( 'BASIC PLACE ITEM SHOWINGS loop', place.showings );
 
-                // console.log( 'SHOWTIME IS MOMENT?'  );
-                // if( )
-                // places.push( 'bla');
                 showingsToRender.push( <li>{time.format("dddd, MMMM Do YYYY, h:mm:ss a")}</li> );
             }
 
