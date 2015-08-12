@@ -59,7 +59,7 @@
     "karma-phantomjs-launcher": "~0.1.3",
     "karma-script-launcher": "~0.1.0",
     "karma-webpack": "~1.2.2",
-    "material-ui": "^0.8",
+    "material-ui": "^0.10.1",
     "moment": "^2.10.3",
     "mongoose-find-one-or-create": "^0.2.0",
     "mongoose-unique-validator": "^0.4.1",

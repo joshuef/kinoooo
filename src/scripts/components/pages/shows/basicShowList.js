@@ -1,8 +1,11 @@
 'use strict';
 var React = require('react/addons');
 
-var BasicShowItem = require( "./basicShowItem" );
+// var BasicShowItem = require( "./basicShowItem" );
 
+var mui = require('material-ui');
+var List = mui.List;
+var ListItem = mui.ListItem;
 
 var ShowList = React.createClass({
 
@@ -13,14 +16,18 @@ var ShowList = React.createClass({
         var shows = [];
 
         for (var key in placeShows) {
-          shows.push(<BasicShowItem key={key} 
+
+            
+          shows.push(<ListItem 
+            key={key} 
+            primarytext={placeShows[key].name} 
             thisShow={placeShows[key]} 
             allShows={this.props.allShows}
             belongsToPlace={this.props.belongsToPlace}/>);
         }
 
         return (
-            <ul className="show-list">{shows}</ul>
+            <List className="show-list">{shows}</List>
         );
     }
 

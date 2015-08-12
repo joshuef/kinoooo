@@ -13,10 +13,10 @@ componentWillMount : function( )
 },
     render: function()
     {
-        console.log( 'thisplacceprops', this.props.thisPlace.name, this.props.thisPlace );
+        // console.log( 'thisplacceprops', this.props.thisPlace.name, this.props.thisPlace );
         if( ! this.props.thisPlace.name )
         {
-            console.log( 'NO NAME' );
+            // console.log( 'NO NAME' );
             return null;
         }
 
