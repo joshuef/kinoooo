@@ -18,23 +18,20 @@ class KinoPipeline(object):
     prog = re.compile(ur'(\(\w+\)|\ 3D)')
 
     def process_item(self, item, spider):
-        item['is_3d'] = False;
-        item['is_ov'] = False;
-        item['is_omu'] = False;
-        item['is_fl'] = False;
         result = self.prog.search(item['show'])
         if result is not None:
-            flag = result.group(1).lower()
-            if 'omu' in flag:
-                item['is_omu'] = True
-            elif 'ov' in flag:
-                item['is_ov'] = True
-            elif '3d' in flag:
-                item['is_3d'] = True
+            flags = result.group(1).lower()
+            item['orig_flags'] = flags
+            item['processed_flags'] = []
+            possibilities = ['3d', 'omu', 'ov']
+            for pos in possibilities:
+                if pos in flags.lower():
+                    item['processed_flags'].append(pos)
             item['show'] = re.sub(ur'(\(\w+\)|\ 3D)', '', item['show']).strip()
         item['time'] = datetime.fromtimestamp(mktime(item['time']))
         if 'freiluft' in item['place'].lower():
-            item['is_fl'] = True
+            item['processed_flags'].append('fl')
+        item['updated'] = datetime.utcnow()
         return item
 
 class MongoDBPipeline(object):
@@ -51,6 +48,8 @@ class MongoDBPipeline(object):
         )
         self.collection = db[settings['MONGODB_COLLECTION']]
         self.collection.drop()
+        self.collection.ensure_index('place')
+        self.collection.ensure_index('show')
 
     def process_item(self, item, spider):
         self.collection.insert(dict(item))
