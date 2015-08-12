@@ -36,3 +36,5 @@ dist
 
 .vagrant
 awesome_log
+
+*.pyc
