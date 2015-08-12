@@ -1,4 +1,5 @@
 var keyMirror = require('react/lib/keyMirror');
+var apiServer = '';
 
 module.exports = {
 
@@ -21,14 +22,14 @@ module.exports = {
 
 
   Endpoints: {
-    LOGOUT: '/api/logout',
-    LOGIN: '/api/login',
-    ADD_USER: '/api/users/add',
-    ME: '/api/me',
-    ADD_PLACE: '/api/places/add',
-    PLACES: '/api/places',
-    SHOWS: '/api/shows',
-    ADD_SHOW: '/api/shows/add',
+    LOGOUT: apiServer + '/api/logout',
+    LOGIN: apiServer + '/api/login',
+    ADD_USER: apiServer + '/api/users/add',
+    ME: apiServer + '/api/me',
+    ADD_PLACE: apiServer + '/api/places/add',
+    PLACES: apiServer + '/api/places',
+    SHOWS: apiServer + '/api/shows',
+    ADD_SHOW: apiServer + '/api/shows/add',
     // EVENTS: '/api/events',
   }
 

@@ -53,6 +53,7 @@ var ShowsStore = _.extend({}, EventEmitter.prototype, {
             {
                 // console.log( 'filter show', show.name );
 
+                console.log( 'showshow', showHour );
                 //we only care about hours here SORT IT
                 var showMoment = moment( show.startTime );
                 var showHour = showMoment.hour();
@@ -60,10 +61,10 @@ var ShowsStore = _.extend({}, EventEmitter.prototype, {
                 // console.log( 'filter', showMoment );
 
                 var nowHour = time.hour();
-                console.log( 'NOW HOUR', nowHour );
+                console.log( 'show NOW HOUR', nowHour );
                 // console.log( 'VALID TIME?', showMoment );
                 var isItStillToCome = showHour >= nowHour;
-                console.log( 'filter IS IT?', isItStillToCome );
+                console.log( 'show filter IS IT?', isItStillToCome );
                 // return moment( show.startTime ).isAfter( time, 'hour' );
                 return isItStillToCome;
             });
