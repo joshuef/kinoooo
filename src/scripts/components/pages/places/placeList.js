@@ -24,7 +24,11 @@ var PlaceList = React.createClass({
     {
         var thisPlace = allPlaces[key];
 
+
+        console.log( 'SHOWS????????',thisPlace  );
+
         if( ! thisPlace.name )
+        // if( ! thisPlace.name || thisPlace.shows.length < 1 )
         {
             return;
         }
@@ -38,12 +42,17 @@ var PlaceList = React.createClass({
          // places.push(<PlaceItem key={key} 
          
          // if( )
-         places.push(<ListItem 
+         places.push(<li 
                      primaryText={thisPlace.name} >
-                        <ListItem> 
-                            <BasicShowList placeShows={ thisPlace.shows } allShows={ this.props.allShows }  />
-                        </ListItem> 
-                     </ListItem>);
+                     {thisPlace.name}
+                    <BasicShowList placeShows={ thisPlace.shows } allShows={ this.props.allShows }  />
+                     </li>);
+         // places.push(<ListItem 
+         //             primaryText={thisPlace.name} >
+         //                <ListItem> 
+         //                    <BasicShowList placeShows={ thisPlace.shows } allShows={ this.props.allShows }  />
+         //                </ListItem> 
+         //             </ListItem>);
                     // allPlaces={this.props.allPlaces} 
                     // allShows={this.props.allShows}
                     // belongsToShow={this.props.belongsToShow}
@@ -54,7 +63,7 @@ var PlaceList = React.createClass({
 
         console.log( 'PLACE LIST PROPS', this.props );
         var allPlaces = this.props.allPlaces;
-        var places = [];
+        var placesToRender = [];
 
         var filter = this.props.filter;
 
@@ -63,18 +72,18 @@ var PlaceList = React.createClass({
 
             if( filter && allPlaces[key].name.toLowerCase().indexOf( filter ) !== -1 )
             {
-               places = this.addThisPlaceToList( places, allPlaces, key );
+               placesToRender = this.addThisPlaceToList( placesToRender, allPlaces, key );
             }
             else if ( ! filter )
             {
-               places = this.addThisPlaceToList( places, allPlaces, key );
+               placesToRender = this.addThisPlaceToList( placesToRender, allPlaces, key );
             }
 
         }
 
 
         return (
-            <List class="place-list">{places}</List>
+            <List class="place-list">{placesToRender}</List>
         );
     }
 

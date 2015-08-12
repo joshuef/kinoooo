@@ -88,7 +88,7 @@ var PlaceForm = React.createClass({
     componentDidMount : function( )
     {
         var GoogleMapsLoader = require('google-maps');      // only for common js environments
-        console.log( 'param placename  MOUNTEDDD', this.props );
+        // console.log( 'param placename  MOUNTEDDD', this.props );
 
         if( this.props.thisPlace )
         {

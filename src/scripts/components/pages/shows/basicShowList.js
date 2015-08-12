@@ -7,7 +7,7 @@ var mui = require('material-ui');
 var List = mui.List;
 var ListItem = mui.ListItem;
 
-var ShowList = React.createClass({
+var BasicShowList = React.createClass({
 
     render: function() {
         console.log( 'basicSHOW LIST PROPS', this.props );
@@ -18,17 +18,19 @@ var ShowList = React.createClass({
         for (var key in placeShows) {
 
             
-          shows.push(<ListItem 
-            key={key} 
-            primarytext={placeShows[key].name} 
-            thisShow={placeShows[key]} 
-            allShows={this.props.allShows}
-            belongsToPlace={this.props.belongsToPlace}/>);
+          // shows.push(<ListItem 
+          //   key={key} 
+          //   primarytext={placeShows[key].name} 
+          //   thisShow={placeShows[key]} 
+          //   allShows={this.props.allShows}
+          //   belongsToPlace={this.props.belongsToPlace}/>);
+
+        shows.push(<ListItem 
+            primarytext='lalala' />);
         }
 
-        return (
-            <List className="show-list">{shows}</List>
-        );
+            // <List className="show-list">{shows}</List>
+        return <div>{shows}</div>;
     }
 
 
@@ -36,4 +38,4 @@ var ShowList = React.createClass({
 
 
 
-module.exports = ShowList;
+module.exports = BasicShowList;
