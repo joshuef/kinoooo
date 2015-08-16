@@ -15,7 +15,7 @@ module.exports = {
 		.send( place )
 		.end( function( reply )
 		{
-			console.log( 'PLACETHING', reply );
+			// console.log( 'PLACETHING', reply );
 			if( reply.body.error )
 			{
 				console.log( 'ERRORR WITH addine place' );

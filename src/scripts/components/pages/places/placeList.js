@@ -7,9 +7,9 @@ var React = require('react/addons');
 var mui = require('material-ui');
 var List = mui.List;
 var ListItem = mui.ListItem;
+var ShowsStore = require( '../../stores/ShowsStore');
 
-
-var BasicShowList = require( "../shows/basicShowList" );
+// var BasicShowList = require( "../shows/basicShowList" );
 
 
 var PlaceList = React.createClass({
@@ -24,44 +24,48 @@ var PlaceList = React.createClass({
     {
         var thisPlace = allPlaces[key];
 
-
-        console.log( 'SHOWS????????',thisPlace  );
-
-        if( ! thisPlace.name )
-        // if( ! thisPlace.name || thisPlace.shows.length < 1 )
+        if( ! thisPlace || ! thisPlace.name )
         {
             return;
         }
-
-        // console.log( '"ASKKKKKKK"', thisPlace );
 
 
         var placeUrl = encodeURIComponent( thisPlace.name.replace(/ +/g, '_') );
         var placeLink = "/places/" + placeUrl  + '/' + thisPlace._id;
 
-         // places.push(<PlaceItem key={key} 
-         
-         // if( )
-         places.push(<li 
+
+
+        var placeShows = thisPlace.shows;
+
+        var showsOnHere = [];
+
+        for (var key in placeShows) {
+
+            var actualShow = ShowsStore.getShowByNameOrId( placeShows[ key ] );
+
+            if( actualShow )
+            {
+                showsOnHere.push(<ListItem 
+                primaryText={actualShow.name} 
+                thisShow={actualShow} 
+                allShows={this.props.allShows}/>);
+                
+            }
+
+
+        }
+
+
+         places.push(<ListItem
                      primaryText={thisPlace.name} >
-                     {thisPlace.name}
-                    <BasicShowList placeShows={ thisPlace.shows } allShows={ this.props.allShows }  />
-                     </li>);
-         // places.push(<ListItem 
-         //             primaryText={thisPlace.name} >
-         //                <ListItem> 
-         //                    <BasicShowList placeShows={ thisPlace.shows } allShows={ this.props.allShows }  />
-         //                </ListItem> 
-         //             </ListItem>);
-                    // allPlaces={this.props.allPlaces} 
-                    // allShows={this.props.allShows}
-                    // belongsToShow={this.props.belongsToShow}
+                        {showsOnHere}
+                     </ListItem>);
+                       
 
          return places;
     },
     render: function() {
 
-        console.log( 'PLACE LIST PROPS', this.props );
         var allPlaces = this.props.allPlaces;
         var placesToRender = [];
 
@@ -70,11 +74,11 @@ var PlaceList = React.createClass({
 
         for (var key in allPlaces) {
 
-            if( filter && allPlaces[key].name.toLowerCase().indexOf( filter ) !== -1 )
+            if ( ! filter )
             {
                placesToRender = this.addThisPlaceToList( placesToRender, allPlaces, key );
             }
-            else if ( ! filter )
+            else if( filter && allPlaces[key].name.toLowerCase().indexOf( filter ) !== -1 )
             {
                placesToRender = this.addThisPlaceToList( placesToRender, allPlaces, key );
             }

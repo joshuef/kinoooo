@@ -26,7 +26,6 @@ var ShowsStore = _.extend({}, EventEmitter.prototype, {
 
    getAllShows: function() 
    {
-   	    console.log( 'getting all shows in store', _shows );
    	    return _.clone(_shows);
    }, 
 
@@ -40,8 +39,6 @@ var ShowsStore = _.extend({}, EventEmitter.prototype, {
 
         }
 
-       	console.log( 'getting a specific show,', showIdOrName, _shows, show );
-
        	return show;
    },
 
@@ -51,8 +48,6 @@ var ShowsStore = _.extend({}, EventEmitter.prototype, {
 
         var filteredShows = _.filter( _shows, function( show, i)
             {
-                // console.log( 'filter show', show.name );
-
                 console.log( 'showshow', showHour );
                 //we only care about hours here SORT IT
                 var showMoment = moment( show.startTime );

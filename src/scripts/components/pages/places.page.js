@@ -16,7 +16,6 @@ var Places = React.createClass({
     },
     componentWillMount : function()
     {
-        console.log( 'prepage props', this.props );
         if( this.props.places )
         {
             this.setState( { places: this.props.places })
@@ -46,12 +45,8 @@ var Places = React.createClass({
         var lastRoute = currentRoutes[currentRoutes.length - 1];
 
 
-        console.log( 'PLACESS', lastRoute );
-        console.log( 'PLACES params', params );
-
-
         var sortOptions = [
-               { payload: '2', text: 'A-ZZZZ' },
+               { payload: '2', text: 'A-Z' },
                { payload: '3', text: 'Z-A' },
                {payload: 'location', text: 'By Location' },
                // { payload: '3', text: 'Weeknights' },
@@ -67,8 +62,6 @@ var Places = React.createClass({
         //should this be in get inital state? I GUESS SO
         if( params.placeName )
         {
-            console.log( 'PARAM PLACENAME', params );
-
             //need to decode the URI here.
             var currentPlace = params.placeId || params.placeName;
 
@@ -80,8 +73,6 @@ var Places = React.createClass({
 
         if( currentPlace )
         {
-            // console.log( 'NAE PLACE AND SO?' );
-            console.log( 'PARAM PLACENAME current', currentPlace );
 
             if( this.props.user && this.props.user.isAdmin  )
             {                

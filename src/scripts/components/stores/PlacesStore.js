@@ -64,7 +64,7 @@ var PlacesStore = _.extend({}, EventEmitter.prototype, {
 
    getPlaceByNameOrId: function( placeIdOrName ) 
    {
-        console.log( 'getting a specific place,', placeIdOrName, _places );
+        // console.log( 'getting a specific place,', placeIdOrName, _places );
         var place = _.findWhere(_places, { _id: placeIdOrName });
 
         if( ! place )
@@ -98,7 +98,6 @@ PlacesStore.dispatchToken = AppDispatcher.register(function(payload) {
 
 
 		case ActionTypes.PLACES:
-			console.log( 'PLACES AFTER SERVER RESPONSE?', action.places );
 			//is here where we check itsunique?
 			_.extend(_places, action.places );
 			PlacesStore.emitChange();

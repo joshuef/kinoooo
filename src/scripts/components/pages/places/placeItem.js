@@ -7,16 +7,15 @@ var Link    = Router.Link;
 var BasicShowList = require( "../shows/basicShowList" );
 
 var PlaceItem = React.createClass({
-componentWillMount : function( )
-{
-    console.log( 'PLACE ITEM MOUNTING' );
-},
+    componentWillMount : function( )
+    {
+
+    },
     render: function()
     {
         // console.log( 'thisplacceprops', this.props.thisPlace.name, this.props.thisPlace );
         if( ! this.props.thisPlace.name )
         {
-            // console.log( 'NO NAME' );
             return null;
         }
 
@@ -26,12 +25,12 @@ componentWillMount : function( )
         var placeLink = "/places/" + placeUrl  + '/' + place._id;
 
 
-        console.log( 'PLACE ITEM WITH LIST??', place );
+        // console.log( 'PLACE ITEM WITH LIST??', place );
         //RENDER ALL
+                // <BasicShowList placeShows={ place.shows } allShows={ this.props.allShows } belongsToPlace={true} />
         return(
             <li>
                 <h3><Link to={placeLink}>{ place.name }</Link></h3>
-                <BasicShowList placeShows={ place.shows } allShows={ this.props.allShows } belongsToPlace={true} />
             </li> 
             );
         

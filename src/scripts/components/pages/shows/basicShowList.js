@@ -10,7 +10,6 @@ var ListItem = mui.ListItem;
 var BasicShowList = React.createClass({
 
     render: function() {
-        console.log( 'basicSHOW LIST PROPS', this.props );
 
         var placeShows = this.props.placeShows;
         var shows = [];
