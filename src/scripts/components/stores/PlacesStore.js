@@ -27,7 +27,6 @@ var PlacesStore = _.extend({}, EventEmitter.prototype, {
 
    getAllPlaces: function() {
   
-        console.log( 'getting all places from store', _places );
         return _.clone(_places);
    },
 
@@ -43,9 +42,6 @@ var PlacesStore = _.extend({}, EventEmitter.prototype, {
 
         });
   
-        // debugger;
-       	console.log( 'SORTING all places from store', _places.sort(this.sort_by('distance', false, parseInt) ) );    
-
         // homes.sort(sort_by('price', true, parseInt));
 
        	return _.clone( _places ).sort(this.sort_by('distance', false, parseInt));

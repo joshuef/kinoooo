@@ -83,7 +83,7 @@ var PlaceList = React.createClass({
 
 
         return (
-            <List class="place-list">{placesToRender}</List>
+            <List className="place-list">{placesToRender}</List>
         );
     }
 

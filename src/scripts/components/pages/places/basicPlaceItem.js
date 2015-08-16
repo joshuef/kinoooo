@@ -8,14 +8,13 @@ var Link    = Router.Link;
 var BasicPlaceItem = React.createClass({
     onClick : function( e )
     {
-        console.log( 'CLICK IN' );
       //we're in a form so run it up
       this.props.onClick( e, this.props.thisPlace );
 
     },
     render: function()
     {
-        console.log( 'placeprops', this.props );
+        // console.log( 'placeprops', this.props );
         if( ! this.props.thisPlace )
         {
             console.log( 'NO PLACE' );
@@ -53,21 +52,22 @@ var BasicPlaceItem = React.createClass({
         var placeLink = "/places/" + placeUrl  + '/' + place._id;
 
         var showingsToRender = [];
-        //times elements
-        for (var key in thisPlace.showings ) 
-        {
+        //Lets not get any showings right now
+        // //times elements
+        // for (var key in thisPlace.showings ) 
+        // {
 
-            //if the 
-            var time = thisPlace.showings[key].time;
+        //     //if the 
+        //     var time = thisPlace.showings[key].time;
 
-            if( moment.isMoment( time ) )
-            {
-                console.log( 'BASIC PLACE ITEM SHOWINGS loop', place.showings );
+        //     if( moment.isMoment( time ) )
+        //     {
+        //         console.log( 'BASIC PLACE ITEM SHOWINGS loop', place.showings );
 
-                showingsToRender.push( <li>{time.format("dddd, MMMM Do YYYY, h:mm:ss a")}</li> );
-            }
+        //         showingsToRender.push( <li>{time.format("dddd, MMMM Do YYYY, h:mm:ss a")}</li> );
+        //     }
 
-        }
+        // }
 
         if( this.props.inForm )
         {  

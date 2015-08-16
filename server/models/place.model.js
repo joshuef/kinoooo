@@ -16,11 +16,12 @@ var placeSchema = new Schema({
     // comments: [{ body: String, date: Date }],
     url: { type: String, required: false },
     shows: [ { type: Schema.Types.ObjectId, ref: 'Show', index: {unique: true, dropDups: true}  }  ],
+    name: { type: String, required: false },
     location : { type : [Number], index : '2d'},
     venue: {
         place_id: { type: String, required: false, unique : true },
-        name: { type: String, required: false },
         formatted_address: { type: String, required: false },
+        name: { type: String, required: false },
         url: { type: String, required: false },
         international_phone_number: { type: String },
         geometry: {
@@ -46,9 +47,9 @@ placeSchema.options.toJSON.virtuals = true;
 placeSchema.virtual('text').get(function() {
 	return this.venue.name;
 });
-placeSchema.virtual('name').get(function() {
-  return this.venue.name;
-});
+// placeSchema.virtual('name').get(function() {
+//   return this.venue.name;
+// });
 
 
 placeSchema.virtual('latitude').get(function() {
