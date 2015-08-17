@@ -18,7 +18,7 @@ var PlaceForm = React.createClass({
     {
         if( this.props.user && ! this.props.user.isAdmin )
         {
-            this.render = function( ){ return false;}
+            this.render = function( ){ return false;};
         }
 
     },

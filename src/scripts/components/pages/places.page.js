@@ -18,7 +18,7 @@ var Places = React.createClass({
     {
         if( this.props.places )
         {
-            this.setState( { places: this.props.places })
+            this.setState( { places: this.props.places });
         }
 
     },
@@ -28,7 +28,7 @@ var Places = React.createClass({
         //should check for any filters and reapply first
         if( this.props.places )
         {
-            this.setState( { places: this.props.places })
+            this.setState( { places: this.props.places });
         }
 
     },
@@ -43,7 +43,7 @@ var Places = React.createClass({
 
         var currentRoutes = this.context.router.getCurrentRoutes();
         var lastRoute = currentRoutes[currentRoutes.length - 1];
-
+        var currentPlace;
 
         var sortOptions = [
                { payload: '2', text: 'A-Z' },
@@ -63,7 +63,7 @@ var Places = React.createClass({
         if( params.placeName )
         {
             //need to decode the URI here.
-            var currentPlace = params.placeId || params.placeName;
+            currentPlace = params.placeId || params.placeName;
 
             //perhaps this should be grtabbed from a places object in props
             currentPlace = PlacesStore.getPlaceByNameOrId( currentPlace );
@@ -98,6 +98,7 @@ var Places = React.createClass({
         {
             //no placename or id found, so lets filter by that. Does that make sense?
 
+                    // <PlaceForm allPlaces={this.state.places} allShows={this.props.shows}  thisPlace={null} user={this.props.user}/>
             return (
               <div className='main'>
                     <h1>Places</h1>
@@ -105,7 +106,6 @@ var Places = React.createClass({
                     menuItems={sortOptions}
                     onChange={this.sortTheList}
                     ref="sortDropdown" /> 
-                    <PlaceForm allPlaces={this.state.places} allShows={this.props.shows}  thisPlace={null} user={this.props.user}/>
                     <PlaceList allPlaces={this.state.places} allShows={this.props.shows} filter={params.placeName}  user={this.props.user}/>
               </div>
             );

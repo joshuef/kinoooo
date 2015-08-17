@@ -39,13 +39,15 @@ var PlaceList = React.createClass({
 
         var showsOnHere = [];
 
-        for (var key in placeShows) {
+        for (var placeShowKey in placeShows) {
 
-            var actualShow = ShowsStore.getShowByNameOrId( placeShows[ key ] );
+            var actualShow = ShowsStore.getShowByNameOrId( placeShows[ placeShowKey ] );
 
             if( actualShow )
             {
                 showsOnHere.push(<ListItem 
+                key={ placeShowKey }
+                onClick={ this.linkToShow }
                 primaryText={actualShow.name} 
                 thisShow={actualShow} 
                 allShows={this.props.allShows}/>);
@@ -55,14 +57,23 @@ var PlaceList = React.createClass({
 
         }
 
-
          places.push(<ListItem
-                     primaryText={thisPlace.name} >
+                    key={key}
+                    primaryText={thisPlace.name} >
                         {showsOnHere}
                      </ListItem>);
                        
 
          return places;
+    },
+    /**
+     * Send the user to the desired show!
+     * @return {[type]} [description]
+     */
+    linkToShow : function( )
+    {
+        console.log( 'THISISHAPPENINGGGGGG' );
+
     },
     render: function() {
 

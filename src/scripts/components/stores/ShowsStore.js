@@ -48,18 +48,14 @@ var ShowsStore = _.extend({}, EventEmitter.prototype, {
 
         var filteredShows = _.filter( _shows, function( show, i)
             {
-                console.log( 'showshow', showHour );
                 //we only care about hours here SORT IT
                 var showMoment = moment( show.startTime );
                 var showHour = showMoment.hour();
-                console.log( 'showHour', showHour );
                 // console.log( 'filter', showMoment );
 
                 var nowHour = time.hour();
-                console.log( 'show NOW HOUR', nowHour );
                 // console.log( 'VALID TIME?', showMoment );
                 var isItStillToCome = showHour >= nowHour;
-                console.log( 'show filter IS IT?', isItStillToCome );
                 // return moment( show.startTime ).isAfter( time, 'hour' );
                 return isItStillToCome;
             });
@@ -108,10 +104,7 @@ ShowsStore.dispatchToken = AppDispatcher.register(function(payload) {
 		case ActionTypes.SHOWS:
 
             makeTimesMoments( action.shows );
-			console.log( 'SHOWS AFTER SERVER RESPONSE?', action.shows );
-			//is here where we check itsunique?
 			_.extend(_shows, action.shows );
-			console.log( 'THEN THE SHOWS IN THE STORE', _shows );
 			ShowsStore.emitChange();
 			break;
 

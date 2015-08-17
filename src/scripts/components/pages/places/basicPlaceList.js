@@ -54,9 +54,9 @@ var PlaceList = React.createClass({
                     time: showPlaceTime.time,
                     flags: showPlaceTime.flags
                 } ]
-             }
+             };
 
-            var existingPlace = _.findWhere( places, { placeId: thisPlace.placeId})
+            var existingPlace = _.findWhere( places, { placeId: thisPlace.placeId});
                 
                 console.log( 'existing place?', existingPlace );
             if( ! existingPlace  )
