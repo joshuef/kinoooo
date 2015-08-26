@@ -1,11 +1,21 @@
 from mongoengine import *
 import datetime
 
+class Venue(EmbeddedDocument):
+    name = StringField(required=True)
+    geo_location = PointField(required=True)
+    place_id = DynamicField(required=True)
+    details = DynamicField()
+    local_phone_number = DynamicField()
+    website = DynamicField()
+    url = DynamicField()
+    formatted_address = DynamicField()
+
 class Places(Document):
     name = StringField(required=True)
     date_modified = DateTimeField(default=datetime.datetime.now)
-    shows = ListField()
-    venue = DictField()
+    shows = ListField(ReferenceField('Shows'))
+    venue = EmbeddedDocumentField(Venue)
 
 class RawShowings(Document):
     place = StringField()
@@ -17,12 +27,15 @@ class RawShowings(Document):
 
     meta = {'collection': 'raw_showings'}
 
-class Shows(Document):
-    name = StringField()
-    showingAt = ListField()
-    updated = DateTimeField()
-
 class ShowTime(EmbeddedDocument):
     place = ReferenceField(Places)
     time = DateTimeField()
     flags = ListField()
+
+class Shows(Document):
+    name = StringField()
+    showingAt = ListField(EmbeddedDocumentField(ShowTime))
+    updated = DateTimeField()
+    metadata = DictField()
+
+
