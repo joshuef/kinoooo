@@ -3,13 +3,19 @@ import alt from 'components/Dispatcher';
 class RelationalItemActions {
     constructor( options )
     {
-        this.source = null;
+
+        console.log( 'OUR ACTION OPTIONS', options );
+        this.source     = options.source || null;
+        this.store      = options.store || null;
+        this.options    = options;
+ 
     }
 
-    updateItems() {
-        var allItems = [ 1,2,3 ];
+    updateItems( items ) {
+        console.log( 'updating store in actions' );
+        this.store.updateItems( items );
 
-        return allItems;
+        return items;
     }
 
     fetchItems() 

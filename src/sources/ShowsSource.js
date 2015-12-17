@@ -39,6 +39,7 @@ var ShowsSource = {
   fetch: function () {
     // returning a Promise because that is what fetch does.
     return new Promise(function (resolve, reject) {
+      reject = reject;
       // simulate an asynchronous action where data is fetched on
       // a remote server somewhere.
       setTimeout(function () {
@@ -48,3 +49,5 @@ var ShowsSource = {
     });
   }
 };
+
+export default ShowsSource;
