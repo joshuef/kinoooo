@@ -5,7 +5,6 @@ export class RelationalItemActions{
     {
       if( options )
       {
-          console.log( 'OUR ACTION OPTIONS', options );
           this.source     = options.source || null;
           this.store      = options.store || null;
           this.options    = options;
@@ -34,6 +33,7 @@ export class RelationalItemActions{
                     this.updateItems( items );
                   })
                 .catch((errorMessage) => {
+                    // errorMessage = errorMessage;
                     this.itemsFailed(errorMessage);
                   });
         }

@@ -5,19 +5,16 @@ export class RelationalItemStore {
     constructor(  options ) {
         this.items = [];
 
-        if( options )
-        {
-            this.actionSet = options.actionSet || null;
-        }
+        let actionSet = options.actionSet || null;
 
         console.log ( this );
 
-        if( this.actionSet )
+        if( actionSet )
         {
             this.bindListeners({
-                handleFetchItems:   this.actionSet.FETCH_ITEMS,
-                handleUpdateItems:  this.actionSet.UPDATE_ITEMS,
-                handleItemsFailed:  this.actionSet.ITEMS_FAILED
+                handleFetchItems:   actionSet.FETCH_ITEMS,
+                handleUpdateItems:  actionSet.UPDATE_ITEMS,
+                handleItemsFailed:  actionSet.ITEMS_FAILED
             });
 
         }
@@ -46,7 +43,7 @@ export class RelationalItemStore {
 
 
 export default function( options )
-{  
+{
     var ourItemStore = alt.createStore( RelationalItemStore, options.storeName, options);
 
     return ourItemStore;
