@@ -10,6 +10,8 @@ export class RelationalItemStore {
             this.actionSet = options.actionSet || null;
         }
 
+        console.log ( this );
+
         if( this.actionSet )
         {
             this.bindListeners({
@@ -17,7 +19,7 @@ export class RelationalItemStore {
                 handleUpdateItems:  this.actionSet.UPDATE_ITEMS,
                 handleItemsFailed:  this.actionSet.ITEMS_FAILED
             });
-            
+
         }
     }
 
@@ -42,4 +44,19 @@ export class RelationalItemStore {
 
 }
 
-export default alt.createStore(RelationalItemStore, 'RelationalItemStore');
+
+export default function( options )
+{  
+    var ourItemStore = alt.createStore( RelationalItemStore, options.storeName, options);
+
+    return ourItemStore;
+    // return alt.createStore( ourItemStore, options.storeName )
+    // return alt.createActions(ourItemActions);
+}
+
+//
+// export default function( options )
+// {
+//     return ourRlationalItemActions;
+//     // return alt.createActions( RelationalItemActionsClass, options);
+// }

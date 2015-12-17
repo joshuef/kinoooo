@@ -1,31 +1,32 @@
 import alt from 'components/Dispatcher';
 
-class RelationalItemActions {
+export class RelationalItemActions{
     constructor( options )
     {
+      if( options )
+      {
+          console.log( 'OUR ACTION OPTIONS', options );
+          this.source     = options.source || null;
+          this.store      = options.store || null;
+          this.options    = options;
+      }
 
-        console.log( 'OUR ACTION OPTIONS', options );
-        this.source     = options.source || null;
-        this.store      = options.store || null;
-        this.options    = options;
- 
     }
 
     updateItems( items ) {
         console.log( 'updating store in actions' );
-        this.store.updateItems( items );
+        // this.store.updateItems( items );
 
         return items;
     }
 
-    fetchItems() 
-    {
-        return (dispatch) => 
+    fetchItems(){
+        return (dispatch) =>
         {
             // we dispatch an event here so we can have "loading" state.
             dispatch();
 
-            // import 
+            // import
 
             this.source.fetch()
                 .then(( items ) => {
@@ -42,4 +43,10 @@ class RelationalItemActions {
     }
 }
 
-export default alt.createActions(RelationalItemActions);
+
+export default function( options )
+{
+    var ourRlationalItemActions = alt.createActions( RelationalItemActions, {}, options);
+    return ourRlationalItemActions;
+    // return alt.createActions( RelationalItemActions, options);
+}
