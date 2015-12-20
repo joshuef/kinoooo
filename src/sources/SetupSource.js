@@ -7,17 +7,9 @@ export default class Source {
         this.endpoint = options.endpoint;
 
     }
-    anotherFunction( )
-    {
 
-        console.log( 'anotherfunction, bla', this.endpoint );
-        return 'bla';
-    }
     fetch( ) {
         var self = this;
-
-        console.log( 'FETCHING', this.endpoint );
-
 
         return axios.get( '/api/' + self.endpoint )
             .then(function (response) {

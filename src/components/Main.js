@@ -7,11 +7,8 @@ import makeActions  from '../actions/RelationalItemActions';
 import Source from '../sources/SetupSource';
 import makeItemStore from '../stores/RelationalItemStore';
 
-let showsSource =  new Source( { endpoint: 'shows'
-} );
+let showsSource =  new Source( { endpoint: 'shows' } );
 
-// console.log( 'SHOWSSOURCE', Source );
-// console.log( 'SHOWSSOURCE', showsSource );
 
 let ShowsActions = makeActions( { source: showsSource } );
 
@@ -24,11 +21,6 @@ ShowsActions.store = ShowsStore;
 
 
 let yeomanImage = require('../images/yeoman.png');
-
-console.log( 'THISISACTIONHAPPENING', ShowsActions );
-console.log( 'THISISSTOREHAPPENING', ShowsStore );
-
-
 
 class AppComponent extends React.Component {
 
@@ -54,7 +46,6 @@ class AppComponent extends React.Component {
       }
 
     render() {
-        // this.state
         console.log( 'this.state', this.state );
 
 

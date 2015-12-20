@@ -7,8 +7,6 @@ export class RelationalItemStore {
 
         let actionSet = options.actionSet || null;
 
-        console.log ( this );
-
         if( actionSet )
         {
             this.bindListeners({
