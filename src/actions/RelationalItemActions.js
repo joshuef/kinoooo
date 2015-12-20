@@ -25,10 +25,13 @@ export class RelationalItemActions{
             // we dispatch an event here so we can have "loading" state.
             dispatch();
 
+            console.log( 'right after the dispatch of nothing' );
             // import
 
             this.source.fetch()
                 .then(( items ) => {
+
+                    console.log( 'GOT ITEMS FROM API', items );
                     // we can access other actions within our action through `this.actions`
                     this.updateItems( items );
                   })
