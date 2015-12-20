@@ -42,6 +42,7 @@ export class RelationalItemActions{
 
 export default function( options )
 {
-    var ourRlationalItemActions = alt.createActions( RelationalItemActions, {}, options);
+  var ourRlationalItemActions = {}
+    var ourRlationalItemActions = alt.createActions( RelationalItemActions, ourRlationalItemActions, options);
     return ourRlationalItemActions;
 }

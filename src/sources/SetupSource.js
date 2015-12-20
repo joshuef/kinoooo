@@ -15,14 +15,11 @@ export default class Source {
             .then(function (response) {
 
                 let dataName = response.config.url.split( '/api/' )[1]; 
-
                 let data = response.data[ dataName ];
 
                 return response.data[ dataName ];
             })
             .catch(function (response) {
-                console.log('ERRROR');
-                console.log(response);
                 return response;
               });
 

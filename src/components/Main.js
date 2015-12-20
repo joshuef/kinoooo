@@ -46,17 +46,15 @@ class AppComponent extends React.Component {
       }
 
     render() {
-        console.log( 'this.state', this.state );
-
 
         if (this.state.errorMessage) {
             return (
-              <div>Something is wrong :(  {this.state.errorMessage}</div>
+              <div className="index">Something is wrong :(  {this.state.errorMessage}</div>
             );
           }
         if (!this.state.items.length) {
             return (
-              <div>
+              <div className="index">
                 LOADING
               </div>
             )
