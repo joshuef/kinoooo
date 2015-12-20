@@ -4,11 +4,16 @@ require('styles/App.css');
 
 import React from 'react';
 import makeActions  from '../actions/RelationalItemActions';
-import ShowsSource from '../sources/showsSource';
+import Source from '../sources/SetupSource';
 import makeItemStore from '../stores/RelationalItemStore';
 
+let showsSource =  new Source( { endpoint: 'shows'
+} );
 
-let ShowsActions = makeActions( { source: ShowsSource });
+// console.log( 'SHOWSSOURCE', Source );
+// console.log( 'SHOWSSOURCE', showsSource );
+
+let ShowsActions = makeActions( { source: showsSource } );
 
 let ShowsStore = makeItemStore({
   storeName : 'ShowsStore',

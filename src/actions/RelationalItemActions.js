@@ -25,7 +25,7 @@ export class RelationalItemActions{
             // we dispatch an event here so we can have "loading" state.
             dispatch();
 
-            console.log( 'right after the dispatch of nothing' );
+            console.log( 'right after the dispatch of nothing and a source', this.source.anotherFunction() );
             // import
 
             this.source.fetch()

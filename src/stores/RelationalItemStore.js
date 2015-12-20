@@ -47,13 +47,4 @@ export default function( options )
     var ourItemStore = alt.createStore( RelationalItemStore, options.storeName, options);
 
     return ourItemStore;
-    // return alt.createStore( ourItemStore, options.storeName )
-    // return alt.createActions(ourItemActions);
 }
-
-//
-// export default function( options )
-// {
-//     return ourRlationalItemActions;
-//     // return alt.createActions( RelationalItemActionsClass, options);
-// }
