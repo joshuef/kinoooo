@@ -13,8 +13,11 @@ module.exports = function(config) {
     client: {
       mocha: {}
     },
+    osxReporter: {
+      notificationMode: 'failChange'
+    },
     singleRun: true,
-    reporters: [ 'mocha', 'coverage' ],
+    reporters: [ 'mocha', 'coverage', 'osx' ],
     preprocessors: {
       'test/loadtests.js': [ 'webpack', 'sourcemap' ]
     },
