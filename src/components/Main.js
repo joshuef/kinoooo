@@ -10,20 +10,39 @@ import makeItemStore from '../stores/RelationalItemStore';
 
 
 import Show from './RelationalItemComponent';
+// import Place from './RelationalItemComponent';
 
+
+
+
+
+/// DEFINE MAJOR ENDPOINTs
 let showsSource =  new Source( { endpoint: 'shows' } );
+let placeSource =  new Source( { endpoint: 'places' } );
 
 
 let ShowsActions = makeActions( { source: showsSource } );
+let PlacesActions = makeActions( { source: placeSource } );
 
 let ShowsStore = makeItemStore({
   storeName : 'ShowsStore',
   actionSet : ShowsActions
 });
 
+let PlacesStore = makeItemStore({
+  storeName : 'PlacesStore',
+  actionSet : PlacesActions
+});
+
 ShowsActions.store = ShowsStore;
+PlacesActions.store = PlacesStore;
 
 
+
+
+
+
+//bullsh
 let yeomanImage = require('../images/yeoman.png');
 
 
@@ -36,7 +55,12 @@ class AppComponent extends React.Component {
 
       constructor( options ) {
         super( options );
-        this.state = ShowsStore.getState();
+        this.state = {
+            shows: [],
+            places: []
+        }
+        this.state.shows = ShowsStore.getState();
+        // this.state.places = PlacesStore.getState();
         this.onChange = this.onChange.bind(this)
 
       }
@@ -52,17 +76,20 @@ class AppComponent extends React.Component {
       }
 
       onChange(state) {
-          this.setState(state);
+          this.setState( { shows: state.items } );
       }
 
     render() {
+
+
+            console.log( 'thisSTATE?', this.state );
 
         if (this.state.errorMessage) {
             return (
               <div className="index">Something is wrong :(  {this.state.errorMessage}</div>
             );
           }
-        if (!this.state.items.length) {
+        if (!this.state.shows.length) {
             return (
               <div className="index">
                 LOADING
@@ -71,17 +98,17 @@ class AppComponent extends React.Component {
         }
 
 
-        let allItems = [];
+        let allShows = [];
 
-
-        for (var key in this.state.items ) {
-          allItems.push(<Show itemInfo={this.state.items[ key ]}/>);
+        for ( var key in this.state.shows ) {
+          allShows.push(<Show key={key} itemInfo={this.state.shows[ key ]}/>);
         }
 
         return (
             <div className="index">
                 <img src={yeomanImage} alt="Yeoman Generator" />
-                <ul className="allItems">{ allItems } </ul>
+                <ul className="allPlaces">{ allShows } </ul>
+                <ul className="allShows">{ allShows } </ul>
             </div>
     );
   }
