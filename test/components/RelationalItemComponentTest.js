@@ -17,7 +17,8 @@ describe('RelationalItemComponent', () => {
                         itemInfo:
                             { 
                                     name: 'bob' 
-                            } 
+                            },
+                        titleKey : 'name'
                         } ;
                     
 

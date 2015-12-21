@@ -7,9 +7,11 @@ require('styles//RelationalItem.css');
 class RelationalItemComponent extends React.Component {
   render() {
 
+    //React can define required props
+
     return (
         <div className="relationalitem-component">
-            {this.props.itemInfo.name}
+            {this.props.itemInfo[ this.props['titleKey'] ]}
         </div>
     );
   }
