@@ -7,6 +7,10 @@ import makeActions  from '../actions/RelationalItemActions';
 import Source from '../sources/SetupSource';
 import makeItemStore from '../stores/RelationalItemStore';
 
+
+
+import Show from './RelationalItemComponent';
+
 let showsSource =  new Source( { endpoint: 'shows' } );
 
 
@@ -21,6 +25,12 @@ ShowsActions.store = ShowsStore;
 
 
 let yeomanImage = require('../images/yeoman.png');
+
+
+
+
+
+// let Show = RelationalItem();
 
 class AppComponent extends React.Component {
 
@@ -59,10 +69,19 @@ class AppComponent extends React.Component {
               </div>
             )
         }
+
+
+        let allItems = [];
+
+
+        for (var key in this.state.items ) {
+          allItems.push(<Show itemInfo={this.state.items[ key ]}/>);
+        }
+
         return (
             <div className="index">
                 <img src={yeomanImage} alt="Yeoman Generator" />
-                <div className="notice">Please { this.state.items[0].name } edit <code>src/components/Main.js</code> to get started!</div>
+                <ul className="allItems">{ allItems } </ul>
             </div>
     );
   }

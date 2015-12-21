@@ -17,7 +17,7 @@ export default class Source {
                 let dataName = response.config.url.split( '/api/' )[1]; 
                 let data = response.data[ dataName ];
 
-                return response.data[ dataName ];
+                return  data;
             })
             .catch(function (response) {
                 return response;
