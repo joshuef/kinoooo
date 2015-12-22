@@ -1,0 +1,20 @@
+/**
+ * Config Location
+ */
+process.env.GETCONFIG_ROOT = __dirname + '/config';
+
+
+var Hapi = require('hapi');
+var server = new Hapi.Server();
+
+var fs = require('fs');
+var path = require('path');
+var request = require('superagent');
+
+
+var mainLink = "http://www.berlin.de/kino/_bin/trefferliste.php?kino=&datum=&genre=&stadtteil=&freitext=&suche=1&kinoid=hl66u24s0gfe3gmql02e70s63a5d71cg8udkoia94cqvrnb43sr0"
+
+request.get( mainLink ).end( function( response )
+{
+  console.log( 'responssssseee!??', response );
+} );
