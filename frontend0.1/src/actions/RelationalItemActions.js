@@ -13,7 +13,6 @@ export class RelationalItemActions{
     }
 
     updateItems( items ) {
-        console.log( 'updating store in actions' );
 
         return items;
     }

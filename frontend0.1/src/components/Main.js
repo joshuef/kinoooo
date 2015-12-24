@@ -9,6 +9,7 @@ import makeItemStore from '../stores/RelationalItemStore';
 
 
 
+
 import Show from './RelationalItemComponent';
 import Place from './RelationalItemComponent';
 
@@ -58,7 +59,9 @@ class AppComponent extends React.Component {
         this.state = {
             shows: [],
             places: []
-        }
+        };
+
+        console.log( 'THISISHAPPENING' );
         this.state.shows = ShowsStore.getState();
         this.state.places = PlacesStore.getState();
 
@@ -104,6 +107,7 @@ class AppComponent extends React.Component {
         //     )
         // }
 
+        console.log( 'THISISHAPPENING', this.props );
 
         let allPlaces = [];
 
@@ -113,6 +117,7 @@ class AppComponent extends React.Component {
 
 
         let allShows = [];
+                // <h1>{this.props.params.path}</h1>
 
         for ( var key in this.state.shows ) {
           allShows.push(<Show key={key} titleKey='name' itemInfo={this.state.shows[ key ]}/>);
