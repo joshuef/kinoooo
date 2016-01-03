@@ -58,11 +58,15 @@ class AppComponent extends React.Component {
         super( props );
         this.state = {
             shows: [],
-            places: []
+            places: [],
+            title: props.title || 'RelationalItemPage Default Title',
+            itemStore: props.itemStore || null,
+            itemActions: props.itemActions || null
+
         };
 
-        let x = context;
-        x =x;
+        // let x = context;
+        // x =x;
 
 
         console.log( 'THISISHAPPENING CONSTRUCTOR', this.props.name );
@@ -70,9 +74,6 @@ class AppComponent extends React.Component {
         this.state.places = PlacesStore.getState();
 
         
-
-        // this.state.title = this.props.location.pathname;
-
 
         //on change events should be handled in a onner
         this.onChangePlaces = this.onChangePlaces.bind(this)
@@ -116,7 +117,7 @@ class AppComponent extends React.Component {
         //     )
         // }
 
-        console.log( 'THISISHAPPENING RENDER', this.state );
+        console.log( 'RelationalPage  RENDER', this.state );
 
         let allPlaces = [];
 
@@ -133,7 +134,7 @@ class AppComponent extends React.Component {
         return (
             <div className="index">
                 <img src={yeomanImage} alt="Yeoman Generator" />
-                <h1>BLA</h1>
+                <h1>{ this.state.title }</h1>
                 <ul className="relational-page__list">{ allItems } </ul>
             </div>
     );
