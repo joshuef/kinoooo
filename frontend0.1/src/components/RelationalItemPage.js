@@ -54,33 +54,42 @@ let yeomanImage = require('../images/yeoman.png');
 
 class AppComponent extends React.Component {
 
-      constructor( options ) {
-        super( options );
+    constructor( props, context ) {
+        super( props );
         this.state = {
             shows: [],
             places: []
         };
 
-        console.log( 'THISISHAPPENING' );
+        let x = context;
+        x =x;
+
+
+        console.log( 'THISISHAPPENING CONSTRUCTOR', this.props.name );
         this.state.shows = ShowsStore.getState();
         this.state.places = PlacesStore.getState();
+
+        
+
+        // this.state.title = this.props.location.pathname;
 
 
         //on change events should be handled in a onner
         this.onChangePlaces = this.onChangePlaces.bind(this)
         this.onChangeShows = this.onChangeShows.bind(this)
 
-      }
+    }
+      
 
-      componentDidMount() {
+    componentDidMount() {
             ShowsStore.listen(this.onChangeShows);
             ShowsActions.fetchItems();
 
             PlacesStore.listen(this.onChangePlaces);
             PlacesActions.fetchItems();
-      }
+    }
 
-      componentWillUnmount() {
+    componentWillUnmount() {
           ShowsStore.unlisten(this.onChangeShows);
           PlacesStore.unlisten(this.onChangePlaces);
       }
@@ -107,7 +116,7 @@ class AppComponent extends React.Component {
         //     )
         // }
 
-        console.log( 'THISISHAPPENING', this.props );
+        console.log( 'THISISHAPPENING RENDER', this.state );
 
         let allPlaces = [];
 
@@ -116,18 +125,16 @@ class AppComponent extends React.Component {
         }
 
 
-        let allShows = [];
-                // <h1>{this.props.params.path}</h1>
+        let allItems = [];
 
         for ( var key in this.state.shows ) {
-          allShows.push(<Show key={key} titleKey='name' itemInfo={this.state.shows[ key ]}/>);
+          allItems.push(<Show key={key} titleKey='name' itemInfo={this.state.shows[ key ]}/>);
         }
-
         return (
             <div className="index">
                 <img src={yeomanImage} alt="Yeoman Generator" />
-                <ul className="allPlaces">{ allPlaces } </ul>
-                <ul className="allShows">{ allShows } </ul>
+                <h1>BLA</h1>
+                <ul className="relational-page__list">{ allItems } </ul>
             </div>
     );
   }
@@ -135,5 +142,6 @@ class AppComponent extends React.Component {
 
 AppComponent.defaultProps = {
 };
+
 
 export default AppComponent;

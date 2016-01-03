@@ -8,16 +8,18 @@
 // const TestUtils = React.addons.TestUtils;
 import createComponent from 'helpers/shallowRenderHelper';
 
-import Main from 'components/Main';
+import RelationalItemPage from 'components/RelationalItemPage';
 
-describe('MainComponent', () => {
-    let MainComponent;
+describe('RelationalItemPageComponent', () => {
+    let RelationalItemPageComponent;
 
     beforeEach(() => {
-      MainComponent = createComponent(Main);
+      RelationalItemPageComponent = createComponent(RelationalItemPage);
     });
 
     it('should have its component name as default className', () => {
-      expect(MainComponent.props.className).to.equal('index');
+
+        console.log( 'MAine Componnent', RelationalItemPageComponent );
+      expect(RelationalItemPageComponent.props.className).to.equal('index');
     });
 });
