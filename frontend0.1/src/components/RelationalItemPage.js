@@ -52,10 +52,12 @@ let yeomanImage = require('../images/yeoman.png');
 
 // let Show = RelationalItem();
 
-class AppComponent extends React.Component {
+class RelationalItemPage extends React.Component {
 
     constructor( props, context ) {
-        super( props );
+        super( );
+
+        console.log( 'RELATIONAL CONSTRUCTOR PROPS', props, context );
         this.state = {
             shows: [],
             places: [],
@@ -65,11 +67,13 @@ class AppComponent extends React.Component {
 
         };
 
-        // let x = context;
-        // x =x;
+
+        //suppress errors until routing context is sorted. AKA v2 of react router
+        let x = context;
+        x =x;
 
 
-        console.log( 'THISISHAPPENING CONSTRUCTOR', this.props.name );
+        // console.log( 'THISISHAPPENING CONSTRUCTOR', this.props.name );
         this.state.shows = ShowsStore.getState();
         this.state.places = PlacesStore.getState();
 
@@ -141,8 +145,8 @@ class AppComponent extends React.Component {
   }
 }
 
-AppComponent.defaultProps = {
+RelationalItemPage.defaultProps = {
 };
 
 
-export default AppComponent;
+export default RelationalItemPage;
