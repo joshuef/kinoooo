@@ -7,13 +7,19 @@ import React, {
 } from 'react';
 
 import RelationalItemList from './RelationalItemList';
-
+import http from 'http';
 
 class MainPage extends Component {
-        static needsItems =
+    static needsItems =
     [
         'shows'
     ];
+    
+    handleClick ( e )
+    {
+        console.log( 'THISISHAPPENING' );
+        console.log( http );
+    }
 
     render() {
 
@@ -31,6 +37,7 @@ class MainPage extends Component {
         return (
             <div className="main--{ itemType }  ">
                 <h1>{itemType}</h1>
+                <button onClick={ this.handleClick }/>
                 <RelationalItemList itemType={ itemType } relationalItems={ relationalItems } />
             </div>
         );

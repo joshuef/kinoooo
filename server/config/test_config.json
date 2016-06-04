@@ -1,8 +1,0 @@
-{
-  "mongo": {
-    "url": "mongodb://localhost/yes"
-  },
-  "server": {
-    "port": 8001
-  }
-}

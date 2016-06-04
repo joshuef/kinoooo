@@ -49,8 +49,8 @@ var placeSchema = new Schema({
         geometry: {
 
             location: {
-                A: { type: Number },
-                F: {type: Number }
+                A: { type: Number, required: false  },
+                F: {type: Number, required: false  }
             }
         },
       rating: { type: Number},

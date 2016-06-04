@@ -81,10 +81,10 @@ module.exports = [
     method: 'POST',
     path: placeRoot + '/add',
     config: {
-        auth : 
-        {
-            strategy: 'session'
-        },
+        // auth : 
+        // {
+        //     strategy: 'session'
+        // },
         validate: {
 
             // payload:
@@ -96,42 +96,50 @@ module.exports = [
         // handler: admit.create
         handler: function(request, reply)
         {   
-            if( request.auth.credentials.userType !== 'admin' )
-                return;
+            // if( request.auth.credentials.userType !== 'admin' )
+            //     return;
 
 
             var payload = request.payload;
 
             // console.log( 'THE AUUUTHHH', request.auth.credentials );
             var newPlace = new Place({
-                name: payload.name,
-                venue: payload.venue,
+                name: payload.name || 'noname',
+                venue: payload.venue || '',
                 //needs to be longitude, lat
-                location: [ payload.venue.geometry.location.F, payload.venue.geometry.location.A  ],
-                description: payload.description,
-                image: payload.image,
-                url: payload.url,
-                creator: request.auth.credentials._id
+                location: [ 
+                    payload.venue ? payload.venue.geometry.location.F : 0, 
+                    payload.venue ? payload.venue.geometry.location.A  : 0 ],
+                description: payload.description || '',
+                image: payload.image || '',
+                url: payload.url || '',
+                // creator: request.auth.credentials._id || 0
             });
 
 
-            newPlace.save(function (err) {
-                    if (!err) {
-                      reply(newPlace)
-                      return console.log("created a place");
+              Place.findOneOrCreate({name: payload.name}, newPlace, function(err, thisPlace) {
+            // {name: 'Mohammad', age: 20}
+            console.log('CREATED A PLACE', thisPlace);
+                });
 
-                  } else {
-                      //TODO: return page with errors
-                        reply( 
-                        { 
-                            error: true,
-                            text: "adding place failed"
+
+            // newPlace.save(function (err) {
+            //         if (!err) {
+            //           reply(newPlace)
+            //           return console.log("created a place");
+
+            //       } else {
+            //           //TODO: return page with errors
+            //             reply( 
+            //             { 
+            //                 error: true,
+            //                 text: "adding place failed"
                         
-                        } );
+            //             } );
                         
-                      return console.log(err);
-                  }
-            });
+            //           return console.log(err);
+            //       }
+            // });
 
         }
     }

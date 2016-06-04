@@ -32,13 +32,13 @@
     "load-grunt-tasks": "~0.6.0",
     "lodash": "3.2.x",
     "lout": "^6.1.0",
-    "mongoose": "^3.8.23",
     "tv": "^4.1.0",
     "mongoose-find-one-or-create": "^0.2.0",
     "mongoose-unique-validator": "^0.4.1",
     "webpack": "~1.4.3"
   },
   "devDependencies": {
+    "bson": "^0.4.23",
     "css-loader": "~0.9.0",
     "flux": "~2.0.1",
     "geolib": "^2.0.14",
@@ -63,6 +63,7 @@
     "karma-webpack": "~1.2.2",
     "material-ui": "^0.10.1",
     "moment": "^2.10.3",
+    "mongoose": "^4.4.19",
     "react": "^0.13.1",
     "react-geosuggest": "^1.0.2",
     "react-hot-loader": "^1.2.4",
@@ -70,7 +71,7 @@
     "react-tap-event-plugin": "^0.1.6",
     "sass-loader": "^0.4.0-beta.1",
     "style-loader": "~0.8.0",
-    "superagent": "^0.21.0",
+    "superagent": "^2.0.0",
     "url-loader": "~0.5.5",
     "webpack-dev-server": "~1.6.5"
   }
