@@ -13,8 +13,8 @@
  var cheerio = require('cheerio');
  var moment = require('moment');
 
-
- var mainLink = "http://www.berlin.de/kino/_bin/trefferliste.php?kino=&datum=&genre=&stadtteil=&freitext=&suche=1&kinoid=hl66u24s0gfe3gmql02e70s63a5d71cg8udkoia94cqvrnb43sr0"
+var ROOT_LINK = "http://www.berlin.de";
+var MAIN_LINK = ROOT_LINK + "/kino/_bin/trefferliste.php?kino=&datum=&genre=&stadtteil=&freitext=&suche=1&kinoid=hl66u24s0gfe3gmql02e70s63a5d71cg8udkoia94cqvrnb43sr0"
 
 
 
@@ -30,6 +30,25 @@
     var currentKino = '';
 
     var allShows = [];
+
+    var nextLink = $( '.horizontal.pager' ).children().last().children('a');
+    // console.log( 'NEXXXXXXTTTTTTTTTTTT', nextLink );
+
+    if( nextLink.length == 1 )
+    {
+        var nextUrl = $(nextLink).attr('href');
+        var actualNextUrl = ROOT_LINK + nextUrl;
+        console.log( 'ACTUALLLLNEXXXXXXTTTTTTTTTTTT', actualNextUrl );
+
+        if( typeof nextUrl != 'undefined' )
+        {
+            getAndParseLinkForPlaces( actualNextUrl );
+        }
+    }
+
+
+
+
 
 
     _.each( results, function( result, i )
@@ -84,8 +103,8 @@
             // console.log( 'TIMESSSSS', result.find( 'tr' ) );
         }
 
-
-        allShows.push( currentShow );
+        //commented out FOR NOW
+        // allShows.push( currentShow );
     } );
 
     // console.log( 'allSHOWS' , allShows );
@@ -97,35 +116,42 @@
     }
 };
 
-request.get( mainLink ).end( function( err, response )
-    {
-        if( err )
-        {
-            console.log( 'ERRRORRS', error );
-        }
-        var results = parser( response );
-        // console.log( 'ALL OUR RESULTS', results );
 
-        _.each( results.allKinos, function( kino )
+getAndParseLinkForPlaces = function( link )
+{
+    request.get( link ).end( function( err, response )
         {
-            console.log( 'adding kino', kino );
-            var place = { name: kino };
-
-            request
-            .post( 'http://127.0.0.1:8011/places/add' )
-            .send( place )
-            .end( function( err, response )
+            if( err )
             {
-                console.log( 'errorrrrr', err );
-                console.log( 'response on send', response );
-            })
+                console.log( 'ERRRORRS', err );
+            }
+            var results = parser( response );
+            // console.log( 'ALL OUR RESULTS', results );
 
-        });
+            _.each( results.allKinos, function( kino )
+            {
+                console.log( 'adding kino', kino );
+                var place = { name: kino };
 
-        //now we push all kinos
+                request
+                .post( 'http://127.0.0.1:8011/places/add' )
+                .send( place )
+                .end( function( err, response )
+                {
+                    console.log( 'errorrrrr', err );
+                    console.log( 'response on send', response );
+                })
 
-        // var thisPagesShows = parser( response );
+            });
 
-    } );
+            //now we push all kinos
 
+            // var thisPagesShows = parser( response );
+
+        } );
+    
+}
+
+
+getAndParseLinkForPlaces( MAIN_LINK );
 
