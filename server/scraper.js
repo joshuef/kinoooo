@@ -34,11 +34,7 @@ var scraper =
                 console.log( 'ERRRORRS', err );
             }
 
-            console.log( 'RESSSPPOONNNNNNCCCEEEEEEEEEE' );
-
             var results = parser( response );
-
-            console.log( 'ALL OUR RESULTS', results );
 
             _.each( results.allKinos, function( kino )
             {
@@ -57,8 +53,6 @@ var scraper =
             });
         });
 
-
-        // var results = getResults(link);
 
     },
 
@@ -91,8 +85,6 @@ var scraper =
                 //Each show as scraped is at one place. They are deduped and merged when adding or updating
                 //the show and place
                 
-
-            // console.log( 'PAYLOADDDDD', payload.showingAt );
 
                 if( show.showingAt.length <1 )
                     return;

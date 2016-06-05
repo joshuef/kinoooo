@@ -145,15 +145,15 @@ module.exports = [
                 // console.log('CREATED A SHOOOWWW', ourShow.name, 'FROM', newShow.name, 'WITH', newShow.showingAt);
             });
 
-            // if( newShow.showingAt.length > 0 )
-            // {
-            //     console.log( 'GOT NEWSHOWPLACES', newShow );
-            //     _.each( newShow.showingAt, function( placeTime )
-            //     {
-            //         console.log( 'showingAt::::', placeTime );
-            //         updateAPlacesShows( placeTime.place, newShow._id );
-            //     } );
-            // }
+            if( newShow.showingAt.length > 0 )
+            {
+                console.log( 'GOT NEWSHOWPLACES', newShow );
+                _.each( newShow.showingAt, function( placeTime )
+                {
+                    console.log( 'showingAt::::', placeTime );
+                    updateAPlacesShows( placeTime.place, newShow._id );
+                } );
+            }
 
         
             // TODO: return to list page, if saved
