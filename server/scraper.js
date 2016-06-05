@@ -99,7 +99,7 @@ var scraper =
                 console.log( 'ERRRORRS', err );
             }
 
-            var results = parser( response );
+            var results = parser( response, scraper.addKinos );
 
             _.each( results.allKinos, function( kino )
             {
@@ -130,7 +130,7 @@ var scraper =
                 console.log( 'ERRRORRS', err );
             }
 
-            var results = parser( response );
+            var results = parser( response, scraper.addShows );
 
             var thisShowsPlace = '';
             var thisShowsPlaceObject = {};
@@ -190,7 +190,7 @@ var scraper =
 
 
 
- var parser = function( response )
+ var parser = function( response , more )
  {
     $ = cheerio.load( response.text );
     var allKinos = [];
@@ -205,17 +205,17 @@ var scraper =
     var nextLink = $( '.horizontal.pager' ).children().last().children('a');
     // console.log( 'NEXXXXXXTTTTTTTTTTTT', nextLink );
 
-    // if( nextLink.length == 1 )
-    // {
-    //     var nextUrl = $(nextLink).attr('href');
-    //     var actualNextUrl = ROOT_LINK + nextUrl;
-    //     console.log( 'ACTUALLLLNEXXXXXXTTTTTTTTTTTT', actualNextUrl );
+    if( nextLink.length == 1 )
+    {
+        var nextUrl = $(nextLink).attr('href');
+        var actualNextUrl = ROOT_LINK + nextUrl;
+        console.log( 'ACTUALLLLNEXXXXXXTTTTTTTTTTTT', actualNextUrl );
 
-    //     if( typeof nextUrl != 'undefined' )
-    //     {
-    //         getAndParseLinkForPlaces( actualNextUrl );
-    //     }
-    // }
+        if( typeof nextUrl != 'undefined' && more )
+        {
+            more( actualNextUrl );
+        }
+    }
 
 
 
