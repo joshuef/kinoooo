@@ -20,6 +20,56 @@ var Place = require( "./models/place.model");
 
 
 
+var buildFullShowArray = function( results )
+{
+    var giantShowObject = {};
+
+    _.each( results, function( show, i )
+    {
+
+        if( show.name === 'placeholderNoName' )
+            return;
+
+        var ov = show.name.indexOf( ' (OV)' ) != -1 ;
+        var omu = show.name.indexOf( ' (OmU)' ) != -1 ;
+        var threeD = show.name.indexOf( ' (3D)' ) != -1 ;
+        var df = show.name.indexOf( ' (DFmenglU)' ) != -1 ;
+
+        var freiluft = show.showingAt.place ? show.showingAt.place.indexOf( 'Freiluft') != -1 : false ;
+
+        var flags = {
+            ov: ov, 
+            omu: omu,
+            threeD: threeD,
+            df: df,
+            freiluft: freiluft,
+        };
+
+        // console.log( 'flagggssss', flags );
+
+        // var mainObjectShow = giantShowObject[ show.name ];
+
+        // var showName = show.name;
+        giantShowObject[ show.name ] = giantShowObject[ show.name ] || show;
+
+        _.each( show.showingAt, function( timePlace )
+        {
+            timePlace.flags = flags;
+
+        });
+
+        giantShowObject[ show.name ].showingAt = _.concat( giantShowObject[ show.name ].showingAt, show.showingAt );
+    })
+
+
+    var arrayOfShows = Object.keys(giantShowObject).map(function (key) {return giantShowObject[key]});
+
+    // console.log( 'GIANT SHOW OBJECT', giantShowObject );
+    return arrayOfShows;
+
+
+};
+
 // var parseKinos = function(  )
 
 var scraper = 
@@ -73,7 +123,14 @@ var scraper =
             var thisShowsPlace = '';
             var thisShowsPlaceObject = {};
 
-            _.each( results.allShows, function( show )
+           
+
+
+            var filteredShows =  buildFullShowArray( results.allShows );;
+
+            console.log( 'FILTERED SHOWWWSS', filteredShows );
+
+            _.each( filteredShows, function( show )
             {
                 // console.log( 'adding show', show );
                 // var show = { 
@@ -85,12 +142,12 @@ var scraper =
                 //Each show as scraped is at one place. They are deduped and merged when adding or updating
                 //the show and place
                 
+                // filteredShows[ show ]
+                // if( show.showingAt.length <1 )
+                //     return;
 
-                if( show.showingAt.length <1 )
-                    return;
-
-                if( thisShowsPlaceObject.name !== show.showingAt[0].place )
-                {
+                // if( thisShowsPlaceObject.name !== show.showingAt[0].place )
+                // {
                     console.log( 'new PLACe', show.showingAt[0].place, 'not', thisShowsPlaceObject.name );
 
                     Place.findOne({ 'name': show.showingAt[0].place }, 'name', function(err, foundPlace)
@@ -122,11 +179,11 @@ var scraper =
                         })
                     
                     });
-                }
-                else
-                {
-                    console.log( 'SAME PLACE', show );
-                }
+                // }
+                // else
+                // {
+                //     console.log( 'SAME PLACE', show );
+                // }
 
             });
 
@@ -170,7 +227,7 @@ var scraper =
 
 
     var currentShowObject = {
-            name: 'noname',
+            name: 'placeholderNoName',
             showingAt : [ ]
         };
 

@@ -124,24 +124,10 @@ module.exports = [
             });
 
 
-            // newShow.save(function (err) {
-            //         if (!err) {
-            //           return console.log("created a show");
-            //       } else {
-            //             newShow = { 
-            //                 error: true,
-            //                 text: 'Error saving show.',
-            //                 action: newShow.name || 'Ups...'
-
-            //             };
-            //           //TODO: return page with errors
-            //           return console.log(err);
-            //       }
-            // });
-
             Show.findOneOrCreate({name: payload.name}, newShow, function(err, ourShow) {
                 // {name: 'Mohammad', age: 20}
                 // console.log( 'errrrrr', err );
+                console.log( 'ourShow', ourShow.name, ourShow._id );
                 // console.log('CREATED A SHOOOWWW', ourShow.name, 'FROM', newShow.name, 'WITH', newShow.showingAt);
             });
 
