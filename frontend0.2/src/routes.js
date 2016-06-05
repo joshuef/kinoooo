@@ -31,10 +31,14 @@ import { Route, IndexRoute } from 'react-router';
 // ), document.getElementById('app') );
 const Routes = (
     <Route component={App} >
-        <Route path="/shows" component={Main} />
+        <Route path="/shows" >
+            <IndexRoute component={Main} />
+            <Route path="/shows/:id" component={SingleItem} relatedTo="places"/>
+
+        </Route>
         <Route path="/places" >
             <IndexRoute component={Main} />
-            <Route path="/places/:id" component={SingleItem} />
+            <Route path="/places/:id" component={SingleItem} relatedTo="shows" />
 
         </Route>
         <Route path="/" component={Main} />
