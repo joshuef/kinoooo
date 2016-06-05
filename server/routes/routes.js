@@ -5,7 +5,7 @@ module.exports = [{
   path: '/',
   config: {
     handler: function (req, res) {
-      res('Hello world!');
+      res('Das world!');
     }
   }
 }];

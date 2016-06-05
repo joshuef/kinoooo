@@ -8,7 +8,7 @@ var SALT_WORK_FACTOR = 10;
 
 
 // Load the bcrypt module
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcrypt-nodejs');
 // Generate a salt
 var salt = bcrypt.genSaltSync(10);
 // Hash the password with the salt

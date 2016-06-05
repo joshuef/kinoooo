@@ -47,24 +47,24 @@ var error = function(err) {
  * Config for Good
  * @type {{opsInterval: number, reporters: *[]}}
  */
-var goodConfig = {
-    opsInterval: 1000,
-    reporters: [{
-        reporter: goodConsole,
-        args:[{ log: '*', response: '*' }]
-    }, {
-        reporter: goodFile,
-        args: [__dirname + '/test/awesome_log', { ops: '*' }]
-    }, {
-        reporter: goodHttp,
-        args: [{ error: '*' }, 'http://theatre.wyli.co.uk/api/logs:3000', {
-            threshold: 20,
-            wreck: {
-                headers: { 'x-api-key' : 12345 }
-            }
-        }]
-    }]
-};
+// var goodConfig = {
+//     opsInterval: 1000,
+//     reporters: [{
+//         reporter: goodConsole,
+//         args:[{ log: '*', response: '*' }]
+//     }, {
+//         reporter: goodFile,
+//         args: [__dirname + '/test/awesome_log', { ops: '*' }]
+//     }, {
+//         reporter: goodHttp,
+//         args: [{ error: '*' }, 'http://theatre.wyli.co.uk/api/logs:3000', {
+//             threshold: 20,
+//             wreck: {
+//                 headers: { 'x-api-key' : 12345 }
+//             }
+//         }]
+//     }]
+// };
 
 /**
  * Creating Server connection with our configuration
@@ -102,23 +102,23 @@ server.register(require('hapi-auth-cookie'), function (err)
 
 server.register({register: require('lout')}, function(err) {if(err) {console.log(err); }});
 
-server.register({
-  register: good,
-  options: goodConfig
-}, function (err) {
-  if (err) {error(err)}
+// server.register({
+//   register: good,
+//   options: goodConfig
+// }, function (err) {
+//   if (err) {error(err)}
 
-  // else {
-  //   /**
-  //    * Starting server
-  //    */
-  //   if (!module.parent) {
-  //     server.start(function () {
-  //       console.info('Server starrrted at ' + server.info.uri);
-  //     });
-  //   }
-  // }
-});
+//   // else {
+//   //   /**
+//   //    * Starting server
+//   //    */
+//   //   if (!module.parent) {
+//   //     server.start(function () {
+//   //       console.info('Server starrrted at ' + server.info.uri);
+//   //     });
+//   //   }
+//   // }
+// });
 
 
 // setup our account cookie to hold user deets
