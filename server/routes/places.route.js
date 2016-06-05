@@ -119,7 +119,7 @@ module.exports = [
 
               Place.findOneOrCreate({name: payload.name}, newPlace, function(err, thisPlace) {
             // {name: 'Mohammad', age: 20}
-            console.log('CREATED A PLACE', thisPlace);
+            // console.log('CREATED A PLACE', thisPlace);
                 });
 
 

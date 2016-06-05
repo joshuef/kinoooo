@@ -30,11 +30,11 @@ var updateAPlacesShows = function( place, showId, remove  ){
     {
         mongooseUpdate = { $addToSet:{ shows: showId } }
     }
-        console.log( 'UPDATE TO BE DONE?', place, mongooseUpdate );
+        // console.log( 'UPDATE TO BE DONE?', place, mongooseUpdate );
 
     Place.update( place, mongooseUpdate,{upsert:true}, function( err, place )
     {
-        console.log( 'UPDATE DONE?', err, place, mongooseUpdate );
+        // console.log( 'UPDATE DONE?', err, place, mongooseUpdate );
 
         if( err )
         {
@@ -43,7 +43,7 @@ var updateAPlacesShows = function( place, showId, remove  ){
 
         else
         {
-            console.log( 'PLACE UPDATED AS WELLLLLLL' );
+            // console.log( 'PLACE UPDATED AS WELL' );
         }
 
     } );
@@ -86,10 +86,10 @@ module.exports = [
     method: 'POST',
     path: showRoot + '/add',
     config: {
-        auth : 
-        {
-            strategy: 'session'
-        },
+        // auth : 
+        // {
+        //     strategy: 'session'
+        // },
         validate: {
 
             // payload:
@@ -101,51 +101,60 @@ module.exports = [
         // handler: admit.create
         handler: function(request, reply)
         {   
-            if( request.auth.credentials.userType !== 'admin' )
-                return;
-
+            // if( request.auth.credentials.userType !== 'admin' )
+            //     return;
 
             var payload = request.payload;
+            if( ! payload.name )
+                return;
+
+            console.log( 'PAYLOAD', payload.showingAt );
 
             // console.log( 'THE AUUUTHHH', request.auth.credentials );
             var newShow = new Show({
-                name: payload.name,
-                director: payload.director,
+                name: payload.name || 'ups',
+                director: payload.director || 'ups',
                 // places: payload.places,
-                image: payload.image,
-                description: payload.description,
-                showingAt: payload.showingAt,
-                startDate: payload.startDate,
-                endDate: payload.endDate,
-                creator: request.auth.credentials._id
+                image: payload.image || 'ups',
+                description: payload.description || 'ups',
+                showingAt: payload.showingAt || [],
+                startDate: payload.startDate || 'ups',
+                endDate: payload.endDate || 'ups',
+                // creator: request.auth.credentials._id
             });
 
 
-            newShow.save(function (err) {
-                    if (!err) {
-                      return console.log("created a show");
-                  } else {
-                        newShow = { 
-                            error: true,
-                            text: 'Error saving show.',
-                            action: newShow.name || 'Ups...'
+            // newShow.save(function (err) {
+            //         if (!err) {
+            //           return console.log("created a show");
+            //       } else {
+            //             newShow = { 
+            //                 error: true,
+            //                 text: 'Error saving show.',
+            //                 action: newShow.name || 'Ups...'
 
-                        };
-                      //TODO: return page with errors
-                      return console.log(err);
-                  }
+            //             };
+            //           //TODO: return page with errors
+            //           return console.log(err);
+            //       }
+            // });
+
+            Show.findOneOrCreate({name: payload.name}, newShow, function(err, ourShow) {
+                // {name: 'Mohammad', age: 20}
+                // console.log( 'errrrrr', err );
+                // console.log('CREATED A SHOOOWWW', ourShow.name, 'FROM', newShow.name, 'WITH', newShow.showingAt);
             });
 
+            // if( newShow.showingAt.length > 0 )
+            // {
+            //     console.log( 'GOT NEWSHOWPLACES', newShow );
+            //     _.each( newShow.showingAt, function( placeTime )
+            //     {
+            //         console.log( 'showingAt::::', placeTime );
+            //         updateAPlacesShows( placeTime.place, newShow._id );
+            //     } );
+            // }
 
-
-            if( newShow.showingAt )
-            {
-                console.log( 'GOT NEWSHOWPLACES', newShow );
-                _.each( newShow.showingAt, function( placeTime )
-                {
-                    updateAPlacesShows( placeTime.place, newShow._id );
-                } );
-            }
         
             // TODO: return to list page, if saved
             // reply.redirect('/shows/', 301);
