@@ -9,7 +9,7 @@ import React, {
 import _ from 'lodash';
 import getItemTypeFromRoute from '../shared/getItemType';
 import { Link } from 'react-router'
-
+import moment from 'moment';
 import http from 'http';
 
 class MainPage extends Component {
@@ -67,7 +67,12 @@ class MainPage extends Component {
 
             let placeShowingThis = uniqPlaceList[ place.name ] || { name: place.name, showings: [] };
 
-            placeShowingThis.showings.push( showing );
+            let showTime = moment( showing.time , "YYYY-MM-DD HH:mm" );
+            showTime = moment( showTime ).calendar( );
+
+            let showingLi = <li>{ showTime }</li>;
+
+            placeShowingThis.showings.push( showingLi );
 
             uniqPlaceList[ place.name ] = placeShowingThis;
         })
@@ -82,17 +87,17 @@ class MainPage extends Component {
         });
 
         let arrayOfComponents = arrayOfPlaces.map((place, index) =>
-                          <li {...place}
-                                key={index}
-                                >
-                              <Link to={ '/places/' + encodeURIComponent( place.name ) + '/' }>{place.name}</Link>
-                          </li>
-                );
-
-        // _.forEach( uniqPlaceList, (place, index) => 
-        //     {
-        //         console.log( 'BULLSHHHHH', place.name )
-        //     } );
+        {
+            return <li {...place}
+                    key={index}
+                    >
+                  <Link to={ '/places/' + encodeURIComponent( place.name ) + '/' }>{place.name}</Link>
+                  <ul>
+                    {place.showings}
+                  </ul>
+              </li>
+            
+        });
 
         return arrayOfComponents;
 
@@ -132,7 +137,18 @@ class MainPage extends Component {
 
 
         //showSpecifics file
-        let list = this.listForShows( thisItem , this.props.relationalItems.places );
+        let list = [];
+
+        if( itemType = 'shows' )
+        {
+            list = this.listForShows( thisItem , this.props.relationalItems.places );
+        }
+
+        if( itemType = 'places' )
+        {
+            console.log( 'PLACCEESSSS' );
+            // list = this.listForShows( thisItem , this.props.relationalItems.places );
+        }
 
 
 
