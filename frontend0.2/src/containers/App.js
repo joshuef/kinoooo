@@ -28,7 +28,7 @@ class App extends Component {
         if( this.props.actions && this.props.relationalItems.shows < 1 )
         {
             this.props.actions.fetchItems( 'shows' );
-            this.props.actions.fetchItems( 'shows' );
+            this.props.actions.fetchItems( 'places' );
 
         }
     }

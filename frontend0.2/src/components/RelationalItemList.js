@@ -5,14 +5,17 @@ import React, {
   PropTypes
 } from 'react';
 
+import { Link } from 'react-router'
+
+
 class RelationalItemList extends Component {
     render() {
         return (
             <ul>
-                {this.props.relationalItems.map((show, index) =>
-                          <li {...show}
+                {this.props.relationalItems.map((item, index) =>
+                          <li {...item}
                                 key={index}
-                                >{show.name}</li>
+                                ><Link to="/{item.name}">{item.name}</Link></li>
                 )}
             </ul>
         )

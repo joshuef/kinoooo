@@ -9,12 +9,9 @@ import React, {
 import RelationalItemList from './RelationalItemList';
 import http from 'http';
 
-import getItemTypeFromRoute from '../shared/getItemType';
-
 class MainPage extends Component {
     static needsItems =
     [
-        'shows',
         'places'
     ];
     
@@ -26,9 +23,16 @@ class MainPage extends Component {
 
     render() {
 
-        let itemType = getItemTypeFromRoute( this.props.location );
+        let itemType = '';
 
-      
+        if( this.props.route )
+        {
+            console.log( 'this.props.route',  this.props );
+            let pathArray       = this.props.location.pathname.split( /\// ) || [];
+            itemType            = pathArray[ pathArray.length -1 ] || '';
+        }
+
+
         console.log( 'relationalitems Here', this.props.relationalItems );
    
 

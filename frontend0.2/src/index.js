@@ -12,10 +12,11 @@ import { Router } from 'react-router';
 import AllRoutes from './routes';
 
 import { syncReduxAndRouter } from 'redux-simple-router'
+import { browserHistory } from 'react-router'
 
 
 const store = configureStore();
-const history = createHistory()
+const history = browserHistory;
 
 syncReduxAndRouter(history, store)
 

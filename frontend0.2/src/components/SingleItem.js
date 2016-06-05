@@ -6,16 +6,15 @@ import React, {
   PropTypes
 } from 'react';
 
-import RelationalItemList from './RelationalItemList';
-import http from 'http';
-
 import getItemTypeFromRoute from '../shared/getItemType';
+
+import http from 'http';
 
 class MainPage extends Component {
     static needsItems =
     [
-        'shows',
-        'places'
+        'places',
+        'shows'
     ];
     
     handleClick ( e )
@@ -26,19 +25,20 @@ class MainPage extends Component {
 
     render() {
 
+        console.log( 'ITEM props', this.props );
+
         let itemType = getItemTypeFromRoute( this.props.location );
 
       
-        console.log( 'relationalitems Here', this.props.relationalItems );
+        // console.log( 'relationalitems Here', this.props.relationalItems );
    
 
-        let relationalItems = this.props.relationalItems[ itemType ] || [];
+        // let relationalItems = this.props.relationalItems[ itemType ] || [];
 
+                // <RelationalItemList itemType={ itemType } relationalItems={ relationalItems } />
         return (
             <div className="main--{ itemType }  ">
-                <h1>{itemType}</h1>
-                <button onClick={ this.handleClick }/>
-                <RelationalItemList itemType={ itemType } relationalItems={ relationalItems } />
+                <h1>{itemType} // </h1>
             </div>
         );
   }

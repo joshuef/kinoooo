@@ -4,7 +4,7 @@ import fetch from 'isomorphic-fetch'
 import receiveItems from './receiveItems';
 import requestItems from './requestItems';
 
-const API = 'http://localhost:8011'
+const API = `/api/`;
 
 module.exports = function fetchItems( itemName ) {
 
@@ -25,7 +25,7 @@ module.exports = function fetchItems( itemName ) {
     // In this case, we return a promise to wait for.
     // This is not required by thunk middleware, but it is convenient for us.
 
-    return fetch(`/api/` + itemName)
+    return fetch( API + itemName)
       .then(response => response.json())
       .catch( error => console.log('error:', error)) //do something with this!
       .then(json =>
