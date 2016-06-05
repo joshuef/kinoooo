@@ -144,32 +144,6 @@ var scraper =
             _.each( filteredShows, function( show , i )
             {
 
-                if( show.name !== 'Angry Birds - Der Film')
-                {
-
-                    return;
-
-                }
-                    console.log( i );
-                    console.log( '                                          sow', show.name );
-                    console.log( '                                          sow', show.showingAt );
-
-
-                // var show = { 
-                //     name: show.name
-                //      };
-            
-
-                //before we do this, we need to find the place Ids.
-                //Each show as scraped is at one place. They are deduped and merged when adding or updating
-                //the show and place
-                
-                // filteredShows[ show ]
-                // if( show.showingAt.length <1 )
-                //     return;
-
-                // if( thisShowsPlaceObject.name !== show.showingAt[0].place )
-                // {
 
                     _.each( show.showingAt, function( placeTime , i )
                     {
@@ -179,20 +153,6 @@ var scraper =
 
                         placeTime.time = moment( placeTime.time ).format();
 
-
-                        // Place.findOne({ 'name': placeTime.place }, 'name', function(err, foundPlace)
-                        // {
-
-                        //     placeTime.place = foundPlace._id;
-
-                        //     // thisShowsPlaceObject = foundPlace;
-
-
-
-
-                        //     //then we make a request to add!!
-                        
-                        // });
 
 
                     } );

@@ -140,11 +140,6 @@ module.exports = [
                     console.log( 'PLACETIMEPLACE' , placeTime.place);
 
                 
-                    // // TODO: return to list page, if saved
-                    // // reply.redirect('/shows/', 301);
-                    // return reply(newShow);  
-                    // console.log( 'placetimeeeee', placeTime.place );
-                    // placeQueryArray.push( placeTime.place  )
                 });
 
                 
@@ -183,54 +178,7 @@ module.exports = [
 
 
             });
-                // Place.find({ 'name': placeTime.place }, 'name', function(err, foundPlace)
-                // {
-
-                //     //each payload needs a place.
-                //     //
-                //     //I can only save when everything is done.??
-                //     //so i should promise
-                //     console.log( 'errrrrr in find', err );
-                //     console.log( 'foundPlace', foundPlace );
-                //     console.log( 'PLACE TO FINNNDDDDD', foundPlace.name );
-                //     placeTime.place = foundPlace._id;
-
-                //     // console.log( 'THE AUUUTHHH', request.auth.credentials );
-                //     var newShow = new Show({
-                //         name: payload.name || 'ups',
-                //         director: payload.director || 'ups',
-                //         // places: payload.places,
-                //         image: payload.image || 'ups',
-                //         description: payload.description || 'ups',
-                //         showingAt: payload.showingAt || [],
-                //         startDate: payload.startDate || 'ups',
-                //         endDate: payload.endDate || 'ups',
-                //         // creator: request.auth.credentials._id
-                //     });
-
-
-                //     Show.findOneOrCreate({name: payload.name}, newShow, function(err, ourShow) {
-                //         // {name: 'Mohammad', age: 20}
-                //         // console.log( 'errrrrr', err );
-                //         // console.log( 'ourShow', ourShow.name, ourShow._id );
-                //         // console.log('CREATED A SHOOOWWW', ourShow.name, 'FROM', newShow.name, 'WITH', newShow.showingAt);
-                //     });
-
-                //     if( newShow.showingAt.length > 0 )
-                //     {
-                //         console.log( 'GOT NEWSHOWPLACES', newShow );
-                //         _.each( newShow.showingAt, function( placeTime )
-                //         {
-                //             console.log( 'showingAt::::', placeTime );
-                //             updateAPlacesShows( placeTime.place, newShow._id );
-                //         } );
-                //     }
-
-                
-                //     // // TODO: return to list page, if saved
-                //     // // reply.redirect('/shows/', 301);
-                //     // return reply(newShow);  
-                // })
+               
 
 
         }

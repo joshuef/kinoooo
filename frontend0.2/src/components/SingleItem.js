@@ -12,7 +12,7 @@ import { Link } from 'react-router'
 import moment from 'moment';
 import http from 'http';
 
-moment.locale( 'de' );
+// moment.locale( 'de' );
 
 class MainPage extends Component {
     static needsItems =
@@ -74,14 +74,14 @@ class MainPage extends Component {
 
             let filteredShowingsOnHere = showObject.showingAt.filter( showing => showing.place === thisItem._id );
 
-filteredShowingsOnHere = _.uniq( filteredShowingsOnHere );
-            console.log( 'OUR SHOWS', filteredShowingsOnHere );
+            filteredShowingsOnHere = _.uniq( filteredShowingsOnHere );
 
             thisShow.showingsHere = [];
 
             filteredShowingsOnHere.map( showing => 
             {
-                let showTime = moment( showing.time , "YYYY-MM-DD HH:mm" );
+                let showTime = moment( showing.time );
+                console.log( 'showTime', showTime );
                 showTime = moment( showTime ).calendar( );
 
 
