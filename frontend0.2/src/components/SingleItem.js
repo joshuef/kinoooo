@@ -12,6 +12,8 @@ import { Link } from 'react-router'
 import moment from 'moment';
 import http from 'http';
 
+moment.locale( 'de' );
+
 class MainPage extends Component {
     static needsItems =
     [
@@ -72,6 +74,7 @@ class MainPage extends Component {
 
             let filteredShowingsOnHere = showObject.showingAt.filter( showing => showing.place === thisItem._id );
 
+filteredShowingsOnHere = _.uniq( filteredShowingsOnHere );
             console.log( 'OUR SHOWS', filteredShowingsOnHere );
 
             thisShow.showingsHere = [];
@@ -80,6 +83,7 @@ class MainPage extends Component {
             {
                 let showTime = moment( showing.time , "YYYY-MM-DD HH:mm" );
                 showTime = moment( showTime ).calendar( );
+
 
                 let showLi = <li>{ showTime }</li>;
                 thisShow.showingsHere.push( showLi );
@@ -130,6 +134,7 @@ class MainPage extends Component {
 
         let uniqPlaceList = {};
 
+        console.log( 'ALL SHOWINGS', showings );
         showings.map( showing =>
         {
             let place = _.find( allPlaces, p => p._id === showing.place );
@@ -138,6 +143,7 @@ class MainPage extends Component {
                 return;
 
             let placeShowingThis = uniqPlaceList[ place.name ] || { name: place.name, showings: [] };
+
 
             let showTime = moment( showing.time , "YYYY-MM-DD HH:mm" );
             showTime = moment( showTime ).calendar( );
@@ -195,7 +201,7 @@ class MainPage extends Component {
                 let theId   = props.params.id;
 
 
-                console.log( 'theId', theId );
+                // console.log( 'theId', theId );
                 return  o.name === theId;
             }) ;
 

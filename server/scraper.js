@@ -61,8 +61,12 @@ var buildFullShowArray = function( results )
 
         });
 
+        show.showingAt = _.uniq( show.showingAt );
+
         giantShowObject[ show.name ].showingAt = _.concat( giantShowObject[ show.name ].showingAt, show.showingAt );
     })
+
+
 
 
     var arrayOfShows = Object.keys(giantShowObject).map(function (key) {return giantShowObject[key]});
@@ -135,6 +139,8 @@ var scraper =
 
             _.each( filteredShows, function( show )
             {
+
+                // console.log( 'TIMETIMETIME', show.showingAt );
                 // console.log( 'adding show', show );
                 // var show = { 
                 //     name: show.name
@@ -163,11 +169,16 @@ var scraper =
                         _.each( show.showingAt, function( placeTime )
                         {
 
+
                             placeTime.place = foundPlace._id;
+                            placeTime.time = moment( placeTime.time ).format();
+                            console.log( 'FINALLLLLLLLLLTHING', placeTime.time );
 
                             console.log( 'PLACE IDDDD', foundPlace._id );
 
                         } );
+
+                        show.showingAt = _.uniq( show.showingAt );
 
 
                         //then we make a request to add!!
@@ -247,6 +258,12 @@ var scraper =
             allKinos.push( result.text() );
         }
 
+
+
+
+
+
+
         var currentShowName = '';
 
         //only our movie will have the reference here, and then the kinos added later
@@ -254,6 +271,8 @@ var scraper =
         {
             currentShowName = result.text();
         }
+
+        console.log( 'currentSHOWNAME', currentShowName );
 
         //setup default object
         var currentShow = {
@@ -282,7 +301,8 @@ var scraper =
                 //parse out first few chars cos we dont need em
                 time = time.substring( 4 );
 
-                var showTime = moment( time, 'DD-MM-YY HH:mm' );
+                var showTime = moment( time, 'DD.MM.YY HH:mm' );
+                console.log( 'on @@@@', showTime.calendar( ) );
 
                 currentShow.showingAt.push( 
                 {
@@ -290,12 +310,16 @@ var scraper =
                     time: showTime
                 });
 
+
+
                 //then we have td datum and tds for each time; convert to moment
                 //and save
                 // console.log( 'TIME?', time.text() );
                 // currentShow.times.push( time.text() )
                 
             });
+
+            currentShow.showingAt = _.uniq( currentShow.showingAt );
 
 
         }
@@ -308,7 +332,7 @@ var scraper =
         allShows.push( currentShow );
     } );
 
-    // console.log( 'allSHOWS' , allShows );
+    console.log( 'allSHOWS' , allShows );
     // console.log( 'allkinos' , allKinos );
 
     return {
