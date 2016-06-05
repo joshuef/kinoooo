@@ -32,8 +32,11 @@ var buildFullShowArray = function( results )
 
         var ov = show.name.indexOf( ' (OV)' ) != -1 ;
         var omu = show.name.indexOf( ' (OmU)' ) != -1 ;
-        var threeD = show.name.indexOf( ' (3D)' ) != -1 ;
+        var threeD = show.name.indexOf( ' 3D' ) != -1 ;
         var df = show.name.indexOf( ' (DFmenglU)' ) != -1 ;
+
+
+        show.name = show.name.replace( /\s\((OV|OmU|3D|DFmenglU)\)|\s3D/, '' ).trim();
 
         var freiluft = show.showingAt.place ? show.showingAt.place.indexOf( 'Freiluft') != -1 : false ;
 
