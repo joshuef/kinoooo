@@ -6,6 +6,7 @@ import React, {
   PropTypes
 } from 'react';
 
+import _ from 'lodash';
 import getItemTypeFromRoute from '../shared/getItemType';
 
 import http from 'http';
@@ -17,7 +18,7 @@ class MainPage extends Component {
         'shows'
     ];
     
-    handleClick ( e )
+    handleClick ( )
     {
         console.log( 'THISISHAPPENING' );
         console.log( http );
@@ -25,20 +26,21 @@ class MainPage extends Component {
 
     render() {
 
-        console.log( 'ITEM props', this.props );
-
         let itemType = getItemTypeFromRoute( this.props.location );
+        let thisItemList = this.props.relationalItems[ itemType ];
+
+        let props = this.props;
+
+        let thisItem = _.find( thisItemList, function(o) 
+            { 
+                let theId   = props.params.id;
+                return  o.name === theId; 
+            });
 
       
-        // console.log( 'relationalitems Here', this.props.relationalItems );
-   
-
-        // let relationalItems = this.props.relationalItems[ itemType ] || [];
-
-                // <RelationalItemList itemType={ itemType } relationalItems={ relationalItems } />
         return (
             <div className="main--{ itemType }  ">
-                <h1>{itemType} // </h1>
+                <h1>{itemType} // {thisItem.name}</h1>
             </div>
         );
   }

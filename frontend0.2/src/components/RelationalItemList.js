@@ -15,7 +15,9 @@ class RelationalItemList extends Component {
                 {this.props.relationalItems.map((item, index) =>
                           <li {...item}
                                 key={index}
-                                ><Link to="/{item.name}">{item.name}</Link></li>
+                                >
+                              <Link to={ '/' + this.props.itemType + '/' + encodeURIComponent( item.name ) + '/' }>{item.name}</Link>
+                          </li>
                 )}
             </ul>
         )

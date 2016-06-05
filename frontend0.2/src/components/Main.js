@@ -18,7 +18,7 @@ class MainPage extends Component {
         'places'
     ];
     
-    handleClick ( e )
+    handleClick ( )
     {
         console.log( 'THISISHAPPENING' );
         console.log( http );

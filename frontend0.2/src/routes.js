@@ -3,10 +3,10 @@ import 'core-js/fn/object/assign';
 import React from 'react';
 import App from './containers/App';
 import Main from './components/Main';
-import Shows from './components/Shows';
+// import Shows from './components/Shows';
 
 import SingleItem from './components/SingleItem';
-import Places from './components/Places';
+// import Places from './components/Places';
 
 import { Route, IndexRoute } from 'react-router';
 
@@ -33,8 +33,8 @@ const Routes = (
     <Route component={App} >
         <Route path="/shows" component={Main} />
         <Route path="/places" >
-            <Route path="/places/:placeId" component={SingleItem} />
             <IndexRoute component={Main} />
+            <Route path="/places/:id" component={SingleItem} />
 
         </Route>
         <Route path="/" component={Main} />
