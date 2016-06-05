@@ -45,6 +45,78 @@ class MainPage extends Component {
         console.log( http );
     }
 
+    listForPlaces( thisItem, allShows )
+    {
+
+        console.log( 'THIS PLACE' ,  thisItem );
+        let shows = thisItem.shows;
+
+        if( shows.length < 1 )
+            return;
+
+        let uniqShowList = {};
+
+        shows.map( show =>
+        {
+            let showObject = _.find( allShows, s => s._id === show );
+
+            if( !showObject )
+                return;
+
+            console.log( 'showwwwwwww', showObject.name );
+
+            let thisShow = uniqShowList[ showObject.name ] || showObject;
+
+            //filter showings
+            
+
+            let filteredShowingsOnHere = showObject.showingAt.filter( showing => showing.place === thisItem._id );
+
+            console.log( 'OUR SHOWS', filteredShowingsOnHere );
+
+            thisShow.showingsHere = [];
+
+            filteredShowingsOnHere.map( showing => 
+            {
+                let showTime = moment( showing.time , "YYYY-MM-DD HH:mm" );
+                showTime = moment( showTime ).calendar( );
+
+                let showLi = <li>{ showTime }</li>;
+                thisShow.showingsHere.push( showLi );
+            })
+
+
+            uniqShowList[ thisShow.name ] = thisShow;
+        })
+
+        console.log( 'ALL UNIQQQQQ', uniqShowList );
+        
+        var arrayOfShows = Object.keys(uniqShowList).map(function (key) 
+        {
+            return uniqShowList[key]
+
+          
+        });
+
+        let arrayOfComponents = arrayOfShows.map((show, index) =>
+        {
+            return <li {...show}
+                    key={index}
+                    >
+                  <Link to={ '/shows/' + encodeURIComponent( show.name ) + '/' }>{show.name}</Link>
+                   <ul>
+                    {show.showingsHere}
+                  </ul>
+              </li>
+            
+        });
+                  // <ul>
+                  //   {show.showings}
+                  // </ul>
+
+        return arrayOfComponents;
+
+    }
 
 
 
@@ -107,6 +179,9 @@ class MainPage extends Component {
     render() {
 
         let itemType = getItemTypeFromRoute( this.props.location );
+
+        console.log( 'itemType', itemType );
+
         let thisItemList = this.props.relationalItems[ itemType ];
 
 
@@ -139,15 +214,15 @@ class MainPage extends Component {
         //showSpecifics file
         let list = [];
 
-        if( itemType = 'shows' )
+        if( itemType === 'shows' )
         {
             list = this.listForShows( thisItem , this.props.relationalItems.places );
         }
 
-        if( itemType = 'places' )
+        if( itemType === 'places' )
         {
             console.log( 'PLACCEESSSS' );
-            // list = this.listForShows( thisItem , this.props.relationalItems.places );
+            list = this.listForPlaces( thisItem , this.props.relationalItems.shows );
         }
 
 

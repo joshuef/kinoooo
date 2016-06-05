@@ -26,8 +26,11 @@ module.exports = function fetchItems( itemName ) {
     // This is not required by thunk middleware, but it is convenient for us.
 
     return fetch( API + itemName)
-      .then(response => response.json())
-      .catch( error => console.log('error:', error)) //do something with this!
+      .then(response => response.json() )
+      .catch( (error, respose) => {
+
+        console.log('ERRRRRRR:', error, response) //do something with this!
+      })
       .then(json =>
       {
         if( json[itemName] )
