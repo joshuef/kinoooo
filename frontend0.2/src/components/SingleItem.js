@@ -244,11 +244,9 @@ filteredShowingsOnHere = _.uniq( filteredShowingsOnHere );
       
         return (
             <div className="main--{ itemType }  ">
-                <h1>{itemType} // {itemName}</h1>
+                <h1><Link to={'/' + itemType }>{itemType}</Link> // {itemName}</h1>
                 <ul>
                     {list}
-
-                   
                 </ul>
             </div>
         );

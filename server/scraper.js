@@ -36,16 +36,20 @@ var buildFullShowArray = function( results )
         var df = show.name.indexOf( ' (DFmenglU)' ) != -1 ;
 
 
+        // console.log( 'SHOW NAMMEEE', show.name, '@???');
+
+
+
         show.name = show.name.replace( /\s\((OV|OmU|3D|DFmenglU)\)|\s3D/, '' ).trim();
 
-        var freiluft = show.showingAt.place ? show.showingAt.place.indexOf( 'Freiluft') != -1 : false ;
+        // var freiluft = show.showingAt.place ? show.showingAt.place.indexOf( 'Freiluft') != -1 : false ;
 
         var flags = {
             ov: ov, 
             omu: omu,
             threeD: threeD,
             df: df,
-            freiluft: freiluft,
+            // freiluft: freiluft,
         };
 
         // console.log( 'flagggssss', flags );
@@ -53,17 +57,21 @@ var buildFullShowArray = function( results )
         // var mainObjectShow = giantShowObject[ show.name ];
 
         // var showName = show.name;
-        giantShowObject[ show.name ] = giantShowObject[ show.name ] || show;
+        var ourShowObject = giantShowObject[ show.name ] || show;
 
         _.each( show.showingAt, function( timePlace )
         {
+            // console.log( 'SHOW @@@@@', timePlace.place );
             timePlace.flags = flags;
 
         });
 
-        show.showingAt = _.uniq( show.showingAt );
+        ourShowObject.showingAt = _.concat( ourShowObject.showingAt, show.showingAt );
 
-        giantShowObject[ show.name ].showingAt = _.concat( giantShowObject[ show.name ].showingAt, show.showingAt );
+        giantShowObject[ show.name ] = ourShowObject;
+        // show.showingAt = _.uniq( show.showingAt );
+
+        // giantShowObject[ show.name ].showingAt = _.concat( giantShowObject[ show.name ].showingAt, show.showingAt );
     })
 
 
@@ -104,7 +112,6 @@ var scraper =
                 .end( function( err, response )
                 {
                     console.log( 'errorrrrr', err );
-                    console.log( 'response on send', response );
                 })
 
             });
@@ -123,8 +130,6 @@ var scraper =
                 console.log( 'ERRRORRS', err );
             }
 
-            console.log( 'RESSSPPOONNNNNNCCCEEEEEEEEEE' );
-
             var results = parser( response );
 
             var thisShowsPlace = '';
@@ -135,13 +140,21 @@ var scraper =
 
             var filteredShows =  buildFullShowArray( results.allShows );;
 
-            console.log( 'FILTERED SHOWWWSS', filteredShows );
 
-            _.each( filteredShows, function( show )
+            _.each( filteredShows, function( show , i )
             {
 
-                // console.log( 'TIMETIMETIME', show.showingAt );
-                // console.log( 'adding show', show );
+                if( show.name !== 'Angry Birds - Der Film')
+                {
+
+                    return;
+
+                }
+                    console.log( i );
+                    console.log( '                                          sow', show.name );
+                    console.log( '                                          sow', show.showingAt );
+
+
                 // var show = { 
                 //     name: show.name
                 //      };
@@ -157,42 +170,48 @@ var scraper =
 
                 // if( thisShowsPlaceObject.name !== show.showingAt[0].place )
                 // {
-                    console.log( 'new PLACe', show.showingAt[0].place, 'not', thisShowsPlaceObject.name );
 
-                    Place.findOne({ 'name': show.showingAt[0].place }, 'name', function(err, foundPlace)
+                    _.each( show.showingAt, function( placeTime , i )
                     {
-                        // console.log( 'err', err );
-                        // console.log( 'FOUNDPLACE', foundPlace.name );
 
-                        thisShowsPlaceObject = foundPlace;
+                        console.log( 'placcceee', placeTime.place );
+                        // console.log( 'FoundPlaceShow', show.name );
 
-                        _.each( show.showingAt, function( placeTime )
-                        {
+                        placeTime.time = moment( placeTime.time ).format();
 
 
-                            placeTime.place = foundPlace._id;
-                            placeTime.time = moment( placeTime.time ).format();
-                            console.log( 'FINALLLLLLLLLLTHING', placeTime.time );
+                        // Place.findOne({ 'name': placeTime.place }, 'name', function(err, foundPlace)
+                        // {
 
-                            console.log( 'PLACE IDDDD', foundPlace._id );
+                        //     placeTime.place = foundPlace._id;
 
-                        } );
-
-                        show.showingAt = _.uniq( show.showingAt );
+                        //     // thisShowsPlaceObject = foundPlace;
 
 
-                        //then we make a request to add!!
-                        request
-                        .post( 'http://127.0.0.1:8011/shows/add' )
-                        .send( show )
-                        .end( function( err, response )
-                        {
-                            if( err )
-                                console.log( 'errorrrrr', err );
-                            // console.log( 'response on send', response );
-                        })
-                    
+
+
+                        //     //then we make a request to add!!
+                        
+                        // });
+
+
+                    } );
+
+
+                    show.showingAt = _.uniq( show.showingAt );
+
+                    request
+                    .post( 'http://127.0.0.1:8011/shows/add' )
+                    .send( show )
+                    .end( function( err, response )
+                    {
+                        // if( err )
+                            // console.log( 'errorrrrr', err );
+                        // console.log( 'response on send', response );
                     });
+
+
+                    
                 // }
                 // else
                 // {
@@ -332,7 +351,7 @@ var scraper =
         allShows.push( currentShow );
     } );
 
-    console.log( 'allSHOWS' , allShows );
+    // console.log( 'allSHOWS' , allShows );
     // console.log( 'allkinos' , allKinos );
 
     return {
