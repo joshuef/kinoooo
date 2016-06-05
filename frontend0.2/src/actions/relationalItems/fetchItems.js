@@ -4,7 +4,7 @@ import fetch from 'isomorphic-fetch'
 import receiveItems from './receiveItems';
 import requestItems from './requestItems';
 
-
+const API = 'http://localhost:8011'
 
 module.exports = function fetchItems( itemName ) {
 
@@ -25,15 +25,20 @@ module.exports = function fetchItems( itemName ) {
     // In this case, we return a promise to wait for.
     // This is not required by thunk middleware, but it is convenient for us.
 
-    return fetch(`http://jsonplaceholder.typicode.com/posts`)
+    return fetch(`/api/` + itemName)
       .then(response => response.json())
       .catch( error => console.log('error:', error)) //do something with this!
       .then(json =>
-
+      {
+        if( json[itemName] )
+        {
+          json = json[itemName];
+        }
         // We can dispatch many times!
         // Here, we update the app state with the results of the API call.
         dispatch(receiveItems( itemName , json))
-      )
+        
+      })
 
       // In a real world app, you also want to
       // catch any error in the network call.

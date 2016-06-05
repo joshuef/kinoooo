@@ -12,7 +12,7 @@ class RelationalItemList extends Component {
                 {this.props.relationalItems.map((show, index) =>
                           <li {...show}
                                 key={index}
-                                >{show.title}</li>
+                                >{show.name}</li>
                 )}
             </ul>
         )

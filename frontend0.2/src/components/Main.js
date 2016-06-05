@@ -30,9 +30,12 @@ class MainPage extends Component {
             let pathArray       = this.props.route.path.split( /\// ) || [];
             itemType            = pathArray[ pathArray.length -1 ] || '';
         }
+
+
+        console.log( 'relationalitems Here', this.props.relationalItems );
    
 
-        let relationalItems = this.props.relationalItems[ itemType ] || this.props.relationalItems;
+        let relationalItems = this.props.relationalItems[ itemType ] || [];
 
         return (
             <div className="main--{ itemType }  ">
