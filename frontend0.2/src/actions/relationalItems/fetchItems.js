@@ -25,11 +25,11 @@ module.exports = function fetchItems( itemName ) {
     // In this case, we return a promise to wait for.
     // This is not required by thunk middleware, but it is convenient for us.
 
-    return fetch( API + itemName)
+    return fetch( 'http://dev.londonplay.com' + API + itemName )
       .then(response => response.json() )
       .catch( (error, respose) => {
 
-        console.log('ERRRRRRR:', error, response) //do something with this!
+        console.log('ERRRRRRR:', error) //do something with this!
       })
       .then(json =>
       {

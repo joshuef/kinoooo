@@ -1,5 +1,4 @@
     // require('normalize.css');
-require('styles/App.css');
 
 import React, {
   Component,
@@ -8,6 +7,8 @@ import React, {
 
 import RelationalItemList from './RelationalItemList';
 import http from 'http';
+
+require('styles/App.css');
 
 import getItemTypeFromRoute from '../shared/getItemType';
 
@@ -18,18 +19,14 @@ class MainPage extends Component {
         'places'
     ];
     
-    handleClick ( )
-    {
-        console.log( 'THISISHAPPENING' );
-        console.log( http );
-    }
+  
 
     render() {
 
         let itemType = getItemTypeFromRoute( this.props.location );
 
       
-        console.log( 'relationalitems Here', this.props.relationalItems );
+        // console.log( 'relationalitems Here', this.props.relationalItems );
    
 
         let relationalItems = this.props.relationalItems[ itemType ] || [];
@@ -37,7 +34,6 @@ class MainPage extends Component {
         return (
             <div className="main--{ itemType }  ">
                 <h1>{itemType}</h1>
-                <button onClick={ this.handleClick }/>
                 <RelationalItemList itemType={ itemType } relationalItems={ relationalItems } />
             </div>
         );

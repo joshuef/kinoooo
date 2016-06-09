@@ -48,10 +48,10 @@ let config = _.merge( {}, {
     loaders: [
       { test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel-loader' },
       // { test: /\.local$/, exclude: /node_modules/, loader: 'css-loader/locals?module!less-loader' },
-      { test: /\.(css|sass|scss|less|styl)$/, exclude: /node_modules/, loader: 'null-loader' },
+      { test: /\.(css|sass|scss|less|styl)$/, loader: 'null-loader' },
       {
         test: /\.(png|jpg|gif|woff|woff2)$/,
-        loader: 'url-loader?limit=8192'
+        loader: 'null-loader'
       }
     ]
   }

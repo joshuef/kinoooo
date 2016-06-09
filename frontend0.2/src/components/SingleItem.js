@@ -134,7 +134,7 @@ class MainPage extends Component {
 
         let uniqPlaceList = {};
 
-        console.log( 'ALL SHOWINGS', showings );
+        // console.log( 'ALL SHOWINGS', showings );
         showings.map( showing =>
         {
             let place = _.find( allPlaces, p => p._id === showing.place );
@@ -155,7 +155,7 @@ class MainPage extends Component {
             uniqPlaceList[ place.name ] = placeShowingThis;
         })
 
-        console.log( 'ALL UNIQ', uniqPlaceList );
+        // console.log( 'ALL UNIQ', uniqPlaceList );
         
         var arrayOfPlaces = Object.keys(uniqPlaceList).map(function (key) 
         {
@@ -212,8 +212,6 @@ class MainPage extends Component {
 
 
 
-        console.log( 'THIS ITEMMM???', thisItem );
-
         let itemName = thisItem.name || '...?';
 
 
@@ -245,6 +243,8 @@ class MainPage extends Component {
         return (
             <div className="main--{ itemType }  ">
                 <h1><Link to={'/' + itemType }>{itemType}</Link> // {itemName}</h1>
+
+
                 <ul>
                     {list}
                 </ul>

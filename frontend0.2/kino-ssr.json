@@ -1,0 +1,23 @@
+{
+  "apps" : [{
+    
+    "name"       : "kino-ssr",
+    "watch": ["server", "dist"],
+    "ignore_watch" : ["node_modules", "src"],
+    "script"      : "server/boot.js",
+    "watch"       : true,
+    "env": {
+      "NODE_ENV": "development",
+    },
+    "env_production" : {
+       "NODE_ENV": "production"
+    }
+  }
+    // ,{
+    //   "name"       : "kino-app",
+    //   "script"     : "api.js",
+    //   "instances"  : 4,
+    //   "exec_mode"  : "cluster"
+    // }
+  ]
+}

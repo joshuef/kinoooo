@@ -1,0 +1,23 @@
+{
+  "apps" : [{
+    
+    "name"       : "kino-server",
+    "watch": ["server"],
+    "ignore_watch" : ["node_modules", "frontend0.2"],
+    "script"      : "server/server.js",
+    "watch"       : true,
+    "env": {
+      "NODE_ENV": "development",
+    },
+    "env_production" : {
+       "NODE_ENV": "production"
+    }
+  }
+    // ,{
+    //   "name"       : "kino-app",
+    //   "script"     : "api.js",
+    //   "instances"  : 4,
+    //   "exec_mode"  : "cluster"
+    // }
+  ]
+}

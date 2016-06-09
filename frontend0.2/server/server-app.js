@@ -4,8 +4,8 @@ import { Provider } from 'react-redux';
 
 import React from 'react'
 import { renderToString } from 'react-dom/server'
-import { match, RoutingContext } from 'react-router'
-
+import { match, RouterContext } from 'react-router'
+// import { RouterContext } from 'react-router';
 import Routes from '../dist/assets/server-routes'
 
 import configureStore from '../src/stores';
@@ -13,14 +13,14 @@ import critical from 'critical';
 
 import fetchComponentData from '../src/shared/fetchComponentData';
 
-import ejs from 'ejs'
+// import ejs from 'e js'
 
 const app = Express()
 const port = process.env.PORT || 8001
 
 
 app.set('views', 'server/views/');
-app.set('view engine', 'ejs');
+// app.set('view engine', 'ejs');
 
 // This is fired every time the server side receives a request
 app.use('/assets', Express.static(path.join(__dirname, '../dist/assets')));
@@ -47,19 +47,20 @@ function handleRender(req, res) {
 
           const initialState = store.getState();
 
-              const InitialView = (
-                <Provider store={store}>
-                  <RoutingContext {...renderProps} />
-                </Provider>
-              );
-              const componentHTML = renderToString(InitialView);
+              // const InitialView = (
+              //   <Provider store={store}>
+              //     <RouterContext {...renderProps} />
+              //   </Provider>
+              // );
+              // const componentHTML = renderToString(InitialView);
+              const componentHTML = '';
 
               const HTML = `
               <!DOCTYPE html>
               <html>
                 <head>
                   <meta charset="utf-8">
-                  <title>Redux Demo</title>
+                  <title>It's Kino Time</title>
                   <link href="dist/assets/styles.css" media="all" rel="stylesheet" />
 
                   <script>
@@ -120,11 +121,6 @@ function handleRender(req, res) {
       res.status(404).send('Not fooooound')
     }
   })
-
-
-
-
-
 
 
 

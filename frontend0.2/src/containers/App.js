@@ -13,6 +13,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 // import  FetchItems   from 'actions/relationalItems/fetchItems';
+// import 'normalize.css';
 require('styles/App.css');
 
 
@@ -20,16 +21,16 @@ require('styles/App.css');
 
 /* Populated by react-webpack-redux:reducer */
 class App extends Component {
-
+    //define required
             
     //not on server
     componentDidMount(  )
     {
-        // if( this.props.actions && this.props.relationalItems.shows < 1 )
-        // {
+        if( this.props.actions && this.props.relationalItems.shows < 1 )
+        {
             this.props.actions.fetchItems( 'shows' );
             
-        // }
+        }
 
         // if( this.props.actions && this.props.relationalItems.places < 1 )
         // {

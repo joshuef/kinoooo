@@ -49,7 +49,7 @@ module.exports = {
       },
       {
         test: /\.sass/,
-        loader: 'style-loader!css-loader?modules!postcss-loader!sass-loader?outputStyle=expanded&indentedSyntax'
+        loader: 'style-loader!css-loader?modules!postcss-loader?outputStyle=expanded&indentedSyntax'
       },
       {
         test: /\.scss/,
@@ -70,6 +70,10 @@ module.exports = {
     ]
   },
   postcss: function () {
-    return [];
+    return [
+    // require('postcss-scss')(),
+    require( 'precss')(),
+    require('autoprefixer')()
+    ];
   }
 };
