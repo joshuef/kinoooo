@@ -23,7 +23,7 @@ class MainPage extends Component {
 
     render() {
 
-        let itemType = getItemTypeFromRoute( this.props.location );
+        let itemType = getItemTypeFromRoute( this.props.location ) || "BllllaaaaA";
 
       
         // console.log( 'relationalitems Here', this.props.relationalItems );

@@ -17,7 +17,9 @@ import { browserHistory } from 'react-router'
 const store = configureStore();
 const history = browserHistory;
 
-syncReduxAndRouter(history, store)
+syncReduxAndRouter(history, store);
+
+console.log( 'APP IS THER AYYYYEEEEE' );
 
 
 render ( (

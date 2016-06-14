@@ -33,6 +33,7 @@
     "load-grunt-tasks": "~0.6.0",
     "lodash": "4.13.1",
     "lout": "^6.1.0",
+    "moment": "^2.13.0",
     "mongoose": "^4.4.19",
     "mongoose-find-one-or-create": "^0.2.0",
     "mongoose-unique-validator": "^0.4.1",

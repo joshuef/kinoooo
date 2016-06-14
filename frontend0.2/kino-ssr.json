@@ -1,7 +1,7 @@
 {
   "apps" : [{
     
-    "name"       : "kino-ssr",
+    "name"       : "ssr-kinos",
     "watch": ["server", "dist"],
     "ignore_watch" : ["node_modules", "src"],
     "script"      : "server/boot.js",

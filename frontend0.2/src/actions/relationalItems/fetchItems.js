@@ -19,13 +19,27 @@ module.exports = function fetchItems( itemName ) {
 
     dispatch(requestItems( itemName ))
 
+console.log( 'PROCESSS', process.env.NODE_ENV );
+
+    let URIbase = '//dev.londonplay.com';
+
+    if ( process.env.NODE_ENV === 'production' )
+    {
+        URIbase = 'http://theatre.wyli.co.uk';
+
+      console.log( 'PRODDUCCTIIOOOONNNNNN' );
+    }
+
+    let jsonURL =  URIbase + API + itemName 
+    console.log( 'before the thinnngggg' , jsonURL);
+
     // The function called by the thunk middleware can return a value,
     // that is passed on as the return value of the dispatch method.
 
     // In this case, we return a promise to wait for.
     // This is not required by thunk middleware, but it is convenient for us.
 
-    return fetch( 'http://dev.londonplay.com' + API + itemName )
+    return fetch( jsonURL )
       .then(response => response.json() )
       .catch( (error, respose) => {
 

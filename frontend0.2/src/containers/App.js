@@ -26,11 +26,13 @@ class App extends Component {
     //not on server
     componentDidMount(  )
     {
-        if( this.props.actions && this.props.relationalItems.shows < 1 )
-        {
+
+      console.log( 'APP MOUNTEDDDD' );
+        // if( this.props.actions && this.props.relationalItems.shows < 1 )
+        // {
             this.props.actions.fetchItems( 'shows' );
             
-        }
+        // }
 
         // if( this.props.actions && this.props.relationalItems.places < 1 )
         // {

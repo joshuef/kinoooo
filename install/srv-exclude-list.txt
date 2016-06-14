@@ -1,7 +1,6 @@
 .git
 install
 node_modules
-src
 npm-debug.log
 
 #test files
@@ -12,7 +11,6 @@ server/test
 bin
 lib
 run
-dist
 karma.
 
 server/config/production_config.json

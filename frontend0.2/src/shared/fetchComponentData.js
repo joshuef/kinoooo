@@ -3,6 +3,7 @@ import  FetchItems   from '../actions/relationalItems/fetchItems';
 export default function fetchComponentData(dispatch, components, params) {
   const needs = components.reduce( (prev, current) => {
 
+
     // add in some basic items to fetch to reduce reusual
     if( current && current.needsItems )
     {
