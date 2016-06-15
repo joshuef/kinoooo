@@ -28,12 +28,6 @@ class RelationalItemList extends Component {
 
         let val =  this.refs.search.value.trim();
 
-        // getRelevantItemsFromProps( val, this.state.searchableItems )
-
-        // console.log( 'matcccchhessss', val, matches  );
-        console.log( 'browserHistory', browserHistory );
-
-
         this.setState( { query: val });
 
         if( val.length > 0 )
@@ -46,12 +40,6 @@ class RelationalItemList extends Component {
             browserHistory.push( '/' + this.props.itemType )
 
         }
-
-
-        // else
-        // {
-        //     this.fuzzySearchReset();
-        // }
      
     }
 
@@ -90,14 +78,6 @@ class RelationalItemList extends Component {
         this.sole = new Sole();
     }
     
-    // handleTextChange ( )
-    // {
-    //     let searchValue = this.refs.search.value ;
-
-    //     console.log( 'THISISHAPPENING', searchValue );
-
-    //     let score 
-    // }
 
     componentWillReceiveProps(nextProps) 
     {
@@ -114,10 +94,8 @@ class RelationalItemList extends Component {
                 }
             });
 
-            // console.log( 'searchable ITEMSMSSSS', searchableItems );
         }
 
-        // console.log( 'nextProps', nextProps );
 
         let relationalItems = nextProps.relationalItems || [];
         let matches = null;
@@ -136,7 +114,6 @@ class RelationalItemList extends Component {
         if ( matches )
         {
 
-            console.log( 'GETTING MATCHES???' );
             matchesForDisplay = matches.map( result => 
             {
                 return  _.findWhere( relationalItems, { name: result.d.text } );
@@ -144,13 +121,6 @@ class RelationalItemList extends Component {
 
           
         }
-
-        let z = matchesForDisplay || relationalItems;
-
-        console.log( 'Z', z );
-
-
-
 
           this.setState({
             allListItems : relationalItems,
