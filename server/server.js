@@ -10,7 +10,15 @@ process.env.GETCONFIG_ROOT = __dirname + '/config';
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 var Hapi = require('hapi');
-var server = new Hapi.Server();
+var server = new Hapi.Server({
+   // cache: [
+   //      {
+   //          name: 'mongoCache',
+   //          engine: require('catbox-mongodb'),
+   //          host: '127.0.0.1',
+   //          partition: 'cache'
+   //      } ]
+});
 var good = require('good');
 var goodConsole = require('good-console');
 var goodFile = require('good-file');

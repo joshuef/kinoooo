@@ -10,6 +10,8 @@ import Routes from '../dist/assets/server-routes'
 import configureStore from '../src/stores';
 import critical from 'critical';
 
+// import apicache   from 'apicache';
+let apicache = require('apicache').middleware;
 
 //MOVE THESE TO NOT SRC
 import fetchComponentData from '../src/shared/fetchComponentData';
@@ -21,17 +23,24 @@ console.log( 'TOPPPPP' );
 const app = Express()
 
 console.log( 'PROCESSS', process.env.NODE_ENV );
-const port = process.env.PORT || 30281;
+
+let port = process.env.PORT  || 8001;
+if( process.env.NODE_ENV === 'production' )
+{
+    port = 30281;
+}
+
 
 
 console.log( 'AFTER EXPRESSS' );
 
-app.set('views', 'server/views/');
+// app.set('views', 'server/views/');
 // app.set('view engine', 'ejs');
 
 // This is fired every time the server side receives a request
-app.use('/assets', Express.static(path.join(__dirname, '../dist/assets')));
-app.use(handleRender);
+app.use('/assets', Express.static(path.join(__dirname, '../dist/assets') ) );
+app.use( apicache('5 minutes') );
+app.use( handleRender );
 
 console.log( 'AFTER USSE' );
 
@@ -69,7 +78,7 @@ function handleRender(req, res) {
                 <head>
                   <meta charset="utf-8">
                   <title>It's Kino Time</title>
-                  <link href="dist/assets/styles.css" media="all" rel="stylesheet" />
+                  <link href="assets/styles.css" media="all" rel="stylesheet" />
 
                   <script>
                     window.__INITIAL_STATE__ = ${JSON.stringify(initialState)};
@@ -90,6 +99,8 @@ function handleRender(req, res) {
 
             function inlineCriticalCss( html )
             {
+
+              // console.log( 'Generating CSSSS', html );
                 return critical.generate({
                   html: html,
                   dimensions: [{
@@ -102,15 +113,19 @@ function handleRender(req, res) {
                   dest: ''
                 }).then(function (output) {
 
+                    // if( process.env.NODE_ENV === 'development' )
+                    //   {
+                    //     return html;
+                    //   }
 
-                  console.log( 'CSSSSSSSSSSSSSSS OUTPUUUTTT', output);
+                  // console.log( 'CSSSSSSSSSSSSSSS OUTPUUUTTT', output);
                     let finalHtml = html.replace(/<style><\/style>/g, '<style>'+ output +'</style>');
                     finalHtml = finalHtml.replace(/dist\//g, '');
 
                     return finalHtml;
 
                 })
-                .error(function (err) {
+                .catch(function (err) {
                   console.log( 'CSSSSSSSSSSSSSSS ERRROORORORRRR', err);
                 });
             }

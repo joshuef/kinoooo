@@ -1,6 +1,6 @@
 /* Base Application Styles */
 body {
-  /*color: #fff;*/
+  color: grey;
   /*background: #222;*/
 }
 
@@ -18,4 +18,15 @@ body {
   border: 1px solid #000;
   border-width: 1px 0;
   background: #666;
+}
+
+
+ul
+{
+  list-style:  none;
+}
+
+li
+{
+  margin-bottom: 1rem;
 }
