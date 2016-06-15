@@ -1,7 +1,7 @@
 {
   "apps" : [{
     
-    "name"       : "kino-server",
+    "name"       : "api-kino",
     "watch": ["server"],
     "ignore_watch" : ["node_modules", "frontend0.2"],
     "script"      : "server/server.js",

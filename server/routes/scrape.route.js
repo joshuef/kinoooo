@@ -24,6 +24,9 @@ module.exports = [
     config: {
         handler: function(request, reply)
         {
+            if( process.env.NODE_ENV == 'production' )
+                return;
+
             console.log( 'handlin\' scrape kinos' );
             scraper.addKinos( MAIN_LINK );
 
@@ -39,6 +42,9 @@ module.exports = [
     config: {
         handler: function(request, reply)
         {
+            if( process.env.NODE_ENV == 'production' )
+                return;
+
             console.log( 'handlin\' scrape shows' );
             scraper.addShows( MAIN_LINK );
             reply( 'shows done!' );

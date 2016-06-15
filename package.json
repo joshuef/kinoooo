@@ -9,6 +9,13 @@
   "dist": "dist",
   "mainInput": "main",
   "mainOutput": "main",
+  "scripts": {
+    "clean": "rimraf dist/*",
+    "copy": "copyfiles -f ./src/index.html ./src/favicon.ico ./dist",
+    "dist": "cd frontend0.2 && npm run copy & webpack --env=dist",
+    "dist:ssr": "cd frontend0.2 &&  npm run copy & webpack --env=serve",
+    "deploy:ssr" : "cd install && ./deploy-ssr.sh"
+  },
   "dependencies": {
     "bcrypt-nodejs": "^0.8.6",
     "boom": "^2.6.1",

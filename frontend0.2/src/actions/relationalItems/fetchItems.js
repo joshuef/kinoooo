@@ -4,7 +4,6 @@ import fetch from 'isomorphic-fetch'
 import receiveItems from './receiveItems';
 import requestItems from './requestItems';
 
-const API = `/api/`;
 
 module.exports = function fetchItems( itemName ) {
 
@@ -19,19 +18,16 @@ module.exports = function fetchItems( itemName ) {
 
     dispatch(requestItems( itemName ))
 
-console.log( 'PROCESSS', process.env.NODE_ENV );
 
-    let URIbase = '//dev.londonplay.com';
+    let URIbase = 'http://localhost:8011/';
 
     if ( process.env.NODE_ENV === 'production' )
     {
-        URIbase = 'http://theatre.wyli.co.uk';
+        URIbase = 'http://theatre.wyli.co.uk/api/';
 
-      console.log( 'PRODDUCCTIIOOOONNNNNN' );
     }
 
-    let jsonURL =  URIbase + API + itemName 
-    console.log( 'before the thinnngggg' , jsonURL);
+    let jsonURL =  URIbase + itemName 
 
     // The function called by the thunk middleware can return a value,
     // that is passed on as the return value of the dispatch method.

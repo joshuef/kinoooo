@@ -6,7 +6,7 @@ var Show = require( "../models/show.model");
 var Place = require( "../models/place.model");
 var _ = require( 'lodash' );
 var Joi  = require('joi');
-
+var moment = require( 'moment' );
 var showRoot = '/shows';
 
 
@@ -61,23 +61,56 @@ module.exports = [
 
                 // console.log( "WHAT PLACES?" );
             // reply('booom')
-            return Show.find(function (err, shows) 
+            return Show.find( function (err, shows) 
             {
-                if (!err) 
+                if (err) 
                 {
-                    // console.log( reply );
-                    reply( {
-                    shows: shows,
-                    title: 'Shows'
-                    }   );
-
-                    // console.log( shows );
-                  
-                  
-                } else {
-                    reply( err );
-                  return console.log(err);
+                    console.log( 'error in get shows', err );
+                    return err;
                 }
+                
+                let showsWithShowTimes = [];
+
+                _.each( shows, function(show)
+                {
+                    let relevantShowTimes = [];
+
+                    if( show.showingAt.length )
+                    {
+                        _.each( show.showingAt, showTime =>
+                        {
+                            let time = moment( showTime.time );
+
+                            // console.log( 'time it iswas', time.isBefore( moment(), 'day' ) );
+
+                            if( ! time.isBefore( moment(), 'day' ) )
+                            {
+                                relevantShowTimes.push( showTime );
+                            }
+
+                        });
+
+                        show.showingAt = relevantShowTimes;   
+                    }
+
+                    if ( show.showingAt.length > 0 )
+                    {
+                        showsWithShowTimes.push( show );
+                    }
+                    // console.log( 'show', show );
+
+                });
+
+                // console.log( reply );
+                reply( {
+                shows: showsWithShowTimes,
+                title: 'Shows'
+                }   );
+
+                // console.log( shows );
+              
+                  
+               
           })
         }
     }
@@ -103,6 +136,9 @@ module.exports = [
         {   
             // if( request.auth.credentials.userType !== 'admin' )
             //     return;
+            
+            if( process.env.NODE_ENV == 'production' )
+                return;
 
             var payload = request.payload;
             if( ! payload.name )
