@@ -15,16 +15,15 @@ import { browserHistory } from 'react-router'
 
 
 const store = configureStore();
-const history = browserHistory;
 
-syncReduxAndRouter(history, store);
+syncReduxAndRouter(browserHistory, store);
 
 console.log( 'APP IS THER AYYYYEEEEE' );
 
 
 render ( (
     <Provider store={store}>
-        <Router history={ history } >
+        <Router history={ browserHistory } >
              {AllRoutes}
         </Router>
     </Provider>

@@ -8,6 +8,7 @@ import React, {
 import { Link } from 'react-router';
 import Sole from './Sole';
 import _ from 'lodash';
+import { browserHistory } from 'react-router'
 
 // import SearchProps from './SearchProps';
 
@@ -27,33 +28,42 @@ class RelationalItemList extends Component {
 
         let val =  this.refs.search.value.trim();
 
-
-        let matches = this.sole.isThereAnythingRelatedTo( val, this.state.searchableItems );
+        // getRelevantItemsFromProps( val, this.state.searchableItems )
 
         // console.log( 'matcccchhessss', val, matches  );
+        console.log( 'browserHistory', browserHistory );
 
+        // if ( matches )
+        // {
+        //     let matchesForDisplay = matches.map( result => 
+        //     {
+        //         // console.log( 'resulttttt', result );
+        //         return  _.findWhere( this.props.relationalItems, { name: result.d.text } );
+        //     });
 
-        if ( matches )
-        {
-            let matchesForDisplay = matches.map( result => 
-            {
-                // console.log( 'resulttttt', result );
-                return  _.findWhere( this.props.relationalItems, { name: result.d.text } );
-            });
+        //     // console.log( 'matchesForDisplay' );
 
-            // console.log( 'matchesForDisplay' );
-
-            //we match the names from the matches to the original array
-            //
+        //     //we match the names from the matches to the original array
+        //     //
             
 
-           this.setState({ allRelevantListItems : matchesForDisplay })
-        }
+        //    this.setState({ allRelevantListItems : matchesForDisplay })
+        // }
+
+          browserHistory.push( '/' + this.props.itemType + '/search/' + val )
+
         // else
         // {
         //     this.fuzzySearchReset();
         // }
      
+    }
+
+
+    getRelevantItemsFromProps( query )
+    {
+        let matches = this.sole.isThereAnythingRelatedTo( val, this.state.searchableItems );
+
     }
 
 
@@ -93,7 +103,8 @@ class RelationalItemList extends Component {
     //     let score 
     // }
 
-    componentWillReceiveProps(nextProps) {
+    componentWillReceiveProps(nextProps) 
+    {
 
         let searchableItems;
 
@@ -110,12 +121,49 @@ class RelationalItemList extends Component {
             // console.log( 'searchable ITEMSMSSSS', searchableItems );
         }
 
-          this.setState({
-            allListItems : nextProps.relationalItems || [],
-            allRelevantListItems : nextProps.relationalItems || [],
-            searchableItems : searchableItems
-          });
+        console.log( 'nextProps', nextProps );
+
+
+
+        let relationalItems = nextProps.relationalItems || [];
+        let matches = null;
+        let matchesForDisplay = [];
+
+        if( searchableItems && nextProps.params && nextProps.params.query )
+        {
+            let query = nextProps.params.query;
+
+            matches = this.sole.isThereAnythingRelatedTo( query, searchableItems );
         }
+
+
+        if ( matches )
+        {
+            matchesForDisplay = matches.map( result => 
+            {
+                // console.log( 'resulttttt', result );
+                return  _.findWhere( relationalItems, { name: result.d.text } );
+            });
+
+            // console.log( 'matchesForDisplay' );
+
+            //we match the names from the matches to the original array
+            //
+            
+
+           // this.setState({ allRelevantListItems : matchesForDisplay })
+        }
+
+
+
+
+          this.setState({
+            allListItems : relationalItems,
+            allRelevantListItems : matchesForDisplay
+            // searchableItems : searchableItems
+          });
+    }
+
     render() {
 
         const allRelevantListItems = this.state.allRelevantListItems;

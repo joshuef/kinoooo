@@ -11,6 +11,7 @@ import React, {
 } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 
 // import  FetchItems   from 'actions/relationalItems/fetchItems';
 // import 'normalize.css';
@@ -22,20 +23,29 @@ require('styles/App.css');
 /* Populated by react-webpack-redux:reducer */
 class App extends Component {
     //define required
-            
+    static needsItems =
+    [
+        'shows',
+        'places'
+    ];
     //not on server
     componentDidMount(  )
     {
 
       console.log( 'APP MOUNTEDDDD' );
-        if( this.props.actions && this.props.relationalItems.shows < 1 )
+
+        if( this.props.actions &&  ! this.props.relationalItems.shows ||
+          this.props.relationalItems.shows.length < 1 )
         {
+            console.log( 'nae shows' );
             this.props.actions.fetchItems( 'shows' );
             
         }
 
-        if( this.props.actions && this.props.relationalItems.places < 1 )
+        if( this.props.actions &&  ! this.props.relationalItems.places ||
+            this.props.relationalItems.places.length < 1)
         {
+            console.log( 'nae places' );
             this.props.actions.fetchItems( 'places' );
 
         }
@@ -51,6 +61,7 @@ class App extends Component {
     render() {
         return (
             <div className="index">
+              <Link to="/">It's Kino Time</Link>
                 {React.cloneElement(this.props.children, {relationalItems: this.props.relationalItems})}
             </div>
         )

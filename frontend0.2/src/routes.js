@@ -33,11 +33,13 @@ const Routes = (
     <Route component={App} >
         <Route path="/shows" >
             <IndexRoute component={Main} />
+            <Route path="/shows/search/:query" component={Main} relatedTo="places"/>
             <Route path="/shows/:id" component={SingleItem} relatedTo="places"/>
 
         </Route>
         <Route path="/places" >
             <IndexRoute component={Main} />
+            <Route path="/places/search/:query" component={Main} relatedTo="shows" />
             <Route path="/places/:id" component={SingleItem} relatedTo="shows" />
 
         </Route>

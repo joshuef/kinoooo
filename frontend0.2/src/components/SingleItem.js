@@ -15,11 +15,11 @@ import http from 'http';
 // moment.locale( 'de' );
 
 class MainPage extends Component {
-    static needsItems =
-    [
-        'places',
-        'shows'
-    ];
+    // static needsItems =
+    // [
+    //     'places',
+    //     'shows'
+    // ];
 
  
 

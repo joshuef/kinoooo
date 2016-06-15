@@ -10,8 +10,8 @@ import Routes from '../dist/assets/server-routes'
 import configureStore from '../src/stores';
 import critical from 'critical';
 
-// import apicache   from 'apicache';
-let apicache = require('apicache').middleware;
+
+// let apicache = require('apicache').options({ debug: true }).middleware;
 
 //MOVE THESE TO NOT SRC
 import fetchComponentData from '../src/shared/fetchComponentData';
@@ -20,7 +20,18 @@ import fetchComponentData from '../src/shared/fetchComponentData';
 
 
 console.log( 'TOPPPPP' );
-const app = Express()
+const app = Express({
+    // connect_cache(
+    //   {
+    //     rules: [
+    //     {regex: /.*/, ttl: 21600000},
+    //     {regex: /assets\/.*/, ttl: 864000000}
+    //     ]
+    //   }
+    // )
+  });
+
+
 
 console.log( 'PROCESSS', process.env.NODE_ENV );
 
@@ -39,7 +50,7 @@ console.log( 'AFTER EXPRESSS' );
 
 // This is fired every time the server side receives a request
 app.use('/assets', Express.static(path.join(__dirname, '../dist/assets') ) );
-app.use( apicache('5 minutes') );
+// app.use( apicache('5 minutes') );
 app.use( handleRender );
 
 console.log( 'AFTER USSE' );
