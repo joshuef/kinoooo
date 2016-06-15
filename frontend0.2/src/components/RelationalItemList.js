@@ -33,24 +33,20 @@ class RelationalItemList extends Component {
         // console.log( 'matcccchhessss', val, matches  );
         console.log( 'browserHistory', browserHistory );
 
-        // if ( matches )
-        // {
-        //     let matchesForDisplay = matches.map( result => 
-        //     {
-        //         // console.log( 'resulttttt', result );
-        //         return  _.findWhere( this.props.relationalItems, { name: result.d.text } );
-        //     });
 
-        //     // console.log( 'matchesForDisplay' );
+        this.setState( { query: val });
 
-        //     //we match the names from the matches to the original array
-        //     //
+        if( val.length > 0 )
+        {
+            browserHistory.push( '/' + this.props.itemType + '/search/' + val )
             
+        }
+        else
+        {
+            browserHistory.push( '/' + this.props.itemType )
 
-        //    this.setState({ allRelevantListItems : matchesForDisplay })
-        // }
+        }
 
-          browserHistory.push( '/' + this.props.itemType + '/search/' + val )
 
         // else
         // {
@@ -121,17 +117,17 @@ class RelationalItemList extends Component {
             // console.log( 'searchable ITEMSMSSSS', searchableItems );
         }
 
-        console.log( 'nextProps', nextProps );
-
-
+        // console.log( 'nextProps', nextProps );
 
         let relationalItems = nextProps.relationalItems || [];
         let matches = null;
-        let matchesForDisplay = [];
+        let matchesForDisplay = null;
+        let query;
+
 
         if( searchableItems && nextProps.params && nextProps.params.query )
         {
-            let query = nextProps.params.query;
+            query = nextProps.params.query;
 
             matches = this.sole.isThereAnythingRelatedTo( query, searchableItems );
         }
@@ -139,28 +135,27 @@ class RelationalItemList extends Component {
 
         if ( matches )
         {
+
+            console.log( 'GETTING MATCHES???' );
             matchesForDisplay = matches.map( result => 
             {
-                // console.log( 'resulttttt', result );
                 return  _.findWhere( relationalItems, { name: result.d.text } );
             });
 
-            // console.log( 'matchesForDisplay' );
-
-            //we match the names from the matches to the original array
-            //
-            
-
-           // this.setState({ allRelevantListItems : matchesForDisplay })
+          
         }
+
+        let z = matchesForDisplay || relationalItems;
+
+        console.log( 'Z', z );
 
 
 
 
           this.setState({
             allListItems : relationalItems,
-            allRelevantListItems : matchesForDisplay
-            // searchableItems : searchableItems
+            allRelevantListItems : matchesForDisplay || relationalItems
+            // query : query
           });
     }
 
@@ -170,7 +165,7 @@ class RelationalItemList extends Component {
 
         return (
             <div>
-                <input type="text" ref="search" onChange={ this.fuzzySearch.bind( this ) } />
+                <input type="text" ref="search" value={this.props.params.query} onChange={ this.fuzzySearch.bind( this ) } />
 
                 <ul>
                     { allRelevantListItems.map((item, index) =>
