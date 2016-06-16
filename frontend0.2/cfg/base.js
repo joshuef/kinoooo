@@ -45,24 +45,25 @@ module.exports = {
     loaders: [
       {
         test: /\.css$/,
-        loader: 'style-loader!css-loader!postcss-loader'
+        loader: 'style-loader!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader'
+        // loader: 'style-loader!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]'
       },
-      {
-        test: /\.sass/,
-        loader: 'style-loader!css-loader?modules!postcss-loader?outputStyle=expanded&indentedSyntax'
-      },
-      {
-        test: /\.scss/,
-        loader: 'style-loader!css-loader?modules!postcss-loader!sass-loader?outputStyle=expanded'
-      },
-      {
-        test: /\.less/,
-        loader: 'style-loader!css-loader?modules!postcss-loader!less-loader'
-      },
-      {
-        test: /\.styl/,
-        loader: 'style-loader!css-loader?modules!postcss-loader!stylus-loader'
-      },
+      // {
+      //   test: /\.sass/,
+      //   loader: 'style-loader!css-loader?modules!postcss-loader?outputStyle=expanded&indentedSyntax'
+      // },
+      // {
+      //   test: /\.scss/,
+      //   loader: 'style-loader!css-loader?modules!postcss-loader!sass-loader?outputStyle=expanded'
+      // },
+      // {
+      //   test: /\.less/,
+      //   loader: 'style-loader!css-loader?modules!postcss-loader!less-loader'
+      // },
+      // {
+      //   test: /\.styl/,
+      //   loader: 'style-loader!css-loader?modules!postcss-loader!stylus-loader'
+      // },
       {
         test: /\.(png|jpg|gif|woff|woff2)$/,
         loader: 'url-loader?limit=8192'

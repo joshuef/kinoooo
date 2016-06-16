@@ -44,7 +44,7 @@ console.log( 'AFTER EXPRESSS' );
 // app.set('view engine', 'ejs');
 
 // This is fired every time the server side receives a request
-app.use('/assets', Express.static(path.join(__dirname, '../dist/assets') ) );
+app.use('*?/assets', Express.static(path.join(__dirname, '../dist/assets') ) );
 // app.use( apicache('5 minutes') );
 app.use( handleRender );
 
@@ -127,7 +127,7 @@ function handleRender(req, res) {
                   <meta charset="utf-8">
                   <meta name="viewport" content="width=device-width, initial-scale=1">
                   <title>It's Kino Time</title>
-                  <link href="assets/styles.css" media="all" rel="stylesheet" />
+                  <link href="dist/assets/styles.css" media="all" rel="stylesheet" />
 
                   <script>
                     window.__INITIAL_STATE__ = ${JSON.stringify(initialState)};
@@ -182,7 +182,7 @@ function handleRender(req, res) {
 
             fetchComponentData(store.dispatch, renderProps.components, renderProps.params)
                 .then(renderView)
-                // .then( indexObject => inlineCriticalCss( indexObject ))
+                .then( indexObject => inlineCriticalCss( indexObject ))
                 .then(html => 
                     {
 

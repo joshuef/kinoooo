@@ -15,7 +15,7 @@ import KinosNav from 'components/KinosNav'
 
 // import  FetchItems   from 'actions/relationalItems/fetchItems';
 // import 'normalize.css';
-require( 'styles/App.css' );
+import 'styles/App.css';
 
 
 // const allItems = [ 'shows', 'places' ];

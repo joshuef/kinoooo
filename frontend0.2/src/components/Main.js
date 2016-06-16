@@ -25,8 +25,6 @@ class MainPage extends Component {
 
     render() {
 
-        console.log( 'this.props', this.props );
-
         let props = this.props;
 
         let itemType = getItemTypeFromRoute( props.location ) || defaultType;

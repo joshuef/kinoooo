@@ -101,8 +101,8 @@ module.exports = [
 
                 });
 
-                // let uniqShows = _.uniqBy( showsWithShowTimes, 'name');
-                let uniqShows = showsWithShowTimes;
+                let uniqShows = _.uniqBy( showsWithShowTimes, 'name');
+                // let uniqShows = showsWithShowTimes;
 
                 // console.log( reply );
                 reply( {

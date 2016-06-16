@@ -41,7 +41,7 @@ class SingleItemPage extends Component {
             if( !showObject )
                 return;
 
-            console.log( 'showwwwwwww', showObject.name );
+            // console.log( 'showwwwwwww', showObject.name );
 
             let thisShow = uniqShowList[ showObject.name ] || showObject;
 
@@ -69,7 +69,7 @@ class SingleItemPage extends Component {
             uniqShowList[ thisShow.name ] = thisShow;
         })
 
-        console.log( 'ALL UNIQQQQQ', uniqShowList );
+        // console.log( 'ALL UNIQQQQQ', uniqShowList );
         
         var arrayOfShows = Object.keys(uniqShowList).map(function (key) 
         {
@@ -162,14 +162,14 @@ class SingleItemPage extends Component {
 
         let itemType = getItemTypeFromRoute( this.props.location );
 
-        console.log( 'SINGLE itemType', itemType );
+        // console.log( 'SINGLE itemType', itemType );
 
         let thisItemList = this.props.relationalItems[ itemType ];
 
 
         let props = this.props;
 
-        console.log( 'SIngleItem props', props );
+        // console.log( 'SIngleItem props', props );
         console.log( 'SIngleItem ', this );
 
         let thisItem = _.find( thisItemList, function(o)
@@ -177,7 +177,7 @@ class SingleItemPage extends Component {
                 let theId   = props.params.id;
 
 
-                // console.log( 'theId', theId );
+                console.log( 'theId', theId );
                 return  o.name === theId;
             }) ;
 
@@ -203,19 +203,19 @@ class SingleItemPage extends Component {
 
         if( itemType === 'places' )
         {
-            console.log( 'PLACCEESSSS' );
+            // console.log( 'PLACCEESSSS' );
             list = this.listForPlaces( thisItem , this.props.relationalItems.shows );
         }
 
 
 
-        console.log( 'THE LISTTTT', list );
-        console.log( 'THE LOCATIONSSS', list );
+        // console.log( 'THE LISTTTT', list );
+        // console.log( 'THE LOCATIONSSS', list );
 
-        _.forEach( list, place=> 
-        {
-            console.log( 'A PLACE IN THE LIST', place.name );
-        })
+        // _.forEach( list, place=> 
+        // {
+        //     // console.log( 'A PLACE IN THE LIST', place.name );
+        // })
 
 
       
