@@ -11,11 +11,12 @@ import React, {
 } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import KinosNav from 'components/KinosNav'
 
 // import  FetchItems   from 'actions/relationalItems/fetchItems';
 // import 'normalize.css';
-require('styles/App.css');
+import 'normalize.css';
+import 'styles/App.css';
 
 
 // const allItems = [ 'shows', 'places' ];
@@ -61,7 +62,8 @@ class App extends Component {
     render() {
         return (
             <div className="index">
-              <Link to="/">It's Kino Time</Link>
+                <KinosNav />
+
                 {React.cloneElement(this.props.children, {relationalItems: this.props.relationalItems})}
             </div>
         )

@@ -31,18 +31,20 @@ import { Route, IndexRoute } from 'react-router';
 // ), document.getElementById('app') );
 const Routes = (
     <Route component={App} >
+        <Route path="/show/:id" component={SingleItem} relatedTo="places"/>
         <Route path="/shows" >
             <IndexRoute component={Main} />
             <Route path="/shows/search/:query" component={Main} relatedTo="places"/>
-            <Route path="/shows/:id" component={SingleItem} relatedTo="places"/>
-
         </Route>
+
+
         <Route path="/places" >
             <IndexRoute component={Main} />
             <Route path="/places/search/:query" component={Main} relatedTo="shows" />
-            <Route path="/places/:id" component={SingleItem} relatedTo="shows" />
-
         </Route>
+
+        <Route path="/place/:id" component={SingleItem} relatedTo="shows" />
+
         <Route path="/" component={Main} />
         <IndexRoute component={Main} />
     </Route>

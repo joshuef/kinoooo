@@ -119,6 +119,7 @@ function handleRender(req, res) {
               <html>
                 <head>
                   <meta charset="utf-8">
+                  <meta name="viewport" content="width=device-width, initial-scale=1">
                   <title>It's Kino Time</title>
                   <link href="assets/styles.css" media="all" rel="stylesheet" />
 
@@ -134,9 +135,6 @@ function handleRender(req, res) {
               </html>
               `;
 
-
-
-              // res.end( HTML );
               return HTML;
 
             }

@@ -14,32 +14,8 @@ import http from 'http';
 
 // moment.locale( 'de' );
 
-class MainPage extends Component {
-    // static needsItems =
-    // [
-    //     'places',
-    //     'shows'
-    // ];
-
+class SingleItemPage extends Component {
  
-
-    //   //not on server
-    // componentDidMount(  )
-    // {
-
-    //     console.log( 'MOUNTYYYYY' );
-    //     if( this.props.actions && this.props.relationalItems.shows < 1 )
-    //     {
-    //         this.props.actions.fetchItems( 'shows' );
-    //         this.props.actions.fetchItems( 'places' );
-            
-    //     }
-
-    //     if( this.props.actions && this.props.relationalItems.places < 1 )
-    //     {
-
-    //     }
-    // }
     
     handleClick( )
     {
@@ -107,7 +83,7 @@ class MainPage extends Component {
             return <li {...show}
                     key={index}
                     >
-                  <Link to={ '/shows/' + encodeURIComponent( show.name ) + '/' }>{show.name}</Link>
+                  <Link to={ '/show/' + encodeURIComponent( show.name ) + '/' }>{show.name}</Link>
                    <ul>
                     {show.showingsHere}
                   </ul>
@@ -169,7 +145,7 @@ class MainPage extends Component {
             return <li {...place}
                     key={index}
                     >
-                  <Link to={ '/places/' + encodeURIComponent( place.name ) + '/' }>{place.name}</Link>
+                  <Link to={ '/place/' + encodeURIComponent( place.name ) + '/' }>{place.name}</Link>
                   <ul>
                     {place.showings}
                   </ul>
@@ -186,7 +162,7 @@ class MainPage extends Component {
 
         let itemType = getItemTypeFromRoute( this.props.location );
 
-        console.log( 'itemType', itemType );
+        console.log( 'SINGLE itemType', itemType );
 
         let thisItemList = this.props.relationalItems[ itemType ];
 
@@ -221,6 +197,8 @@ class MainPage extends Component {
         if( itemType === 'shows' )
         {
             list = this.listForShows( thisItem , this.props.relationalItems.places );
+
+
         }
 
         if( itemType === 'places' )
@@ -232,6 +210,7 @@ class MainPage extends Component {
 
 
         console.log( 'THE LISTTTT', list );
+        console.log( 'THE LOCATIONSSS', list );
 
         _.forEach( list, place=> 
         {
@@ -242,9 +221,7 @@ class MainPage extends Component {
       
         return (
             <div className="main--{ itemType }  ">
-                <h1><Link to={'/' + itemType }>{itemType}</Link> // {itemName}</h1>
-
-
+                <h1>{itemName}</h1>
                 <ul>
                     {list}
                 </ul>
@@ -257,13 +234,13 @@ class MainPage extends Component {
 
 
 
-MainPage.defaultProps = {
+SingleItemPage.defaultProps = {
     relationalItems: {}
 };
 
-MainPage.propTypes = {
+SingleItemPage.propTypes = {
   relationalItems: PropTypes.object.isRequired
 };
 
 
-export default MainPage;
+export default SingleItemPage;

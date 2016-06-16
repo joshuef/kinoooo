@@ -7,11 +7,12 @@ import React, {
 
 import RelationalItemList from './RelationalItemList';
 import http from 'http';
-import { Link } from 'react-router';
-
+import KinosNav from './KinosNav'
 require('styles/App.css');
 
 import getItemTypeFromRoute from '../shared/getItemType';
+
+const defaultType = 'shows';
 
 class MainPage extends Component {
     // static needsItems =
@@ -26,20 +27,19 @@ class MainPage extends Component {
 
         console.log( 'this.props', this.props );
 
-        let itemType = getItemTypeFromRoute( this.props.location ) || "It's Kino Time";
+        let props = this.props;
+
+        let itemType = getItemTypeFromRoute( props.location ) || defaultType;
 
       
-        // console.log( 'relationalitems Here', this.props.relationalItems );
+        // console.log( 'relationalitems Here', props.relationalItems );
    
 
-        let relationalItems = this.props.relationalItems[ itemType ] || [];
+        let relationalItems = props.relationalItems[ itemType ];
 
         return (
             <div className="main--{ itemType }  ">
-                <h1>{itemType}</h1>
-                <Link to="/shows">shows</Link>
-                <Link to="/places">kinos</Link>
-                <RelationalItemList params={ this.props.params } itemType={ itemType } relationalItems={ relationalItems } />
+                <RelationalItemList params={ props.params } itemType={ itemType } relationalItems={ relationalItems } />
             </div>
         );
   }

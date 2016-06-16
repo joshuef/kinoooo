@@ -9,6 +9,8 @@ import { Link } from 'react-router';
 import Sole from './Sole';
 import _ from 'lodash';
 import { browserHistory } from 'react-router'
+import { getSingularItemType } from '../shared/getItemType';
+import 'styles/RelationalItemList.css';
 
 // import SearchProps from './SearchProps';
 
@@ -133,19 +135,31 @@ class RelationalItemList extends Component {
 
         const allRelevantListItems = this.state.allRelevantListItems;
 
+        console.log( 'list props', this.props );
+        let singleItemType = getSingularItemType( this.props.itemType );
+
+        // if( allRelevantListItems.length < 1 )
+        // {
+        //     return ( <div /> );
+        // }
+
         return (
             <div>
-                <input type="text" ref="search" value={this.props.params.query} onChange={ this.fuzzySearch.bind( this ) } />
+                <h1>Search all {this.props.itemType}:</h1>
 
+                <input placeholder={ 'Search ' +  this.props.itemType + '...'} className="searchBox" type="text" ref="search" value={this.props.params.query} onChange={ this.fuzzySearch.bind( this ) } />
+               
                 <ul>
                     { allRelevantListItems.map((item, index) =>
                               <li {...item}
                                     key={index}
                                     >
-                                  <Link to={ '/' + this.props.itemType + '/' + encodeURIComponent( item.name ) + '/' }>{item.name}</Link>
+                                  <Link to={ '/' + singleItemType + '/' + encodeURIComponent( item.name ) + '/' }>{item.name}</Link>
                               </li>
                     )}
                 </ul>
+            
+
             </div>
         )
     }

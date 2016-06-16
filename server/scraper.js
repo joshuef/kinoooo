@@ -42,8 +42,9 @@ var buildFullShowArray = function( results )
 
         show.name = show.name.replace( /\s\((OV|OmU|3D|DFmenglU)\)|\s3D/, '' ).trim();
 
-        // var freiluft = show.showingAt.place ? show.showingAt.place.indexOf( 'Freiluft') != -1 : false ;
-
+        // var freiluft = show.showingAt.place ? show.showingAt.place.indexOf( 'freiluft') != -1 : false ;
+        //freilicht
+        //openair
         var flags = {
             ov: ov, 
             omu: omu,
