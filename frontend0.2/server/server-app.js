@@ -11,6 +11,10 @@ import configureStore from '../src/stores';
 import critical from 'critical';
 
 
+import NodeCache from  "node-cache" ;
+
+var myCache = new NodeCache( { stdTTL: 21600 } );
+
 // let apicache = require('apicache').options({ debug: true }).middleware;
 
 //MOVE THESE TO NOT SRC
@@ -20,16 +24,7 @@ import fetchComponentData from '../src/shared/fetchComponentData';
 
 
 console.log( 'TOPPPPP' );
-const app = Express({
-    // connect_cache(
-    //   {
-    //     rules: [
-    //     {regex: /.*/, ttl: 21600000},
-    //     {regex: /assets\/.*/, ttl: 864000000}
-    //     ]
-    //   }
-    // )
-  });
+const app = Express();
 
 
 
@@ -65,11 +60,47 @@ function handleRender(req, res) {
   // the original request, including the query string.
   match({ routes: Routes, location: req.url }, (error, redirectLocation, renderProps) => {
 
+    if( req.url === '/flushAll' )
+    {
+        console.log( 'Fluching cache' );
+        myCache.flushAll();
+        res.end( 'flushed' );
+    }
+
     if (error) {
       res.status(500).send(error.message)
     } else if (redirectLocation) {
       res.redirect(302, redirectLocation.pathname + redirectLocation.search)
-    } else if (renderProps) {
+    } else if (renderProps) 
+    {
+
+        console.log( 'RENDER PROPS', req.url );
+
+        let cached = false;
+    // let obj = { my: "Special", variable: 42 };
+
+        myCache.get( req.url, function( err, value )
+        {
+            if( !err ){
+              if(value == undefined){
+                // key not found 
+              }else{
+                // console.log( 'CACHED VALUE FOUUUNNNDDDD', value );
+
+                cached = true;
+
+                res.end( value )
+                //{ my: "Special", variable: 42 } 
+                // ... do something ... 
+              }
+            }
+        });
+
+
+        if ( cached )
+        {
+            return;
+        }
 
 
         function renderView( things ) {
@@ -102,6 +133,8 @@ function handleRender(req, res) {
                 </body>
               </html>
               `;
+
+
 
               // res.end( HTML );
               return HTML;
@@ -141,6 +174,8 @@ function handleRender(req, res) {
                 });
             }
 
+
+
             fetchComponentData(store.dispatch, renderProps.components, renderProps.params)
             // .catch( err => { console.log('errrr in promise', err) } )
               // .then( function(stuff, thing) 
@@ -150,7 +185,22 @@ function handleRender(req, res) {
               //   })
                 .then(renderView)
                 // .then( indexObject => inlineCriticalCss( indexObject ))
-                .then(html => res.end(html))
+                .then(html => 
+                    {
+
+                        myCache.set( req.url, html, function( err, success )
+                        {
+                            if( !err && success ){
+                              console.log( 'cacheeeddd!',success );
+
+                              // true 
+                              // ... do something ... 
+                            }
+                        });
+
+                        res.end(html);
+
+                    })
                 .catch(err => res.end(err));
 
 
