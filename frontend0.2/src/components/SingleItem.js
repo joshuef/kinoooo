@@ -19,14 +19,14 @@ class SingleItemPage extends Component {
     
     handleClick( )
     {
-        console.log( 'THISISHAPPENING' );
-        console.log( http );
+        // console.log( 'THISISHAPPENING' );
+        // console.log( http );
     }
 
     listForPlaces( thisItem, allShows )
     {
 
-        console.log( 'THIS PLACE' ,  thisItem );
+        // console.log( 'THIS PLACE' ,  thisItem );
         let shows = thisItem.shows;
 
         if( shows.length < 1 )
@@ -57,7 +57,7 @@ class SingleItemPage extends Component {
             filteredShowingsOnHere.map( showing => 
             {
                 let showTime = moment( showing.time );
-                console.log( 'showTime', showTime );
+                // console.log( 'showTime', showTime );
                 showTime = moment( showTime ).calendar( );
 
 
@@ -170,7 +170,7 @@ class SingleItemPage extends Component {
         let props = this.props;
 
         // console.log( 'SIngleItem props', props );
-        console.log( 'SIngleItem ', this );
+        // console.log( 'SIngleItem ', this );
 
         let thisItem = _.find( thisItemList, function(o)
             {

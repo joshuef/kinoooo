@@ -23,9 +23,11 @@ module.exports = [
     path: showRoot + '-kinos',
     config: {
         handler: function(request, reply)
-        {
-            if( process.env.NODE_ENV == 'production' )
+        { 
+            if( request.info.remoteAddress !== '127.0.0.1' )
                 return;
+            // if( process.env.NODE_ENV == 'production' )
+            //     return;
 
             console.log( 'handlin\' scrape kinos' );
             scraper.addKinos( MAIN_LINK );
@@ -42,8 +44,11 @@ module.exports = [
     config: {
         handler: function(request, reply)
         {
-            if( process.env.NODE_ENV == 'production' )
+            console.log( 'request.info.remoteAddress', request.info.remoteAddress );
+            if( request.info.remoteAddress !== '127.0.0.1' )
                 return;
+            // if( process.env.NODE_ENV == 'production' )
+            //     return;
 
             console.log( 'handlin\' scrape shows' );
             scraper.addShows( MAIN_LINK );

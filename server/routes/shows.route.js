@@ -137,11 +137,14 @@ module.exports = [
         // handler: admit.create
         handler: function(request, reply)
         {   
+
+            if( request.info.remoteAddress !== '127.0.0.1' )
+                return;
             // if( request.auth.credentials.userType !== 'admin' )
             //     return;
             
-            if( process.env.NODE_ENV == 'production' )
-                return;
+            // if( process.env.NODE_ENV == 'production' )
+            //     return;
 
             var payload = request.payload;
             if( ! payload.name )
@@ -198,21 +201,29 @@ module.exports = [
                 });
 
                 Show.findOneOrCreate({name: payload.name}, newShow, function(err, ourShow) {
+
+                    console.log( 'Found a show that exists' );
+                    if( ourShow )
+                    {
+                        Show.update({name: payload.name}, {$pushAll: { showingAt: newShow.showingAt } }, { upsert: true }, function(err, ourShow) {
+                        });
+                        
+                    }
                     // {name: 'Mohammad', age: 20}
                     // console.log( 'errrrrr', err );
                     // console.log( 'ourShow', ourShow.name, ourShow._id );
                     // console.log('CREATED A SHOOOWWW', ourShow.name, 'FROM', newShow.name, 'WITH', newShow.showingAt);
                 });
 
-                if( newShow.showingAt.length > 0 )
-                {
-                    console.log( 'GOT NEWSHOWPLACES', newShow );
-                    _.each( newShow.showingAt, function( placeTime )
-                    {
-                        console.log( 'showingAt::::', placeTime );
-                        updateAPlacesShows( placeTime.place, newShow._id );
-                    } );
-                }
+                // if( newShow.showingAt.length > 0 )
+                // {
+                //     console.log( 'GOT NEWSHOWPLACES', newShow );
+                //     _.each( newShow.showingAt, function( placeTime )
+                //     {
+                //         console.log( 'showingAt::::', placeTime );
+                //         updateAPlacesShows( placeTime.place, newShow._id );
+                //     } );
+                // }
 
 
 

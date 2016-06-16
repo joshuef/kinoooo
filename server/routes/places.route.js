@@ -98,7 +98,8 @@ module.exports = [
         {   
             // if( request.auth.credentials.userType !== 'admin' )
             //     return;
-
+            if( request.info.remoteAddress !== '127.0.0.1' )
+                return;
 
             var payload = request.payload;
 
@@ -117,7 +118,8 @@ module.exports = [
             });
 
 
-              Place.findOneOrCreate({name: payload.name}, newPlace, function(err, thisPlace) {
+              // Place.findOneOrCreate({name: payload.name}, newPlace, function(err, thisPlace) {
+              Place.update({name: payload.name}, newPlace, { upsert: true }, function(err, thisPlace) {
       
                 });
 

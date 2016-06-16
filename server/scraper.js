@@ -19,6 +19,8 @@ var MAIN_LINK = ROOT_LINK + "/kino/_bin/trefferliste.php?kino=&datum=&genre=&sta
 var Place = require( "./models/place.model");
 
 
+var moreToParse = false;
+
 
 var buildFullShowArray = function( results )
 {
@@ -26,6 +28,9 @@ var buildFullShowArray = function( results )
 
     _.each( results, function( show, i )
     {
+
+        if( show.name !== 'Central Intelligence' )
+            return;
 
         if( show.name === 'placeholderNoName' )
             return;
@@ -53,21 +58,42 @@ var buildFullShowArray = function( results )
             // freiluft: freiluft,
         };
 
+
         // console.log( 'flagggssss', flags );
 
         // var mainObjectShow = giantShowObject[ show.name ];
 
         // var showName = show.name;
-        var ourShowObject = giantShowObject[ show.name ] || show;
+        var ourShowObject = {}
+        var newShow = false;
+
+        if( giantShowObject[ show.name ] )
+        {
+            // console.log( 'IT EXISTSS ON THE OBJECT' );
+            ourShowObject = giantShowObject[ show.name ];
+
+        } 
+        else
+        {
+            newShow = true;
+            // console.log( 'it did not already exist' );
+            ourShowObject = show;
+            // console.log( 'show.name:::', show.name );
+        }
 
         _.each( show.showingAt, function( timePlace )
         {
+            // console.log( 'show.showingAt:::', timePlace.place );
             // console.log( 'SHOW @@@@@', timePlace.place );
             timePlace.flags = flags;
 
         });
 
-        ourShowObject.showingAt = _.concat( ourShowObject.showingAt, show.showingAt );
+        if( ! newShow )
+        {
+            // console.log( 'not a new showww, so concattt' );
+            ourShowObject.showingAt = _.concat( ourShowObject.showingAt, show.showingAt );
+        }
 
         giantShowObject[ show.name ] = ourShowObject;
         // show.showingAt = _.uniq( show.showingAt );
@@ -126,6 +152,7 @@ var scraper =
     {
         request.get( link ).end( function( err, response )
         {
+
             if( err )
             {
                 console.log( 'ERRRORRS', err );
@@ -135,21 +162,18 @@ var scraper =
 
             var thisShowsPlace = '';
             var thisShowsPlaceObject = {};
-
-           
-
-
             var filteredShows =  buildFullShowArray( results.allShows );;
 
 
             _.each( filteredShows, function( show , i )
             {
+                // console.log( 'And our number of shows is: ', show );
 
 
                     _.each( show.showingAt, function( placeTime , i )
                     {
 
-                        console.log( 'placcceee', placeTime.place );
+                        // console.log( 'placcceee', placeTime.place );
                         // console.log( 'FoundPlaceShow', show.name );
 
                         placeTime.time = moment( placeTime.time ).format();
@@ -204,13 +228,13 @@ var scraper =
     var allShows = [];
 
     var nextLink = $( '.horizontal.pager' ).children().last().children('a');
-    // console.log( 'NEXXXXXXTTTTTTTTTTTT', nextLink );
+    // console.log( 'NEXXXXXXTTTTTTTTTTTT', nextLink.length );
 
     if( nextLink.length == 1 )
     {
         var nextUrl = $(nextLink).attr('href');
         var actualNextUrl = ROOT_LINK + nextUrl;
-        console.log( 'ACTUALLLLNEXXXXXXTTTTTTTTTTTT', actualNextUrl );
+        // console.log( 'ACTUALLLLNEXXXXXXTTTTTTTTTTTT', actualNextUrl );
 
         if( typeof nextUrl != 'undefined' && more )
         {
@@ -252,7 +276,7 @@ var scraper =
             currentShowName = result.text();
         }
 
-        console.log( 'currentSHOWNAME', currentShowName );
+        // console.log( 'currentSHOWNAME', currentShowName );
 
         //setup default object
         var currentShow = {
@@ -282,7 +306,7 @@ var scraper =
                 time = time.substring( 4 );
 
                 var showTime = moment( time, 'DD.MM.YY HH:mm' );
-                console.log( 'on @@@@', showTime.calendar( ) );
+                // console.log( 'on @@@@', showTime.calendar( ) );
 
                 currentShow.showingAt.push( 
                 {
