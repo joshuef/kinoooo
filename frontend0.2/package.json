@@ -66,6 +66,7 @@
     "isomorphic-fetch": "^2.2.0",
     "lodash": "^3.10.1",
     "moment": "^2.13.0",
+    "node-cache": "^3.2.1",
     "node-sass": "^3.4.2",
     "normalize.css": "^3.0.3",
     "null-loader": "^0.1.1",
