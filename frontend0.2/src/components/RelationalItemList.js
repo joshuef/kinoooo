@@ -10,7 +10,7 @@ import Sole from './Sole';
 import _ from 'lodash';
 import { browserHistory } from 'react-router'
 import { getSingularItemType } from '../shared/getItemType';
-import 'styles/RelationalItemList.css';
+require( 'styles/RelationalItemList.css' );
 
 // import SearchProps from './SearchProps';
 

@@ -1,0 +1,16 @@
+.git
+install
+node_modules
+npm-debug.log
+
+#test files
+server/test
+
+
+#server exclude
+bin
+lib
+run
+karma.
+
+server/config/production_config.json

@@ -15,16 +15,16 @@ let config = _.merge({
   cache: false,
   devtool: 'sourcemap',
   plugins: [
-    // new webpack.optimize.DedupePlugin(),
-    // new webpack.DefinePlugin({
-    //   'process.env.NODE_ENV': '"production"'
-    // }),
+    new webpack.optimize.DedupePlugin(),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': '"production"'
+    }),
     new BowerWebpackPlugin({
       searchResolveModulesDirectories: false
     }),
-    // new webpack.optimize.UglifyJsPlugin(),
-    // new webpack.optimize.OccurenceOrderPlugin(),
-    // new webpack.optimize.AggressiveMergingPlugin(),
+    new webpack.optimize.UglifyJsPlugin(),
+    new webpack.optimize.OccurenceOrderPlugin(),
+    new webpack.optimize.AggressiveMergingPlugin(),
     new webpack.NoErrorsPlugin(),
     new ExtractTextPlugin('styles.css', {
     allChunks: true
@@ -32,18 +32,22 @@ let config = _.merge({
   ]
 }, baseConfig);
 
-config.module.loaders.push({
+config.module.loaders = [{
   test: /\.(js|jsx)$/,
   loader: 'babel',
   include: [].concat(
     config.additionalPaths,
     [ path.join(__dirname, '/../src') ]
   )
-});
-
-config.module.loaders.push({
+},
+ {
+        test: /\.(png|jpg|gif|woff|woff2)$/,
+        loader: 'url-loader?limit=8192'
+      },{
     test: /\.css$/,
     loader: ExtractTextPlugin.extract('style', 'css?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]')
-});
+}
+      ];
+
 
 module.exports = config;

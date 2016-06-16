@@ -14,8 +14,9 @@
     "copy": "copyfiles -f ./src/index.html ./src/favicon.ico ./dist",
     "dist": "cd frontend0.2 && npm run copy & webpack --env=dist",
     "dist:ssr": "cd frontend0.2 &&  npm run copy & webpack --env=serve",
-    "deploy:ssr": "cd install && ./deploy-ssr.sh",
-    "deploy:api": "cd install && ./deploy-srv.sh"
+    "flush:live": "curl theatre.wyli.co.uk/flushAll",
+    "deploy:ssr": "cd install && ./deploy-ssr.sh && npm run flush:live",
+    "deploy:api": "cd install && ./deploy-srv.sh && npm run flush:live"
   },
   "dependencies": {
     "apicache": "0.0.14",

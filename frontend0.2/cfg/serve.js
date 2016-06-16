@@ -46,7 +46,8 @@ let config = _.merge( {}, {
 
   module: {
     loaders: [
-      { test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel-loader' },
+      { test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel' },
+      // { test: /\.jsx?$/, exclude: /node_modules\/normalize\.css/, loader: 'null-loader' },
       // { test: /\.local$/, exclude: /node_modules/, loader: 'css-loader/locals?module!less-loader' },
       { test: /\.(css|sass|scss|less|styl)$/, loader: 'null-loader' },
       {
@@ -56,6 +57,24 @@ let config = _.merge( {}, {
     ]
   }
 
+
+
+// config.module.loaders = [{
+//   test: /\.(js|jsx)$/,
+//   loader: 'babel',
+//   include: [].concat(
+//     config.additionalPaths,
+//     [ path.join(__dirname, '/../src') ]
+//   )
+// },
+//  {
+//         test: /\.(png|jpg|gif|woff|woff2)$/,
+//         loader: 'url-loader?limit=8192'
+//       },{
+//     test: /\.css$/,
+//     loader: ExtractTextPlugin.extract('style', 'css?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]')
+// }
+//       ];
 
 
 } );

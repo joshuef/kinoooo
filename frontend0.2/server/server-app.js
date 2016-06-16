@@ -55,10 +55,12 @@ function handleRender(req, res) {
   // Create a new Redux store instance
   // const store = createStore(counterApp)
   const store = configureStore();
-  console.log( 'HANDLINGGG' );
+  console.log( 'HANDLINGGG', req.url );
   // Note that req.url here should be the full URL path from
   // the original request, including the query string.
   match({ routes: Routes, location: req.url }, (error, redirectLocation, renderProps) => {
+
+      // console.log( 'matched url' );
 
     if( req.url === '/flushAll' )
     {
@@ -74,27 +76,30 @@ function handleRender(req, res) {
     } else if (renderProps) 
     {
 
-        console.log( 'RENDER PROPS', req.url );
+        // console.log( 'RENDER PROPS', req.url );
 
         let cached = false;
     // let obj = { my: "Special", variable: 42 };
-
-        myCache.get( req.url, function( err, value )
+        if( process.env.NODE_ENV === 'production' )
         {
-            if( !err ){
-              if(value == undefined){
-                // key not found 
-              }else{
-                // console.log( 'CACHED VALUE FOUUUNNNDDDD', value );
+            myCache.get( req.url, function( err, value )
+            {
+                if( !err ){
+                  if(value == undefined){
+                    // key not found 
+                  }else{
+                    console.log( 'serving cached url: ', req.url );
 
-                cached = true;
+                    cached = true;
 
-                res.end( value )
-                //{ my: "Special", variable: 42 } 
-                // ... do something ... 
-              }
-            }
-        });
+                    res.end( value )
+                    //{ my: "Special", variable: 42 } 
+                    // ... do something ... 
+                  }
+                }
+            });
+          
+        }
 
 
         if ( cached )
@@ -105,6 +110,7 @@ function handleRender(req, res) {
 
         function renderView( things ) {
 
+          console.log( 'rendering viewwww' );
           const initialState = store.getState();
 
               const InitialView = (
@@ -175,12 +181,6 @@ function handleRender(req, res) {
 
 
             fetchComponentData(store.dispatch, renderProps.components, renderProps.params)
-            // .catch( err => { console.log('errrr in promise', err) } )
-              // .then( function(stuff, thing) 
-              //   {
-              //     console.log( 'stuff after promies???', JSON.stringify(stuff) );
-              //     // console.log( 'thing after promies???', thing );
-              //   })
                 .then(renderView)
                 // .then( indexObject => inlineCriticalCss( indexObject ))
                 .then(html => 
@@ -189,7 +189,7 @@ function handleRender(req, res) {
                         myCache.set( req.url, html, function( err, success )
                         {
                             if( !err && success ){
-                              console.log( 'cacheeeddd!',success );
+                              console.log( 'cacheeeddd!', req.url );
 
                               // true 
                               // ... do something ... 
