@@ -26,8 +26,9 @@ module.exports = [
         handler: function(request, reply)
         { 
             var userIP = request.headers['x-forwarded-for'];
+            var env = process.env.NODE_ENV;
 
-            if( userIP !== '185.10.231.179' )
+            if( env === 'production' && userIP !== '185.10.231.179' )
             {
                 reply( 'Not for you' + userIP );
                 return;
@@ -57,8 +58,9 @@ module.exports = [
         handler: function(request, reply)
         {
             var userIP = request.headers['x-forwarded-for'];
+            var env = process.env.NODE_ENV;
 
-            if( userIP !== '185.10.231.179' )
+            if( env === 'production' && userIP !== '185.10.231.179' )
             {
                 reply( 'Not for you' + userIP );
                 return;
