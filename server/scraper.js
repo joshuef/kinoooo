@@ -29,8 +29,6 @@ var buildFullShowArray = function( results )
     _.each( results, function( show, i )
     {
 
-        if( show.name !== 'Central Intelligence' )
-            return;
 
         if( show.name === 'placeholderNoName' )
             return;

@@ -21,21 +21,33 @@ module.exports = [
 {
     method: 'GET',
     path: showRoot + '-kinos',
-    config: {
+    config: 
+    {
         handler: function(request, reply)
         { 
-            if( request.info.remoteAddress !== '127.0.0.1' )
+            var userIP = request.headers['x-forwarded-for'];
+
+            if( userIP !== '185.10.231.179' )
+            {
+                reply( 'Not for you' + userIP );
                 return;
-            // if( process.env.NODE_ENV == 'production' )
-            //     return;
+            }
 
-            console.log( 'handlin\' scrape kinos' );
-            scraper.addKinos( MAIN_LINK );
 
-            reply( 'kinos done!' );
-            // scraper( MAIN_LINK );
-            
+            Place.update( {}, { shows: [ ] }  , function( err, place )
+            {
+                console.log( 'Places cleaned! Now getting new ones.' );
+               
+
+                scraper.addKinos( MAIN_LINK );
+
+                reply( 'kinos done!' );
+                // scraper( MAIN_LINK );
+
+            });
+
         }
+        
     }
 },
 {
@@ -44,15 +56,33 @@ module.exports = [
     config: {
         handler: function(request, reply)
         {
-            console.log( 'request.info.remoteAddress', request.info.remoteAddress );
-            if( request.info.remoteAddress !== '127.0.0.1' )
-                return;
-            // if( process.env.NODE_ENV == 'production' )
-            //     return;
+            var userIP = request.headers['x-forwarded-for'];
 
-            console.log( 'handlin\' scrape shows' );
-            scraper.addShows( MAIN_LINK );
-            reply( 'shows done!' );
+            if( userIP !== '185.10.231.179' )
+            {
+                reply( 'Not for you' + userIP );
+                return;
+            }
+
+            Show.remove({}, function(err)
+            {
+                if( err )
+                {
+                    reply( 'error');
+                    return;
+                }
+
+                console.log( 'Shows cleaned! Now scraping'  );
+              
+                // if( process.env.NODE_ENV == 'production' )
+                //     return;
+
+                console.log( 'handlin\' scrape shows' );
+                scraper.addShows( MAIN_LINK );
+                reply( 'shows done!' );
+
+
+            })
 
         }
     }

@@ -96,10 +96,13 @@ module.exports = [
         // handler: admit.create
         handler: function(request, reply)
         {   
-            // if( request.auth.credentials.userType !== 'admin' )
-            //     return;
-            if( request.info.remoteAddress !== '127.0.0.1' )
+            var userIP = request.headers['x-forwarded-for'];
+
+            if( userIP !== '185.10.231.179' )
+            {
+                reply( 'Not for you' + userIP );
                 return;
+            }
 
             var payload = request.payload;
 
@@ -119,7 +122,7 @@ module.exports = [
 
 
               // Place.findOneOrCreate({name: payload.name}, newPlace, function(err, thisPlace) {
-              Place.update({name: payload.name}, newPlace, { upsert: true }, function(err, thisPlace) {
+            Place.update({name: payload.name}, newPlace, { upsert: true }, function(err, thisPlace) {
       
                 });
 

@@ -69,17 +69,17 @@ module.exports = [
                     return err;
                 }
                 
-                let showsWithShowTimes = [];
+                var showsWithShowTimes = [];
 
                 _.each( shows, function(show)
                 {
-                    let relevantShowTimes = [];
+                    var relevantShowTimes = [];
 
                     if( show.showingAt.length )
                     {
-                        _.each( show.showingAt, showTime =>
+                        _.each( show.showingAt, function( showTime)
                         {
-                            let time = moment( showTime.time );
+                            var time = moment( showTime.time );
 
                             // console.log( 'time it iswas', time.isBefore( moment(), 'day' ) );
 
@@ -101,7 +101,7 @@ module.exports = [
 
                 });
 
-                let uniqShows = _.uniqBy( showsWithShowTimes, 'name');
+                var uniqShows = _.uniqBy( showsWithShowTimes, 'name');
                 // let uniqShows = showsWithShowTimes;
 
                 // console.log( reply );
@@ -137,14 +137,13 @@ module.exports = [
         // handler: admit.create
         handler: function(request, reply)
         {   
+            var userIP = request.headers['x-forwarded-for'];
 
-            if( request.info.remoteAddress !== '127.0.0.1' )
+            if( userIP !== '185.10.231.179' )
+            {
+                reply( 'Not for you' + userIP );
                 return;
-            // if( request.auth.credentials.userType !== 'admin' )
-            //     return;
-            
-            // if( process.env.NODE_ENV == 'production' )
-            //     return;
+            }
 
             var payload = request.payload;
             if( ! payload.name )
@@ -215,15 +214,15 @@ module.exports = [
                     // console.log('CREATED A SHOOOWWW', ourShow.name, 'FROM', newShow.name, 'WITH', newShow.showingAt);
                 });
 
-                // if( newShow.showingAt.length > 0 )
-                // {
-                //     console.log( 'GOT NEWSHOWPLACES', newShow );
-                //     _.each( newShow.showingAt, function( placeTime )
-                //     {
-                //         console.log( 'showingAt::::', placeTime );
-                //         updateAPlacesShows( placeTime.place, newShow._id );
-                //     } );
-                // }
+                if( newShow.showingAt.length > 0 )
+                {
+                    // console.log( 'GOT NEWSHOWPLACES', newShow );
+                    _.each( newShow.showingAt, function( placeTime )
+                    {
+                        console.log( 'showingAt::::', placeTime );
+                        updateAPlacesShows( placeTime.place, newShow._id );
+                    } );
+                }
 
 
 
