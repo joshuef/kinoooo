@@ -96,12 +96,19 @@ module.exports = [
         // handler: admit.create
         handler: function(request, reply)
         {   
-            var userIP = request.headers['x-forwarded-for'];
+            var userIP = request.headers['x-forwarded-for'] ||
+                    req.connection.remoteAddress || 
+                    req.socket.remoteAddress ||
+                    req.connection.socket.remoteAddress;
+                
             var env = process.env.NODE_ENV;
+
+            console.log( 'handlingggg adding place' );
 
             if( env === 'production' && userIP !== '185.10.231.179' )
             {
-                reply( 'Not for you' + userIP );
+                console.log( 'Not the right IP is it?', userIP );
+                reply( 'Not for you');
                 return;
             }
 

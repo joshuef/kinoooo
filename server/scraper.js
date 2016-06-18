@@ -18,9 +18,14 @@ var MAIN_LINK = ROOT_LINK + "/kino/_bin/trefferliste.php?kino=&datum=&genre=&sta
 
 var Place = require( "./models/place.model");
 
-
+var POST_LINK = 'http://127.0.0.1:8011/';
+var ENV = process.env.NODE_ENV;
 var moreToParse = false;
 
+if( ENV === 'production' )
+{
+    POST_LINK = "http://theatre.wyli.co.uk/api/"
+}
 
 var buildFullShowArray = function( results )
 {
@@ -130,9 +135,10 @@ var scraper =
             {
                 var place = { name: kino };
                 console.log( 'adding kino', place.name );
+                console.log( 'to link::: ', POST_LINK );
 
                 request
-                .post( 'http://127.0.0.1:8011/places/add' )
+                .post( POST_LINK + 'places/add' )
                 .send( place )
                 .end( function( err, response )
                 {
@@ -184,7 +190,7 @@ var scraper =
                     show.showingAt = _.uniq( show.showingAt );
 
                     request
-                    .post( 'http://127.0.0.1:8011/shows/add' )
+                    .post( POST_LINK + 'shows/add' )
                     .send( show )
                     .end( function( err, response )
                     {

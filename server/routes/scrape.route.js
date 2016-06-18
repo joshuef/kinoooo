@@ -30,7 +30,7 @@ module.exports = [
 
             if( env === 'production' && userIP !== '185.10.231.179' )
             {
-                reply( 'Not for you' + userIP );
+                reply( 'Not for you' );
                 return;
             }
 
@@ -62,7 +62,7 @@ module.exports = [
 
             if( env === 'production' && userIP !== '185.10.231.179' )
             {
-                reply( 'Not for you' + userIP );
+                reply( 'Not for you');
                 return;
             }
 
