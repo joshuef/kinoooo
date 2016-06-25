@@ -23,6 +23,7 @@ class KinosNav extends Component {
                 <li className="nav__li"><Link to="/">It's Kino Time</Link></li>
                 <li className="nav__li"><Link to="/shows">all shows</Link></li>
                 <li className="nav__li"><Link to="/places">all places</Link></li>
+                <li className="nav__li"><Link to="/places/flagged/isFreiluft">freiluft only</Link></li>
             </ul>
         )
     }

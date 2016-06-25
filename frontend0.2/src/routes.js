@@ -40,6 +40,7 @@ const Routes = (
 
         <Route path="/places" >
             <IndexRoute component={Main} />
+            <Route path="/places/flagged/:flag" component={Main} relatedTo="shows" />
             <Route path="/places/search/:query" component={Main} relatedTo="shows" />
         </Route>
 

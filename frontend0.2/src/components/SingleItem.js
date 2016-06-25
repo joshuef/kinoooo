@@ -124,7 +124,19 @@ class SingleItemPage extends Component {
             let showTime = moment( showing.time , "YYYY-MM-DD HH:mm" );
             showTime = moment( showTime ).calendar( );
 
-            let showingLi = <li>{ showTime }</li>;
+            // let flagString = showing.flags.join(',');
+            let flagString = Object.keys(showing.flags).filter( flag =>
+                {
+                    // console.log( 'FLAGGG', flag );
+                    if( showing.flags[flag] )
+                    {
+                        return flag;
+                    }
+                }).join(', ');
+
+            flagString = ( flagString.length > 0 ) ? '| ' + flagString : '';
+
+            let showingLi = <li>{ showTime } { flagString }</li>;
 
             placeShowingThis.showings.push( showingLi );
 

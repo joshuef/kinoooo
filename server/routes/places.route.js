@@ -118,6 +118,7 @@ module.exports = [
             var newPlace = new Place({
                 name: payload.name || 'noname',
                 venue: payload.venue || '',
+                isFreiluft: payload.isFreiluft || false,
                 //needs to be longitude, lat
                 location: [ 
                     payload.venue ? payload.venue.geometry.location.F : 0, 

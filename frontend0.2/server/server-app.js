@@ -187,7 +187,7 @@ function handleRender(req, res) {
 
             fetchComponentData(store, renderProps.components, renderProps.params)
                 .then(renderView)
-                // .then( indexObject => inlineCriticalCss( indexObject ))
+                .then( indexObject => inlineCriticalCss( indexObject ))
                 .then(html => 
                     {
 

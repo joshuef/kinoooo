@@ -19,7 +19,7 @@ var showSchema = new Schema({
       time: { type: Date } ,
       id: false,
       details: { type: String, required: false },
-      flags: [],
+      flags: { type: Object, required: false},
     } ],
   creator: { type: Schema.Types.ObjectId, ref: 'User', required: false },
     rating: { type: Number},

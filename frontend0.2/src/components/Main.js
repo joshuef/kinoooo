@@ -34,6 +34,15 @@ class MainPage extends Component {
    
 
         let relationalItems = props.relationalItems[ itemType ];
+        console.log( 'props.params', props.params );
+
+        if( props.params.flag === 'isFreiluft' && relationalItems )
+        {
+            relationalItems = relationalItems.filter( item =>
+            {
+                return item.isFreiluft;
+            })
+        }
 
         return (
             <div className="main--{ itemType }  ">

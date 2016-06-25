@@ -77,11 +77,29 @@ module.exports = [
                 {
                     var relevantShowTimes = [];
 
+                    // show.flags = {
+                    //     // hasOv: ov, 
+                    //     // hasOmu: omu,
+                    //     // isOriginal: ov || omu,
+                    //     // hasThreeD: threeD,
+                    //     // hasDf: df,
+                    //     // freiluft: freiluft,
+                    // };
+
                     if( show.showingAt.length )
                     {
                         _.each( show.showingAt, function( showTime)
                         {
                             var time = moment( showTime.time );
+
+                            // show.flags = {
+                            //     hasOv: show.flags.hasOv || showTime.flags.ov, 
+                            //     hasOmu: show.flags.hasOmu || showTime.flags.omu,
+                            //     isOriginal: show.flags.isOriginal || showTime.flags.ov || showTime.flags.omu,
+                            //     hasThreeD: show.flags.hasThreeD || showTime.flags.threeD,
+                            //     hasDf: show.flags.hasOv || showTime.flags.df,
+                            //     // freiluft: freiluft,
+                            // };
 
                             // console.log( 'time it iswas', time.isBefore( moment(), 'day' ) );
 

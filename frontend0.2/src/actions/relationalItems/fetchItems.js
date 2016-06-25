@@ -19,8 +19,6 @@ module.exports = function fetchItems( itemName ) {
     dispatch(requestItems( itemName ))
 
 
-    console.log( 'FETCH CALLED AGAIN' );
-
     // let URIbase = 'http://localhost:8011/';
     let URIbase = 'http://dev.londonplay.com/api/';
 

@@ -3,15 +3,23 @@
  */
  process.env.GETCONFIG_ROOT = __dirname + '/config';
 
+// TODO
+// Currently its addings showings twice. WHY???
+// Make it scrape first then parse in a oner
 
- var Hapi = require('hapi');
- var server = new Hapi.Server();
- var _ = require( "lodash" );
- var fs = require('fs');
- var path = require('path');
- var request = require('superagent');
- var cheerio = require('cheerio');
- var moment = require('moment');
+
+var Hapi = require('hapi');
+var server = new Hapi.Server();
+var _ = require( "lodash" );
+var fs = require('fs');
+var path = require('path');
+// var request = require('superagent');
+var request = require('superagent-bluebird-promise');
+var cheerio = require('cheerio');
+var moment = require('moment');
+var Promise = require("bluebird");
+
+
 
 var ROOT_LINK = "http://www.berlin.de";
 var MAIN_LINK = ROOT_LINK + "/kino/_bin/trefferliste.php?kino=&datum=&genre=&stadtteil=&freitext=&suche=1&kinoid=hl66u24s0gfe3gmql02e70s63a5d71cg8udkoia94cqvrnb43sr0"
@@ -38,19 +46,26 @@ var buildFullShowArray = function( results )
         if( show.name === 'placeholderNoName' )
             return;
 
-        var ov = show.name.indexOf( ' (OV)' ) != -1 ;
-        var omu = show.name.indexOf( ' (OmU)' ) != -1 ;
-        var threeD = show.name.indexOf( ' 3D' ) != -1 ;
-        var df = show.name.indexOf( ' (DFmenglU)' ) != -1 ;
+        var ov      = show.name.indexOf( ' (OV)' ) != -1 ;
+        var omu     = show.name.indexOf( ' (OmU)' ) != -1;
+        var omEnU   = show.name.indexOf( ' (OmenglU)' ) != -1;
+        var threeD  = show.name.indexOf( ' 3D' ) != -1 ;
+        var df      = show.name.indexOf( ' (DFmenglU)' ) != -1 ;
 
 
         // console.log( 'SHOW NAMMEEE', show.name, '@???');
 
 
 
-        show.name = show.name.replace( /\s\((OV|OmU|3D|DFmenglU)\)|\s3D/, '' ).trim();
+        show.name = show.name.replace( /\s\((OV|OmU|3D|DFmenglU|OmenglU)\)|\s3D/, '' ).trim();
 
-        // var freiluft = show.showingAt.place ? show.showingAt.place.indexOf( 'freiluft') != -1 : false ;
+
+        // if( placeName.lowercase().indexOf( 'freiluft') > -1 ||
+        //     placeName.lowercase().indexOf( 'Open Air') > -1  ||
+        //     placeName.lowercase().indexOf( 'Open-Air') > -1  ||
+        //     placeName.lowercase().indexOf( 'licht') > -1  ||
+        //     )
+        var freiluft = show.showingAt.place ? show.showingAt.place.lowercase().indexOf( 'freiluft') != -1 : false ;
         //freilicht
         //openair
         var flags = {
@@ -116,6 +131,16 @@ var buildFullShowArray = function( results )
 };
 
 // var parseKinos = function(  )
+// 
+// 
+// 
+
+
+
+
+
+
+
 
 var scraper = 
 {
@@ -133,8 +158,23 @@ var scraper =
 
             _.each( results.allKinos, function( kino )
             {
-                var place = { name: kino };
-                console.log( 'adding kino', place.name );
+                var placeName = kino;
+                var isFreiluft = false;
+
+                if( placeName.toLowerCase().indexOf( 'freiluft') > -1 ||
+                    placeName.toLowerCase().indexOf( 'open air') > -1  ||
+                    placeName.toLowerCase().indexOf( 'open-air') > -1  ||
+                    placeName.toLowerCase().indexOf( 'licht') > -1  )
+                {
+                    isFreiluft = true;
+                }
+
+                var place = { 
+                    name: kino,
+                    isFreiluft : isFreiluft
+                };
+
+                console.log( 'adding kino', place );
                 console.log( 'to link::: ', POST_LINK );
 
                 request
@@ -211,6 +251,114 @@ var scraper =
 
         });
 
+
+    },
+
+    pagesArray : [],
+
+
+    allKinoPages : function ( link )
+    {
+        // this.pagesArray = [];
+        var self = this;
+        var res = new Promise(function(resolve) {
+            //Without new Promise, this throwing will throw an actual exception
+            // var params = parse(urlString);
+            
+            resolve( self.addPageToArray( link , self.pagesArray ) );
+        });
+
+        return res;
+
+        // console.log( 'GETTING ALL PAGES' );
+        // // console.log( 'pagesArray', this.pagesArray );
+        // // this.addPageToArray( link , this.pagesArray ).then( function( done )
+        //     {
+        //         console.log( 'ALL THINGS FINISHEDDDDDD' );
+        //         console.log( 'done', done );
+        //     }) ;
+
+
+
+
+
+    },
+
+    checkPagesArray : function( )
+    {
+        // console.log( 'CHECKING THE ARRAY'   );
+        // return Promise.all( this.pagesArray ).then( function( )
+        //     {
+        //         console.log( 'ALL DONEEEEE', this.pagesArray  );
+        //     });
+    },
+
+
+    addPageToArray : function( link, pagesArray )
+    {
+        console.log( 'adding page' );
+        var self = this;
+
+        return new Promise(function(resolve) 
+        {
+            //Without new Promise, this throwing will throw an actual exception
+            // var params = parse(urlString);
+
+            request.get( link ).then( function( response )
+            {
+
+                $ = cheerio.load( response.text );  
+
+                pagesArray.push( response.text );
+
+
+
+                var nextLink = $( '.horizontal.pager' ).children().last().children('a');
+                // console.log( 'NEXXXXXXTTTTTTTTTTTT', nextLink.length );
+
+                if( nextLink.length == 1 )
+                {
+                    var nextUrl = $(nextLink).attr('href');
+                    var actualNextUrl = ROOT_LINK + nextUrl;
+                    // console.log( 'ACTUALLLLNEXXXXXXTTTTTTTTTTTT', actualNextUrl );
+
+
+
+                    console.log( 'nextUrl', nextUrl );
+                    if( typeof nextUrl !== 'undefined' )
+                    {
+                        console.log( 'calling again' );
+                        resolve( self.addPageToArray( actualNextUrl, pagesArray ) );
+
+                        return;
+                    }
+                    // else
+                    // {
+                        // self.checkPagesArray();
+                    // }
+                }
+                else
+                {
+                    console.log( 'FINISSSSSSSSSSSSSSSSHED' );
+                    resolve ( pagesArray );
+                    
+                }
+
+
+                // return response.text;
+
+
+            });
+            
+            // resolve( self.addPageToArray( link , self.pagesArray ) );
+        });
+
+
+
+        // .catch( function( err )
+        // {
+        //     console.log( 'Error in addPageToArray request', err );
+        // })
 
     }
 };

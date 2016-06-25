@@ -150,11 +150,11 @@ class RelationalItemList extends Component {
                
                 <ul>
                     { allRelevantListItems.map((item, index) =>
-                              <li {...item}
-                                    key={index}
-                                    >
-                                  <Link to={ '/' + singleItemType + '/' + encodeURIComponent( item.name ) + '/' }>{item.name}</Link>
-                              </li>
+                        <li {...item}
+                              key={index}
+                              >
+                            <Link to={ '/' + singleItemType + '/' + encodeURIComponent( item.name ) + '/' }>{item.name}</Link>
+                        </li>
                     )}
                 </ul>
             

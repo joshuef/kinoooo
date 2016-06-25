@@ -66,25 +66,31 @@ module.exports = [
                 return;
             }
 
-            Show.remove({}, function(err)
+            scraper.allKinoPages( MAIN_LINK ).then( function( response )
             {
-                if( err )
-                {
-                    reply( 'error');
-                    return;
-                }
 
-                console.log( 'Shows cleaned! Now scraping'  );
+                console.log( 'ALLLLLLLLLL', response );
+            });
+
+            // Show.remove({}, function(err)
+            // {
+            //     if( err )
+            //     {
+            //         reply( 'error');
+            //         return;
+            //     }
+
+            //     console.log( 'Shows cleaned! Now scraping'  );
               
-                // if( process.env.NODE_ENV == 'production' )
-                //     return;
+            //     // if( process.env.NODE_ENV == 'production' )
+            //     //     return;
 
-                console.log( 'handlin\' scrape shows' );
-                scraper.addShows( MAIN_LINK );
-                reply( 'shows done!' );
+            //     console.log( 'handlin\' scrape shows' );
+            //     scraper.addShows( MAIN_LINK );
+            //     reply( 'shows done!' );
 
 
-            })
+            // })
 
         }
     }
