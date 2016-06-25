@@ -58,7 +58,7 @@ module.exports = [
         handler: function(request, reply)
         {
            
-
+            console.log( 'Finding showwwssss' );
                 // console.log( "WHAT PLACES?" );
             // reply('booom')
             return Show.find( function (err, shows) 
@@ -68,6 +68,8 @@ module.exports = [
                     console.log( 'error in get shows', err );
                     return err;
                 }
+
+                console.log( 'found shows and dealing' );
                 
                 var showsWithShowTimes = [];
 

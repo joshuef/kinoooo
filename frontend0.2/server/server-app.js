@@ -55,6 +55,10 @@ function handleRender(req, res) {
   // Create a new Redux store instance
   // const store = createStore(counterApp)
   const store = configureStore();
+
+  //perhaps here, deal with the fetch of basic data for the store. And only update when the store is empty?
+
+
   console.log( 'HANDLINGGG', req.url );
   // Note that req.url here should be the full URL path from
   // the original request, including the query string.
@@ -110,8 +114,9 @@ function handleRender(req, res) {
 
         function renderView( things ) {
 
-          console.log( 'rendering viewwww' );
+          // console.log( 'rendering viewwww' );
           const initialState = store.getState();
+          // console.log( 'initalState', initialState );
 
               const InitialView = (
                 <Provider store={store}>
@@ -180,9 +185,9 @@ function handleRender(req, res) {
 
 
 
-            fetchComponentData(store.dispatch, renderProps.components, renderProps.params)
+            fetchComponentData(store, renderProps.components, renderProps.params)
                 .then(renderView)
-                .then( indexObject => inlineCriticalCss( indexObject ))
+                // .then( indexObject => inlineCriticalCss( indexObject ))
                 .then(html => 
                     {
 
