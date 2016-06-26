@@ -322,11 +322,11 @@ var scraper =
 
                         return;
                     }
-                    else
-                    {
+                    // else
+                    // {
 
-                        resolve ( pagesArray );
-                    }
+                    //     resolve ( pagesArray );
+                    // }
                 }
                 else
                 {
@@ -380,12 +380,12 @@ var scraper =
                 // console.log( 'kino,', result.text() );
             }
 
-            if( currentKino !== 'Astra-Filmpalast (Treptow)' )
-            {
-                console.log( 'not this kino, ', currentKino );
-                return;
+            // if( currentKino !== 'Astra-Filmpalast (Treptow)' )
+            // {
+            //     console.log( 'not this kino, ', currentKino );
+            //     return;
 
-            }
+            // }
 
 
             var currentShowName = '';
@@ -417,14 +417,14 @@ var scraper =
             currentShowObject = currentShow;
      
 
-            if( currentShow.name !== 'Bastille Day' )
-            {
-                return
+            // if( currentShow.name !== 'Bastille Day' )
+            // {
+            //     return
 
-            }
-            console.log( 'currentSHOWNAME', currentShowName );
+            // }
+            // console.log( 'currentSHOWNAME', currentShowName );
             // console.log( 'currentShowName', currentShowName );
-            console.log( 'currentkinoName', currentKino );
+            // console.log( 'currentkinoName', currentKino );
 
             if( result[0].name === 'div' )
             {
