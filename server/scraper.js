@@ -381,6 +381,13 @@ var scraper =
                 // console.log( 'kino,', result.text() );
             }
 
+            if( currentKino !== 'Astra-Filmpalast (Treptow)' )
+            {
+                console.log( 'not this kino, ', currentKino );
+                return;
+
+            }
+
 
             var currentShowName = '';
 
@@ -389,13 +396,6 @@ var scraper =
             {
                 currentShowName = result.text();
             }
-
-
-
-
-            console.log( 'currentShowName', currentShowName );
-
-            // console.log( 'currentSHOWNAME', currentShowName );
 
             //setup default object
             var currentShow = {
@@ -410,14 +410,22 @@ var scraper =
                 
             }
 
+
+
+
+
+
+            currentShowObject = currentShow;
+     
+
             if( currentShow.name !== 'Bastille Day' )
             {
                 return
 
             }
-
-            currentShowObject = currentShow;
-     
+            console.log( 'currentSHOWNAME', currentShowName );
+            // console.log( 'currentShowName', currentShowName );
+            console.log( 'currentkinoName', currentKino );
 
             if( result[0].name === 'div' )
             {
@@ -426,19 +434,29 @@ var scraper =
                     // console.log( 'found a time' );
                     time = $( time );
                     moment.locale('de');
-                    time = time.children( '.datum' ).text() + time.children( '.uhrzeit' ).text();
 
-                    //parse out first few chars cos we dont need em
-                    time = time.substring( 4 );
+                    var hours = time.children( '.uhrzeit' ).text().split( ', ' );
 
-                    var showTime = moment( time, 'DD.MM.YY HH:mm' );
-                    // console.log( 'on @@@@', showTime.calendar( ) );
-
-                    currentShow.showingAt.push( 
+                    hours = hours.map( function( hour )
                     {
-                        place: currentKino,
-                        time: showTime
+                        console.log( 'HOURSSSS', hour );
+
+                        var thisShowTime = time.children( '.datum' ).text() + hour;
+
+                        // console.log( 'showtime FOr the HOURRR',  );
+                        //parse out first few chars cos we dont need em
+                        thisShowTime = thisShowTime.substring( 4 );
+
+                        var showTime = moment( thisShowTime, 'DD.MM.YY HH:mm' );
+                        console.log( 'on @@@@', showTime.calendar( ) );
+
+                        currentShow.showingAt.push( 
+                        {
+                            place: currentKino,
+                            time: showTime
+                        });
                     });
+
 
 
 
