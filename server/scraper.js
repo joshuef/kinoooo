@@ -16,7 +16,8 @@ var path = require('path');
 // var request = require('superagent');
 var request = require('superagent-bluebird-promise');
 var cheerio = require('cheerio');
-var moment = require('moment');
+// var moment = require('moment');
+var moment = require('moment-timezone');
 var Promise = require("bluebird");
 
 
@@ -233,7 +234,7 @@ var scraper =
                 // console.log( 'FoundPlaceShow', show.name );
                 // console.log( 'show.showingAt', placeTime.place + '' + placeTime.time );
 
-                placeTime.time = moment( placeTime.time ).format();
+                placeTime.time = moment( placeTime.time ).tz("Europe/Berlin").format();
 
 
 
@@ -447,8 +448,9 @@ var scraper =
                         //parse out first few chars cos we dont need em
                         thisShowTime = thisShowTime.substring( 4 );
 
-                        var showTime = moment( thisShowTime, 'DD.MM.YY HH:mm' );
-                        console.log( 'on @@@@', showTime.calendar( ) );
+                        var showTime = moment( thisShowTime, 'DD.MM.YY HH:mm' ).tz("Europe/Berlin").format();
+                        // var showTime = moment( thisShowTime, 'DD.MM.YY HH:mm' );
+                        console.log( 'on @@@@', showTime );
 
                         currentShow.showingAt.push( 
                         {

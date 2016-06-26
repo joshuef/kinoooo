@@ -9,7 +9,8 @@ import React, {
 import _ from 'lodash';
 import getItemTypeFromRoute from '../shared/getItemType';
 import { Link } from 'react-router'
-import moment from 'moment';
+// import moment from 'moment';
+import moment from 'moment-timezone';
 import http from 'http';
 
 // moment.locale( 'de' );
@@ -106,7 +107,7 @@ class SingleItemPage extends Component {
         let showings = thisItem.showingAt;
         showings = _.uniqBy( showings, function( value )
             {
-                console.log( 'unique valluuuuueeeee', '' + value.place + value.time );
+                // console.log( 'unique valluuuuueeeee', '' + value.place + value.time );
                 return '' + value.place + value.time;
             } );
         let timeFrame = null;
@@ -134,7 +135,7 @@ class SingleItemPage extends Component {
 
             let placeShowingThis = uniqPlaceList[ place.name ] || { name: place.name, showings: [] };
 
-             showing.time  = moment( showing.time , "YYYY-MM-DD HH:mm" );
+            showing.time  = moment.tz( showing.time, "Europe/London" );
             let showTime = showing.time;
 
             //if showtime isnt set, then today
@@ -144,7 +145,10 @@ class SingleItemPage extends Component {
                 return;
             }
 
-            showTime = showTime.calendar( );
+            console.log( 'showtime before tz', showTime );
+            showTime = showTime.tz("Europe/Warsaw").calendar( );
+            console.log( 'showtime after tz', showTime );
+
 
             // let flagString = showing.flags.join(',');
             let flagString = Object.keys(showing.flags).filter( flag =>

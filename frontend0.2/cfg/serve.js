@@ -53,6 +53,10 @@ let config = _.merge( {}, {
       {
         test: /\.(png|jpg|gif|woff|woff2)$/,
         loader: 'null-loader'
+      },
+      {
+        test: /\.json$/,
+        loader: 'json-loader'
       }
     ]
   }
