@@ -21,6 +21,7 @@ var Promise = require("bluebird");
 
 
 
+
 var ROOT_LINK = "http://www.berlin.de";
 var MAIN_LINK = ROOT_LINK + "/kino/_bin/trefferliste.php?kino=&datum=&genre=&stadtteil=&freitext=&suche=1&kinoid=hl66u24s0gfe3gmql02e70s63a5d71cg8udkoia94cqvrnb43sr0"
 
@@ -37,11 +38,14 @@ if( ENV === 'production' )
 
 var buildFullShowArray = function( results )
 {
+
+    //DYING IN HERE DUE TO CONCATTTTTT
+
+    console.log( 'filtering shows' );
     var giantShowObject = {};
 
     _.each( results, function( show, i )
     {
-
 
         if( show.name === 'placeholderNoName' )
             return;
@@ -107,10 +111,15 @@ var buildFullShowArray = function( results )
 
         });
 
+
         if( ! newShow )
         {
+            // console.log( 'about to concattttttt' );
             // console.log( 'not a new showww, so concattt' );
-            ourShowObject.showingAt = _.concat( ourShowObject.showingAt, show.showingAt );
+            ourShowObject.showingAt = ourShowObject.showingAt.concat( show.showingAt );
+            ourShowObject.showingAt = _.uniq( ourShowObject.showingAt );
+
+            // console.log( 'post concatttt' );
         }
 
         giantShowObject[ show.name ] = ourShowObject;
@@ -192,64 +201,63 @@ var scraper =
     },
 
 
-    addShows : function ( link )
+    addShows : function ( showsArray )
     {
-        request.get( link ).end( function( err, response )
+
+        console.log( 'adddinnngggg shows' );
+      
+        var results = showsArray;
+
+        var thisShowsPlace = '';
+        var thisShowsPlaceObject = {};
+        var filteredShows =  buildFullShowArray( results );
+
+
+        console.log( 'got filtered' );
+
+        _.each( filteredShows, function( show , i )
         {
 
-            if( err )
+            _.each( show.showingAt, function( placeTime , i )
             {
-                console.log( 'ERRRORRS', err );
-            }
 
-            var results = parser( response, scraper.addShows );
+                // console.log( 'placcceee', placeTime.place );
+                // console.log( 'FoundPlaceShow', show.name );
 
-            var thisShowsPlace = '';
-            var thisShowsPlaceObject = {};
-            var filteredShows =  buildFullShowArray( results.allShows );;
-
-
-            _.each( filteredShows, function( show , i )
-            {
-                // console.log( 'And our number of shows is: ', show );
-
-
-                    _.each( show.showingAt, function( placeTime , i )
-                    {
-
-                        // console.log( 'placcceee', placeTime.place );
-                        // console.log( 'FoundPlaceShow', show.name );
-
-                        placeTime.time = moment( placeTime.time ).format();
+                placeTime.time = moment( placeTime.time ).format();
 
 
 
-                    } );
+            } );
 
 
-                    show.showingAt = _.uniq( show.showingAt );
+                show.showingAt = _.uniq( show.showingAt );
 
-                    request
-                    .post( POST_LINK + 'shows/add' )
-                    .send( show )
-                    .end( function( err, response )
-                    {
-                        // if( err )
-                            // console.log( 'errorrrrr', err );
-                        // console.log( 'response on send', response );
-                    });
+            console.log( 'And our number of shows is: i ', i,  show.name );
+
+                request
+                .post( POST_LINK + 'shows/add' )
+                .send( show )
+                .end( function( err, response )
+                {
+                    if( err )
+                        console.log( 'errorrrrr', err );
+
+                    console.log( 'SENNTTT', response );
+                    // console.log( 'response on send', response );
+                });
 
 
-                    
-                // }
-                // else
-                // {
-                //     console.log( 'SAME PLACE', show );
-                // }
-
-            });
+                
+            // }
+            // else
+            // {
+            //     console.log( 'SAME PLACE', show );
+            // }
 
         });
+
+    
 
 
     },
@@ -270,28 +278,9 @@ var scraper =
 
         return res;
 
-        // console.log( 'GETTING ALL PAGES' );
-        // // console.log( 'pagesArray', this.pagesArray );
-        // // this.addPageToArray( link , this.pagesArray ).then( function( done )
-        //     {
-        //         console.log( 'ALL THINGS FINISHEDDDDDD' );
-        //         console.log( 'done', done );
-        //     }) ;
-
-
-
-
-
     },
 
-    checkPagesArray : function( )
-    {
-        // console.log( 'CHECKING THE ARRAY'   );
-        // return Promise.all( this.pagesArray ).then( function( )
-        //     {
-        //         console.log( 'ALL DONEEEEE', this.pagesArray  );
-        //     });
-    },
+  
 
 
     addPageToArray : function( link, pagesArray )
@@ -301,8 +290,6 @@ var scraper =
 
         return new Promise(function(resolve) 
         {
-            //Without new Promise, this throwing will throw an actual exception
-            // var params = parse(urlString);
 
             request.get( link ).then( function( response )
             {
@@ -311,31 +298,27 @@ var scraper =
 
                 pagesArray.push( response.text );
 
-
-
                 var nextLink = $( '.horizontal.pager' ).children().last().children('a');
-                // console.log( 'NEXXXXXXTTTTTTTTTTTT', nextLink.length );
 
                 if( nextLink.length == 1 )
                 {
                     var nextUrl = $(nextLink).attr('href');
                     var actualNextUrl = ROOT_LINK + nextUrl;
-                    // console.log( 'ACTUALLLLNEXXXXXXTTTTTTTTTTTT', actualNextUrl );
-
 
 
                     console.log( 'nextUrl', nextUrl );
-                    if( typeof nextUrl !== 'undefined' )
+                    if( typeof nextUrl !== 'undefined' && nextUrl.indexOf('1200') < 0 )
                     {
                         console.log( 'calling again' );
                         resolve( self.addPageToArray( actualNextUrl, pagesArray ) );
 
                         return;
                     }
-                    // else
-                    // {
-                        // self.checkPagesArray();
-                    // }
+                    else
+                    {
+
+                        resolve ( pagesArray );
+                    }
                 }
                 else
                 {
@@ -344,158 +327,144 @@ var scraper =
                     
                 }
 
-
-                // return response.text;
-
-
             });
             
-            // resolve( self.addPageToArray( link , self.pagesArray ) );
+        }).catch( function( err )
+        {
+            console.log( 'Error in addPageToArray request', err );
         });
 
+    },
 
 
-        // .catch( function( err )
-        // {
-        //     console.log( 'Error in addPageToArray request', err );
-        // })
+     parser : function( response )
+     {
+        $ = cheerio.load( response );
+        var allKinos = [];
+          // var allKinos = $( 'h2' );
 
-    }
-};
+        var results = $( '.searchresult' ).children();
+
+        var currentKino = '';
+
+        var allShows = [];
 
 
+        var currentShowObject = {
+                name: 'placeholderNoName',
+                showingAt : [ ]
+            };
 
+            // console.log( 'results from cheerio' );
 
-
- var parser = function( response , more )
- {
-    $ = cheerio.load( response.text );
-    var allKinos = [];
-      // var allKinos = $( 'h2' );
-
-    var results = $( '.searchresult' ).children();
-
-    var currentKino = '';
-
-    var allShows = [];
-
-    var nextLink = $( '.horizontal.pager' ).children().last().children('a');
-    // console.log( 'NEXXXXXXTTTTTTTTTTTT', nextLink.length );
-
-    if( nextLink.length == 1 )
-    {
-        var nextUrl = $(nextLink).attr('href');
-        var actualNextUrl = ROOT_LINK + nextUrl;
-        // console.log( 'ACTUALLLLNEXXXXXXTTTTTTTTTTTT', actualNextUrl );
-
-        if( typeof nextUrl != 'undefined' && more )
+        _.each( results, function( result, i )
         {
-            more( actualNextUrl );
-        }
-    }
+            result = $( result );
 
 
-
-    var currentShowObject = {
-            name: 'placeholderNoName',
-            showingAt : [ ]
-        };
-
-    _.each( results, function( result, i )
-    {
-        result = $( result );
-
-
-        //first lets set up the current kino we're in
-        if( result[0].name === 'h2' )
-        {
-            // console.log( 'KINOOO', result.text() );
-            currentKino = result.text();
-            allKinos.push( result.text() );
-        }
-
-
-
-
-
-
-
-        var currentShowName = '';
-
-        //only our movie will have the reference here, and then the kinos added later
-        if( result[0].name === 'h3' )
-        {
-            currentShowName = result.text();
-        }
-
-        // console.log( 'currentSHOWNAME', currentShowName );
-
-        //setup default object
-        var currentShow = {
-            name: currentShowName,
-            showingAt : [ ]
-        };
-
-        //replace with previous if no new title
-        if( currentShowName === '' )
-        {
-            currentShow = currentShowObject;
-            
-        }
-
-        currentShowObject = currentShow;
- 
-
-        if( result[0].name === 'div' )
-        {
-            _.each( result.find( 'tr' ), function( time )
+            //first lets set up the current kino we're in
+            if( result[0].name === 'h2' )
             {
-                time = $( time );
-                moment.locale('de');
-                time = time.children( '.datum' ).text() + time.children( '.uhrzeit' ).text();
+                // console.log( 'KINOOO', result.text() );
+                currentKino = result.text();
+                allKinos.push( result.text() );
 
-                //parse out first few chars cos we dont need em
-                time = time.substring( 4 );
+                // console.log( 'kino,', result.text() );
+            }
 
-                var showTime = moment( time, 'DD.MM.YY HH:mm' );
-                // console.log( 'on @@@@', showTime.calendar( ) );
 
-                currentShow.showingAt.push( 
+            var currentShowName = '';
+
+            //only our movie will have the reference here, and then the kinos added later
+            if( result[0].name === 'h3' )
+            {
+                currentShowName = result.text();
+            }
+
+
+
+
+            console.log( 'currentShowName', currentShowName );
+
+            // console.log( 'currentSHOWNAME', currentShowName );
+
+            //setup default object
+            var currentShow = {
+                name: currentShowName,
+                showingAt : [ ]
+            };
+
+            //replace with previous if no new title
+            if( currentShowName === '' )
+            {
+                currentShow = currentShowObject;
+                
+            }
+
+            if( currentShow.name !== 'Bastille Day' )
+            {
+                return
+
+            }
+
+            currentShowObject = currentShow;
+     
+
+            if( result[0].name === 'div' )
+            {
+                _.each( result.find( 'tr' ), function( time )
                 {
-                    place: currentKino,
-                    time: showTime
+                    // console.log( 'found a time' );
+                    time = $( time );
+                    moment.locale('de');
+                    time = time.children( '.datum' ).text() + time.children( '.uhrzeit' ).text();
+
+                    //parse out first few chars cos we dont need em
+                    time = time.substring( 4 );
+
+                    var showTime = moment( time, 'DD.MM.YY HH:mm' );
+                    // console.log( 'on @@@@', showTime.calendar( ) );
+
+                    currentShow.showingAt.push( 
+                    {
+                        place: currentKino,
+                        time: showTime
+                    });
+
+
+
+                    //then we have td datum and tds for each time; convert to moment
+                    //and save
+                    // console.log( 'TIME?', time.text() );
+                    // currentShow.times.push( time.text() )
+                    
                 });
 
+                currentShow.showingAt = _.uniq( currentShow.showingAt );
 
 
-                //then we have td datum and tds for each time; convert to moment
-                //and save
-                // console.log( 'TIME?', time.text() );
-                // currentShow.times.push( time.text() )
-                
-            });
-
-            currentShow.showingAt = _.uniq( currentShow.showingAt );
+            }
 
 
+
+            // console.log( 'CURRENT SHOOWWWW', currentShow );
+
+            //commented out FOR NOW
+            allShows.push( currentShow );
+        } );
+
+        // console.log( 'allSHOWS' , allShows );
+        // console.log( 'allkinos' , allKinos );
+        // console.log( 'allShowsInParser', allShows );
+        return {
+            allShows : allShows,
+            allKinos : allKinos
         }
-
-
-
-        // console.log( 'CURRENT SHOOWWWW', currentShow );
-
-        //commented out FOR NOW
-        allShows.push( currentShow );
-    } );
-
-    // console.log( 'allSHOWS' , allShows );
-    // console.log( 'allkinos' , allKinos );
-
-    return {
-        allShows : allShows,
-        allKinos : allKinos
     }
 };
+
+
+
 
 
 // getResults = function( link )

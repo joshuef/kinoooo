@@ -66,31 +66,56 @@ module.exports = [
                 return;
             }
 
-            scraper.allKinoPages( MAIN_LINK ).then( function( response )
+            scraper.allKinoPages( MAIN_LINK ).then( function( allPages )
             {
 
-                console.log( 'ALLLLLLLLLL', response );
+                // console.log( 'ALLLLLLLLLL', allPages );
+                // reply( 'ge scraped');
+
+                var parsedPages = allPages.reduce( function( prev, current)
+                {
+                    // console.log( 'dealing with parsed pages', allPages );
+                    return [ scraper.parser( current ) ].concat(prev);
+                    // return scraper.parser( allPages );
+                }, []);
+
+
+                // _.assign( {},  )
+                var theShows = [];
+                var thePlaces = [];
+
+                _.each( parsedPages, function( page, i )
+                {
+                    // if( i === 1 )
+                    // {
+                    //     console.log( 'page' , page );   
+                    // }
+                    theShows = theShows.concat( page.allShows );
+                    // thePlaces = thePlaces.concat( page.allKinos );
+                });
+
+                // console.log( 'parsedPages.shows', thePlaces );
+                Show.remove({}, function(err)
+                {
+                    if( err )
+                    {
+                        reply( 'error');
+                        return;
+                    }
+
+                    console.log( 'Shows cleaned! Now scraping'  );
+                  
+                    // if( process.env.NODE_ENV == 'production' )
+                    //     return;
+
+                    console.log( 'handlin\' scraped shows' );
+                    scraper.addShows( theShows );
+                    reply( 'shows done!' );
+
+
+                })
             });
 
-            // Show.remove({}, function(err)
-            // {
-            //     if( err )
-            //     {
-            //         reply( 'error');
-            //         return;
-            //     }
-
-            //     console.log( 'Shows cleaned! Now scraping'  );
-              
-            //     // if( process.env.NODE_ENV == 'production' )
-            //     //     return;
-
-            //     console.log( 'handlin\' scrape shows' );
-            //     scraper.addShows( MAIN_LINK );
-            //     reply( 'shows done!' );
-
-
-            // })
 
         }
     }

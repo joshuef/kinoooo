@@ -6,6 +6,7 @@
     "ignore_watch" : ["node_modules", "frontend0.2"],
     "script"      : "server/server.js",
     "watch"       : false,
+    "max_memory_restart" : "3G",
     "env": {
       "NODE_ENV": "development",
     },
