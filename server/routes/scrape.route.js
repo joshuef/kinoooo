@@ -25,26 +25,69 @@ module.exports = [
     {
         handler: function(request, reply)
         { 
-            var userIP = request.headers['x-forwarded-for'];
+             var userIP = request.headers['x-forwarded-for'];
             var env = process.env.NODE_ENV;
 
             if( env === 'production' && userIP !== '185.10.231.179' )
             {
-                reply( 'Not for you' );
+                reply( 'Not for you');
                 return;
             }
 
-
-            Place.update( {}, { shows: [ ] }  , function( err, place )
+            scraper.allKinoPages( MAIN_LINK ).then( function( allPages )
             {
-                console.log( 'Places cleaned! Now getting new ones.' );
-               
 
-                scraper.addKinos( MAIN_LINK );
+                var parsedPages = allPages.reduce( function( prev, current)
+                {
+                    return [ scraper.parser( current ) ].concat(prev);
+                }, []);
 
-                reply( 'kinos done!' );
-                // scraper( MAIN_LINK );
 
+                // _.assign( {},  )
+                var theShows = [];
+                var thePlaces = [];
+
+                _.each( parsedPages, function( page, i )
+                {
+
+                    theShows = theShows.concat( page.allShows );
+                    thePlaces = thePlaces.concat( page.allKinos );
+                });
+
+                // console.log( 'parsedPages.shows', thePlaces );
+                // 
+                
+                Place.update( {}, { shows: [ ] }  , function( err, place )
+                {
+                    console.log( 'Places cleaned! Now getting new ones.' );
+                   
+
+                    scraper.addKinos( thePlaces );
+
+                    reply( 'kinos done!' );
+                    // scraper( MAIN_LINK );
+
+                });
+
+                // Show.remove({}, function(err)
+                // {
+                //     if( err )
+                //     {
+                //         reply( 'error');
+                //         return;
+                //     }
+
+                //     console.log( 'Shows cleaned! Now scraping'  );
+                  
+                //     // if( process.env.NODE_ENV == 'production' )
+                //     //     return;
+
+                //     console.log( 'handlin\' scraped shows' );
+                //     scraper.addShows( theShows );
+                //     reply( 'all scraping done!' );
+
+
+                // })
             });
 
         }
@@ -69,14 +112,9 @@ module.exports = [
             scraper.allKinoPages( MAIN_LINK ).then( function( allPages )
             {
 
-                // console.log( 'ALLLLLLLLLL', allPages );
-                // reply( 'ge scraped');
-
                 var parsedPages = allPages.reduce( function( prev, current)
                 {
-                    // console.log( 'dealing with parsed pages', allPages );
                     return [ scraper.parser( current ) ].concat(prev);
-                    // return scraper.parser( allPages );
                 }, []);
 
 
@@ -86,15 +124,26 @@ module.exports = [
 
                 _.each( parsedPages, function( page, i )
                 {
-                    // if( i === 1 )
-                    // {
-                    //     console.log( 'page' , page );   
-                    // }
+
                     theShows = theShows.concat( page.allShows );
-                    // thePlaces = thePlaces.concat( page.allKinos );
+                    thePlaces = thePlaces.concat( page.allKinos );
                 });
 
                 // console.log( 'parsedPages.shows', thePlaces );
+                // 
+                
+                // Place.update( {}, { shows: [ ] }  , function( err, place )
+                // {
+                //     console.log( 'Places cleaned! Now getting new ones.' );
+                   
+
+                //     scraper.addKinos( MAIN_LINK );
+
+                //     // reply( 'kinos done!' );
+                //     // scraper( MAIN_LINK );
+
+                // });
+
                 Show.remove({}, function(err)
                 {
                     if( err )
@@ -110,7 +159,7 @@ module.exports = [
 
                     console.log( 'handlin\' scraped shows' );
                     scraper.addShows( theShows );
-                    reply( 'shows done!' );
+                    reply( 'all scraping done!' );
 
 
                 })

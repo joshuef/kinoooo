@@ -155,48 +155,46 @@ var buildFullShowArray = function( results )
 var scraper = 
 {
 
-    addKinos : function( link )
+    addKinos : function( kinosArray )
     {
-        request.get( link ).end( function( err, response )
+        
+        var results = kinosArray;
+
+        console.log( 'kinosArray', kinosArray );
+
+        _.each( results, function( kino )
         {
-            if( err )
+
+            console.log( 'kinoooooo', kino );
+            var placeName = kino;
+            var isFreiluft = false;
+
+            if( placeName.toLowerCase().indexOf( 'freiluft') > -1 ||
+                placeName.toLowerCase().indexOf( 'open air') > -1  ||
+                placeName.toLowerCase().indexOf( 'open-air') > -1  ||
+                placeName.toLowerCase().indexOf( 'licht') > -1  )
             {
-                console.log( 'ERRRORRS', err );
+                isFreiluft = true;
             }
 
-            var results = parser( response, scraper.addKinos );
+            var place = { 
+                name: kino,
+                isFreiluft : isFreiluft
+            };
 
-            _.each( results.allKinos, function( kino )
+            console.log( 'adding kino', place );
+            console.log( 'to link::: ', POST_LINK );
+
+            request
+            .post( POST_LINK + 'places/add' )
+            .send( place )
+            .end( function( err, response )
             {
-                var placeName = kino;
-                var isFreiluft = false;
+                console.log( 'errorrrrr', err );
+            })
 
-                if( placeName.toLowerCase().indexOf( 'freiluft') > -1 ||
-                    placeName.toLowerCase().indexOf( 'open air') > -1  ||
-                    placeName.toLowerCase().indexOf( 'open-air') > -1  ||
-                    placeName.toLowerCase().indexOf( 'licht') > -1  )
-                {
-                    isFreiluft = true;
-                }
-
-                var place = { 
-                    name: kino,
-                    isFreiluft : isFreiluft
-                };
-
-                console.log( 'adding kino', place );
-                console.log( 'to link::: ', POST_LINK );
-
-                request
-                .post( POST_LINK + 'places/add' )
-                .send( place )
-                .end( function( err, response )
-                {
-                    console.log( 'errorrrrr', err );
-                })
-
-            });
         });
+
 
 
     },
@@ -440,8 +438,6 @@ var scraper =
 
                     hours = hours.map( function( hour )
                     {
-                        console.log( 'HOURSSSS', hour );
-
                         var thisShowTime = time.children( '.datum' ).text() + hour;
 
                         // console.log( 'showtime FOr the HOURRR',  );
@@ -450,7 +446,7 @@ var scraper =
 
                         var showTime = moment( thisShowTime, 'DD.MM.YY HH:mm' ).tz("Europe/Berlin").format();
                         // var showTime = moment( thisShowTime, 'DD.MM.YY HH:mm' );
-                        console.log( 'on @@@@', showTime );
+                        // console.log( 'on @@@@', showTime );
 
                         currentShow.showingAt.push( 
                         {
@@ -496,43 +492,5 @@ var scraper =
 
 
 
-// getResults = function( link )
-// {
-//     console.log( 'getting results' );
-//     return request.get( link )
-
-//     .end( function( err, response )
-//     {
-//         if( err )
-//         {
-//             console.log( 'ERRRORRS', err );
-//         }
-
-//         console.log( 'RESSSPPOONNNNNNCCCEEEEEEEEEE' );
-
-//         return parser( response );
-//     });
-
-// }
-
-// getAndParseLinkForPlaces = function( link )
-// {
-    
-
-//     addKinos( link );
-
-
-        
-
-//         //now we push all kinos
-
-//         // var thisPagesShows = parser( response );
-
-//     } );
-
-// }
-
 module.exports = scraper;
-// module.exports = getResults;
-// getAndParseLinkForPlaces( MAIN_LINK );
 
