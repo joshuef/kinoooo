@@ -104,6 +104,11 @@ class SingleItemPage extends Component {
     listForShows( thisItem, allPlaces )
     {
         let showings = thisItem.showingAt;
+        showings = _.uniqBy( showings, function( value )
+            {
+                console.log( 'unique valluuuuueeeee', '' + value.place + value.time );
+                return '' + value.place + value.time;
+            } );
         let timeFrame = null;
 
         if( showings.length < 1 )

@@ -217,12 +217,21 @@ var scraper =
 
         _.each( filteredShows, function( show , i )
         {
+            console.log( 'i of show', i , show.name );
+            // show.showingAt = _.uniq( show.showingAt ); 
+            show.showingAt = _.uniqBy( show.showingAt, function( value )
+            {
+                // console.log( 'value', value );
+                return '' + value.place + value.time;
+            } );
+
 
             _.each( show.showingAt, function( placeTime , i )
             {
 
                 // console.log( 'placcceee', placeTime.place );
                 // console.log( 'FoundPlaceShow', show.name );
+                // console.log( 'show.showingAt', placeTime.place + '' + placeTime.time );
 
                 placeTime.time = moment( placeTime.time ).format();
 
@@ -231,21 +240,21 @@ var scraper =
             } );
 
 
-                show.showingAt = _.uniq( show.showingAt );
 
-            console.log( 'And our number of shows is: i ', i,  show.name );
 
-                request
-                .post( POST_LINK + 'shows/add' )
-                .send( show )
-                .end( function( err, response )
-                {
-                    if( err )
-                        console.log( 'errorrrrr', err );
+            // console.log( 'And our number of shows is: i ', i,  show.name );
 
-                    console.log( 'SENNTTT', response );
-                    // console.log( 'response on send', response );
-                });
+            request
+            .post( POST_LINK + 'shows/add' )
+            .send( show )
+            .end( function( err, response )
+            {
+                if( err )
+                    console.log( 'errorrrrr', err );
+
+                console.log( 'SENNTTT', response );
+                // console.log( 'response on send', response );
+            });
 
 
                 

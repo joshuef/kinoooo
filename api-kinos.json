@@ -3,7 +3,7 @@
     
     "name"       : "api-kinos",
     "watch": ["server"],
-    "ignore_watch" : ["node_modules", "frontend0.2"],
+    "ignore_watch" : ["node_modules", "frontend0.2", ".git"],
     "script"      : "server/server.js",
     "watch"       : false,
     "max_memory_restart" : "3G",

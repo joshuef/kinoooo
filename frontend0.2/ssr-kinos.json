@@ -3,7 +3,7 @@
     
     "name"       : "ssr-kinos",
     "watch": ["server", "dist"],
-    "ignore_watch" : ["node_modules", "src"],
+    "ignore_watch" : ["node_modules", "src", ".git"],
     "script"      : "server/boot.js",
     "watch"       : false,
     "env": {
