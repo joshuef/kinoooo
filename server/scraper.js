@@ -315,7 +315,7 @@ var scraper =
 
 
                     console.log( 'nextUrl', nextUrl );
-                    if( typeof nextUrl !== 'undefined' && nextUrl.indexOf('1200') < 0 )
+                    if( typeof nextUrl !== 'undefined' )
                     {
                         console.log( 'calling again' );
                         resolve( self.addPageToArray( actualNextUrl, pagesArray ) );
