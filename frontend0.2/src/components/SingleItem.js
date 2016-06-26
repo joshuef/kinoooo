@@ -104,13 +104,22 @@ class SingleItemPage extends Component {
     listForShows( thisItem, allPlaces )
     {
         let showings = thisItem.showingAt;
+        let timeFrame = null;
 
         if( showings.length < 1 )
             return;
 
         let uniqPlaceList = {};
 
-        // console.log( 'ALL SHOWINGS', showings );
+        // // setup moments
+        // showings.map( showing =>
+        // {
+        //     showing.time = moment( showing.time , "YYYY-MM-DD HH:mm" );
+        // });
+
+
+
+
         showings.map( showing =>
         {
             let place = _.find( allPlaces, p => p._id === showing.place );
@@ -120,9 +129,17 @@ class SingleItemPage extends Component {
 
             let placeShowingThis = uniqPlaceList[ place.name ] || { name: place.name, showings: [] };
 
+             showing.time  = moment( showing.time , "YYYY-MM-DD HH:mm" );
+            let showTime = showing.time;
 
-            let showTime = moment( showing.time , "YYYY-MM-DD HH:mm" );
-            showTime = moment( showTime ).calendar( );
+            //if showtime isnt set, then today
+            
+            if( ! showTime.isSame( moment(), 'day' ))
+            {
+                return;
+            }
+
+            showTime = showTime.calendar( );
 
             // let flagString = showing.flags.join(',');
             let flagString = Object.keys(showing.flags).filter( flag =>
@@ -136,7 +153,7 @@ class SingleItemPage extends Component {
 
             flagString = ( flagString.length > 0 ) ? '| ' + flagString : '';
 
-            let showingLi = <li>{ showTime } { flagString }</li>;
+            let showingLi = <li time={showing.time}>{ showTime } { flagString }</li>;
 
             placeShowingThis.showings.push( showingLi );
 
@@ -147,9 +164,11 @@ class SingleItemPage extends Component {
         
         var arrayOfPlaces = Object.keys(uniqPlaceList).map(function (key) 
         {
-            return uniqPlaceList[key]
+            console.log( 'places list',  uniqPlaceList[key].showings );
+            uniqPlaceList[key].showings.sort( ( a, b ) => a.props.time - b.props.time );
+            return uniqPlaceList[key];
 
-          
+
         });
 
         let arrayOfComponents = arrayOfPlaces.map((place, index) =>
