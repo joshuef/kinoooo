@@ -190,7 +190,15 @@ var scraper =
             .send( place )
             .end( function( err, response )
             {
-                console.log( 'errorrrrr', err );
+                if( err )
+                {
+                    console.log( 'errorrrrr', err );
+                }
+                else
+                {
+                    console.log( 'success added' );
+                }
+
             })
 
         });

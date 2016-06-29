@@ -55,23 +55,7 @@ module.exports = [
             {
                 console.log(err, results);
             });
-          //   return Place.find(function (err, places) 
-          //   {
-          //       if (!err) 
-          //       {
-          //           // console.log( reply );
-          //           reply( {
-          //           places: places,
-          //           title: 'Places'
-          //           }   );
-
-          //           // console.log( places );
-                  
-                  
-          //       } else {
-          //         return console.log(err);
-          //       }
-          // })
+          
         }
     }
 },
@@ -132,7 +116,8 @@ module.exports = [
 
               // Place.findOneOrCreate({name: payload.name}, newPlace, function(err, thisPlace) {
             Place.update({name: payload.name}, newPlace, { upsert: true }, function(err, thisPlace) {
-      
+                
+                reply( payload.name + ' is updated');
                 });
 
 

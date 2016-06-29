@@ -64,7 +64,7 @@ module.exports = [
 
                     scraper.addKinos( thePlaces );
 
-                    reply( 'kinos done!' );
+                    reply( 'kinos done!' + new Date().toString("hh:mm tt") );
                     // scraper( MAIN_LINK );
 
                 });
@@ -159,7 +159,7 @@ module.exports = [
 
                     console.log( 'handlin\' scraped shows' );
                     scraper.addShows( theShows );
-                    reply( 'all scraping done!' );
+                    reply( 'show scraping done!' + new Date().toString("hh:mm tt")  );
 
 
                 })

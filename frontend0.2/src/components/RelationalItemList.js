@@ -118,7 +118,7 @@ class RelationalItemList extends Component {
 
             matchesForDisplay = matches.map( result => 
             {
-                return  _.findWhere( relationalItems, { name: result.d.text } );
+                return  _.find( relationalItems, { name: result.d.text } );
             });
 
           
