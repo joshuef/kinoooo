@@ -26,8 +26,6 @@ class SingleItemPage extends Component {
 
     listForPlaces( thisItem, allShows )
     {
-
-        // console.log( 'THIS PLACE' ,  thisItem );
         let shows = thisItem.shows;
 
         if( shows.length < 1 )
@@ -42,24 +40,27 @@ class SingleItemPage extends Component {
             if( !showObject )
                 return;
 
-            // console.log( 'showwwwwwww', showObject.name );
-
-            let thisShow = uniqShowList[ showObject.name ] || showObject;
-
-            //filter showings
-            
+            let thisShow = uniqShowList[ showObject.name ] || showObject;            
 
             let filteredShowingsOnHere = showObject.showingAt.filter( showing => showing.place === thisItem._id );
 
-            filteredShowingsOnHere = _.uniq( filteredShowingsOnHere );
+            filteredShowingsOnHere = _.uniqBy( filteredShowingsOnHere, 'time' );
+
 
             thisShow.showingsHere = [];
+            thisShow.showingTimeArray = [];
 
             filteredShowingsOnHere.map( showing => 
             {
                 let showTime = moment( showing.time );
-                // console.log( 'showTime', showTime );
-                showTime = moment( showTime ).calendar( );
+
+                if( ! showTime.isAfter( moment(), 'minute' ))
+                {
+                    console.log( 'already been' );
+                    return;
+                }
+                showTime = moment( showTime ).tz("Europe/Berlin").calendar( );
+
 
 
                 let showLi = <li>{ showTime }</li>;
@@ -107,7 +108,6 @@ class SingleItemPage extends Component {
         let showings = thisItem.showingAt;
         showings = _.uniqBy( showings, function( value )
             {
-                // console.log( 'unique valluuuuueeeee', '' + value.place + value.time );
                 return '' + value.place + value.time;
             } );
         let timeFrame = null;
@@ -116,14 +116,6 @@ class SingleItemPage extends Component {
             return;
 
         let uniqPlaceList = {};
-
-        // // setup moments
-        // showings.map( showing =>
-        // {
-        //     showing.time = moment( showing.time , "YYYY-MM-DD HH:mm" );
-        // });
-
-
 
 
         showings.map( showing =>
@@ -140,13 +132,14 @@ class SingleItemPage extends Component {
 
             //if showtime isnt set, then today
             
-            if( ! showTime.isSame( moment(), 'day' ))
+            if( ! showTime.isAfter( moment(), 'minute' ))
             {
+                console.log( 'already been' );
                 return;
             }
 
             console.log( 'showtime before tz', showTime );
-            showTime = showTime.tz("Europe/Warsaw").calendar( );
+            showTime = showTime.tz("Europe/Berlin").calendar( );
             console.log( 'showtime after tz', showTime );
 
 

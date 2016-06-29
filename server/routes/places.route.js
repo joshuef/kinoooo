@@ -19,7 +19,7 @@ module.exports = [
         handler: function(request, reply)
         {
             
-            return Place.find(function (err, places) 
+            return Place.find({ shows: { $gt: [] } }, function (err, places) 
             {
                 if (!err) 
                 {
