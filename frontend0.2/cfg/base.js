@@ -78,7 +78,8 @@ module.exports = {
     return [
     // require('postcss-scss')(),
     require( 'precss')(),
-    require('autoprefixer')()
+    require('autoprefixer')(),
+    require('postcss-responsive-type')()
     ];
   }
 };

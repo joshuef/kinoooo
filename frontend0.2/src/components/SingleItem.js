@@ -116,9 +116,11 @@ class SingleItemPage extends Component {
             return;
 
         let uniqPlaceList = {};
+        let showingDayString = ''; 
 
+        let currentDay;
 
-        showings.map( showing =>
+        showings.map( ( showing, i ) =>
         {
             let place = _.find( allPlaces, p => p._id === showing.place );
 
@@ -126,8 +128,9 @@ class SingleItemPage extends Component {
                 return;
 
             let placeShowingThis = uniqPlaceList[ place.name ] || { name: place.name, showings: [] };
-
+            // console.log( 'time befoore', showing.time );
             showing.time  = moment.tz( showing.time, "Europe/London" );
+            // console.log( 'time after', showing.time.calendar() );
             let showTime = showing.time;
 
             //if showtime isnt set, then today
@@ -138,15 +141,22 @@ class SingleItemPage extends Component {
                 return;
             }
 
-            console.log( 'showtime before tz', showTime );
-            showTime = showTime.tz("Europe/Berlin").calendar( );
-            console.log( 'showtime after tz', showTime );
+            showTime = showTime.tz("Europe/Berlin");
 
+            let showingDay = showTime.calendar( ).split( ' ' )[0];
 
-            // let flagString = showing.flags.join(',');
+            //remove the 06/23/16 later days
+            if( ! isNaN( showingDay.charAt( 0 ) ) )
+            {
+                return
+            }
+
+            currentDay = currentDay || showingDay;
+
+            console.log( 'showingDay', showingDay );
+
             let flagString = Object.keys(showing.flags).filter( flag =>
                 {
-                    // console.log( 'FLAGGG', flag );
                     if( showing.flags[flag] )
                     {
                         return flag;
@@ -155,18 +165,40 @@ class SingleItemPage extends Component {
 
             flagString = ( flagString.length > 0 ) ? '| ' + flagString : '';
 
-            let showingLi = <li time={showing.time}>{ showTime } { flagString }</li>;
 
+            if( i === 0 )
+            {
+                showingDayString = showingDay;
+            }
+
+            if( currentDay === showingDay )
+            {
+                console.log( 'SAME DAYsYYY', showingDayString  );
+                showingDayString = showingDayString + ' | ' + showTime.format( 'HH:mm' );
+                
+                if( i !== showings.length  )
+                    return;
+            }
+
+
+         
+            let showingLi = <li time={showing.time}>{ showingDayString } { flagString }</li>;
             placeShowingThis.showings.push( showingLi );
-
             uniqPlaceList[ place.name ] = placeShowingThis;
+            
+            currentDay = showingDay;
+            showingDayString = showingDay + ': ' + showTime.format( 'HH:mm' );
+
+        
+
+
         })
 
         // console.log( 'ALL UNIQ', uniqPlaceList );
         
         var arrayOfPlaces = Object.keys(uniqPlaceList).map(function (key) 
         {
-            console.log( 'places list',  uniqPlaceList[key].showings );
+            // console.log( 'places list',  uniqPlaceList[key].showings );
             uniqPlaceList[key].showings.sort( ( a, b ) => a.props.time - b.props.time );
             return uniqPlaceList[key];
 

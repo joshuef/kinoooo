@@ -40,7 +40,8 @@
     "minimist": "^1.2.0",
     "mocha": "^2.2.5",
     "open": "0.0.5",
-    "phantomjs": "^1.9.18"
+    "phantomjs": "^1.9.18",
+    "postcss-responsive-type": "^0.4.0"
   },
   "dependencies": {
     "babel": "^6.5.2",

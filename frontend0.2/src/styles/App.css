@@ -11,6 +11,9 @@ html {
   -webkit-text-size-adjust: 100%; /* 2 */
 }
 
+/*html {
+}*/
+
 /**
  * Remove the margin in all browsers (opinionated).
  */
@@ -442,6 +445,10 @@ html {
   font-family: serif;
   font-size: 137.5%;
   -webkit-font-smoothing: antialiased;
+
+    font-size: responsive 16px 24px; /* min-size, max-size */
+  font-range: 420px 1280px; /* viewport widths between which font-size is fluid */
+
 }
 /* Copy & Lists */
 p {
