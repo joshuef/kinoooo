@@ -66,8 +66,10 @@ dist
 /src/scripts/main.js
 /server/config/*config.json
 !/server/config/test_config.json
+server/test/awesome_log
 
 .vagrant
 awesome_log
 
 *.pyc
+
